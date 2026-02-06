@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Draco Codex</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════════ TITLE SCREEN ═══════════════ -->
+  <section id="title-screen" class="title-screen">
+    <div class="stars-container" id="stars"></div>
+    <div class="scanline-overlay"></div>
+    <div class="title-content">
+      <img src="images/hero-banner.png" alt="Dragons flying over mountains" class="hero-banner scroll-reveal scroll-zoom" loading="lazy">
+      <h1 class="codex-title scroll-reveal">THE DRACO CODEX</h1>
+      <p class="codex-subtitle scroll-reveal">Created by Aza Dixon</p>
+      <p class="codex-tagline scroll-reveal">"The goal of the game is to become a Dragonette Master."</p>
+      <button class="press-start-btn" id="press-start">
+        <span class="blink">PRESS START</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ═══════════════ NAVIGATION ═══════════════ -->
+  <nav class="retro-nav" id="main-nav">
+    <div class="nav-inner">
+      <a href="#world" class="nav-tab" data-color="#0074D9">World</a>
+      <a href="#elements" class="nav-tab" data-color="#FF4136">Elements</a>
+      <a href="#first-dragon" class="nav-tab" data-color="#2ECC40">First Dragon</a>
+      <a href="#items" class="nav-tab" data-color="#FFDC00">Items</a>
+      <a href="#racing" class="nav-tab" data-color="#FFB800">Racing</a>
+      <a href="#combat" class="nav-tab" data-color="#FF4136">Combat</a>
+      <a href="#characters" class="nav-tab" data-color="#B10DC9">Characters</a>
+      <a href="#journey" class="nav-tab" data-color="#FFD700">Journey</a>
+      <a href="#secrets" class="nav-tab" data-color="#4A0072">Secrets</a>
+    </div>
+  </nav>
+
+  <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+  <main id="codex-content">
+
+    <!-- ─────── CHAPTER 1: THE WORLD OF DRACO ─────── -->
+    <section id="world" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter I</span>
+          <h2 class="chapter-title">The World of Draco</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="scroll-reveal fade-up">
+            <img src="images/world-landscape.png" alt="The World of Draco" class="scene-image scroll-zoom" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up">
+            <p class="lore-text large">A world where humans — called <strong>Dragonette Keepers</strong> — bond with, train, and race baby dragons called <strong>dragonettes</strong>.</p>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="200">
+            <p class="lore-text">The name "Draco" comes from the Latin word for dragon. Despite their name, dragonettes are not small — they hatch from eggs at full adult dragon size. They are "baby" dragons in age and experience, but massive in stature.</p>
+          </div>
+
+          <div class="three-pillars scroll-reveal fade-up" data-delay="400">
+            <div class="pillar pixel-border">
+              <h3>Bond</h3>
+              <p>The connection between Keeper and dragonette is everything. At its deepest, a Keeper can transform into their dragon.</p>
+            </div>
+            <div class="pillar pixel-border">
+              <h3>Race</h3>
+              <p>Enter stadiums, compete against rivals, use elemental powers as strategy. Win badges to prove your worth.</p>
+            </div>
+            <div class="pillar pixel-border">
+              <h3>Master</h3>
+              <p>Earn 10 racing badges, then challenge Draco — the powerful Thunder Cloud Dragon and raid boss.</p>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="600">
+            <div class="world-details pixel-border">
+              <h3>World Rules</h3>
+              <div class="detail-grid">
+                <div class="detail-item">
+                  <span class="detail-label">Dragon Biology</span>
+                  <p>Hatch at full adult size. Crystal slots on wings. Breathe colored fire matching their element.</p>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Society</span>
+                  <p>Fire dragons are most common. Spirit dragons crave family. An organized racing circuit with stadiums and rules.</p>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Technology</span>
+                  <p>Holographic communication, advanced robotics. Fantasy and technology blend seamlessly.</p>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Day/Night Cycle</span>
+                  <p>Most abilities work anytime. "Silver Moonlight" only at night. More secrets unlock with Thunder Cloud.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 2: DRAGON ELEMENTS ─────── -->
+    <section id="elements" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter II</span>
+          <h2 class="chapter-title">Dragon Elements</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <p class="lore-text scroll-reveal fade-up">Every dragonette belongs to an elemental type that determines its powers, appearance, and strengths. Plus one rule: <strong>you must make up your own custom element.</strong></p>
+
+          <div class="dragon-cards-grid">
+            <!-- Fire -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="fire" data-delay="0">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #FF4136">
+                  <img src="images/fire-dragon.png" alt="Fire Dragon" loading="lazy">
+                  <h3>Fire</h3>
+                  <span class="element-badge" style="background: #FF4136">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #FF4136">
+                  <h3>Fire Dragon</h3>
+                  <p class="card-color">Red & Orange</p>
+                  <p class="card-desc">Fire breath and fire-based attacks. Extremely effective against shelled enemies — only 2 fire hits needed vs. 100 non-fire hits.</p>
+                  <p class="card-weak">Weak to: <strong>Water</strong></p>
+                  <p class="card-note">Most common and most popular variety. "They breed fire."</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Water -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="water" data-delay="100">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #0074D9">
+                  <img src="images/water-dragon.png" alt="Water Dragon" loading="lazy">
+                  <h3>Water</h3>
+                  <span class="element-badge" style="background: #0074D9">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #0074D9">
+                  <h3>Water Dragon</h3>
+                  <p class="card-color">Blue tones</p>
+                  <p class="card-desc">Water-based powers. Strong against Fire.</p>
+                  <p class="card-weak">Weak to: <strong>Grass</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grass -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="grass" data-delay="200">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #2ECC40">
+                  <img src="images/grass-dragon.png" alt="Grass Dragon" loading="lazy">
+                  <h3>Grass</h3>
+                  <span class="element-badge" style="background: #2ECC40">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #2ECC40">
+                  <h3>Grass Dragon</h3>
+                  <p class="card-color">Green tones</p>
+                  <p class="card-desc">Razor leaves — can create walls of sharp leaves as obstacles. Strong against Thunder Cloud.</p>
+                  <p class="card-weak">Weak to: <strong>Fire</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Electric -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="electric" data-delay="300">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #FFDC00">
+                  <img src="images/electric-dragon.png" alt="Electric Dragon" loading="lazy">
+                  <h3>Electric</h3>
+                  <span class="element-badge" style="background: #FFDC00; color: #0f0f1a">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #FFDC00">
+                  <h3>Electric Dragon</h3>
+                  <p class="card-color">Yellow</p>
+                  <p class="card-desc">Electrical attacks. Similar in nature to Thunder Cloud element.</p>
+                  <p class="card-weak">Strong against: <strong>Power</strong></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Psychic -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="psychic" data-delay="400">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #B10DC9">
+                  <img src="images/psychic-dragon.png" alt="Psychic Dragon" loading="lazy">
+                  <h3>Psychic</h3>
+                  <span class="element-badge" style="background: #B10DC9">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #B10DC9">
+                  <h3>Psychic Dragon</h3>
+                  <p class="card-color">Purple with pink stripes</p>
+                  <p class="card-desc">Telekinesis, making things vanish, unlocking doors, psychokinetic beam. Does NOT read minds.</p>
+                  <p class="card-note">The pink stripes run along the seam where top meets sides.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Spirit -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="spirit" data-delay="500">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #4A0072">
+                  <img src="images/spirit-dragon.png" alt="Spirit Dragon" loading="lazy">
+                  <h3>Spirit</h3>
+                  <span class="element-badge" style="background: #4A0072">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #4A0072">
+                  <h3>Spirit Dragon</h3>
+                  <p class="card-color">Dark purple, forehead gem</p>
+                  <p class="card-desc">Create illusions, sense truth, fire a beam from forehead gem that shares knowledge. Ghost and "Halloween" powers. Spirit and Ghost are the same element.</p>
+                  <p class="card-note">Silver Moonlight ability — only works at night.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Speed -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="speed" data-delay="600">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #FFB800">
+                  <img src="images/speed-dragon.png" alt="Speed Dragon" loading="lazy">
+                  <h3>Speed</h3>
+                  <span class="element-badge" style="background: #FFB800; color: #0f0f1a">Standard</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #FFB800">
+                  <h3>Speed Dragon</h3>
+                  <p class="card-color">Golden</p>
+                  <p class="card-desc">Top speed 270 mph vs. normal 50 mph. "As fast as a peregrine falcon." Can fly slower when they choose.</p>
+                  <p class="card-weak"><strong>BANNED</strong> from races</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Power -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="power" data-delay="700">
+              <div class="card-inner">
+                <div class="card-front pixel-border power-rainbow">
+                  <img src="images/power-dragon.png" alt="Power Dragon" loading="lazy">
+                  <h3>Power</h3>
+                  <span class="element-badge rainbow-badge">Special</span>
+                </div>
+                <div class="card-back pixel-border power-rainbow">
+                  <h3>Power Dragon</h3>
+                  <p class="card-color">Rainbow — all colors</p>
+                  <p class="card-desc">Has ALL element abilities (but weaker versions). Speed ability equals true Speed dragons at 270 mph.</p>
+                  <p class="card-weak">Weak to: <strong>Thunder Cloud & Electric</strong></p>
+                  <p class="card-weak"><strong>BANNED</strong> from races</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thunder Cloud -->
+            <div class="dragon-card scroll-reveal fade-up" data-element="thundercloud" data-delay="800">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #1B1464">
+                  <img src="images/thunder-cloud-dragon.png" alt="Thunder Cloud Dragon" loading="lazy">
+                  <h3>Thunder Cloud</h3>
+                  <span class="element-badge" style="background: #1B1464">Locked</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #1B1464">
+                  <h3>Thunder Cloud Dragon</h3>
+                  <p class="card-color">Dark Storm</p>
+                  <p class="card-desc">Lightning feathers that release charged particles generating real thunder and lightning. Only obtainable by defeating Draco.</p>
+                  <p class="card-weak">Weak to: <strong>Grass</strong></p>
+                  <p class="card-note">The "missing element." Unlocks unknown time-restricted powers.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Custom Element -->
+          <div class="custom-element-box pixel-border scroll-reveal fade-up">
+            <h3>Custom Element Rule</h3>
+            <p>Every player <strong>MUST</strong> invent their own unique element for at least one dragon. Creativity and personal expression are built into the game.</p>
+            <p class="example-text">Example: Aza created "Power Breeding" — an ability that degrades the attack power of every opposing dragon by 10 points.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 3: YOUR FIRST DRAGON ─────── -->
+    <section id="first-dragon" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter III</span>
+          <h2 class="chapter-title">Your First Dragon</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="stable-scene scroll-reveal fade-up">
+            <img src="images/first-choice-stable.png" alt="The First Choice Stable" class="scene-image scroll-zoom" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="200">
+            <h3 class="sub-heading">The First Choice Stable</h3>
+            <p class="lore-text">Your adventure begins here — a place filled with dragon eggs, each topped with a berry. Browse the eggs. Choose ONE. Watch a full-sized dragonette emerge.</p>
+          </div>
+
+          <div class="steps-list scroll-reveal fade-up" data-delay="400">
+            <div class="step pixel-border">
+              <span class="step-number">1</span>
+              <p>Visit the First Choice Stable</p>
+            </div>
+            <div class="step pixel-border">
+              <span class="step-number">2</span>
+              <p>Browse the available eggs (each has a berry on top)</p>
+            </div>
+            <div class="step pixel-border">
+              <span class="step-number">3</span>
+              <p>Choose ONE egg</p>
+            </div>
+            <div class="step pixel-border">
+              <span class="step-number">4</span>
+              <p>The egg hatches — a full-sized dragonette emerges</p>
+            </div>
+            <div class="step pixel-border">
+              <span class="step-number">5</span>
+              <p>Take the berry and hand-feed it to the newborn</p>
+            </div>
+            <div class="step pixel-border">
+              <span class="step-number">6</span>
+              <p>This act of feeding bonds the dragon to you forever</p>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="500">
+            <img src="images/dragon-eggs-closeup.png" alt="Colorful dragon eggs with berries" class="scene-image scroll-zoom" style="max-width: 500px;" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="600">
+            <h3 class="sub-heading">Taming Wild Dragons</h3>
+            <div class="taming-info pixel-border">
+              <div class="taming-step">
+                <span class="taming-icon">&#x1F48E;</span>
+                <div>
+                  <strong>Place element crystals on the wings</strong>
+                  <p>Every dragon has crystal slots along wing edges. Fill them with matching element crystals.</p>
+                </div>
+              </div>
+              <div class="taming-step">
+                <span class="taming-icon">&#x1F347;</span>
+                <div>
+                  <strong>Feed it a berry and/or element candy</strong>
+                  <p>Berries and candy strengthen the bond. Complete crystals + feeding = full bond.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="800">
+            <div class="narrative-box pixel-border spirit-glow">
+              <h4>The Spirit Dragon Who Wanted a Family</h4>
+              <p>A wild Spirit dragon who had lost its family approached Brent — the first kind person it encountered. Because he showed it kindness, its wing crystal slots filled automatically. Spirit dragons crave family and companionship — "more like a dog."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 4: ITEMS & ARTIFACTS ─────── -->
+    <section id="items" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter IV</span>
+          <h2 class="chapter-title">Items & Artifacts</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="items-grid">
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="0">
+              <div class="item-icon">&#x1F352;</div>
+              <h3>Berries</h3>
+              <p>Central to taming. Found on eggs at the Stable, in wild nests, or on vines with ancient markings.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="100">
+              <div class="item-icon">&#x1F48E;</div>
+              <h3>Element Crystals</h3>
+              <p>Placed into crystal slots on dragon wings. Required for a full bond when taming wild dragons.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="200">
+              <div class="item-icon">&#x1F36C;</div>
+              <h3>Element Candy</h3>
+              <p>Fed to dragons during bonding. Each element has its own candy type.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="300">
+              <div class="item-icon">&#x1F31F;</div>
+              <h3>Special Berries</h3>
+              <p>Found only in the Tow Road's dimension. Makes a dragon slightly faster for races.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="400">
+              <div class="item-icon">&#x1F6E1;</div>
+              <h3>Dragon Scale</h3>
+              <p>Dropped by shelled enemies. Creates a force field when placed on your dragon. Weak to fire.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="500">
+              <div class="item-icon">&#x1F9EA;</div>
+              <h3>Power-Up Potion</h3>
+              <p>Makes dragons stronger. Tastes like "Sinistea." Earned upon becoming a Dragonette Master.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="600">
+              <div class="item-icon">&#x1F356;</div>
+              <h3>Turtle Meat</h3>
+              <p>Dropped when the Tow Road is defeated. Dragons love it. Consumable power boost.</p>
+            </div>
+
+            <div class="item-card pixel-border scroll-reveal fade-up" data-delay="700">
+              <div class="item-icon">&#x1F3C5;</div>
+              <h3>Badges</h3>
+              <p>Earned by winning races. 10 required to challenge Draco.</p>
+            </div>
+          </div>
+
+          <!-- Dragon Eye Amulet — featured item -->
+          <div class="featured-item scroll-reveal fade-up" data-delay="400">
+            <img src="images/dragon-eye-amulet.png" alt="Dragon Eye Amulet" class="featured-item-image" loading="lazy">
+            <div class="featured-item-info pixel-border">
+              <h3>Dragon Eye Amulet</h3>
+              <p>A glowstone containing the eye of a dragon. It always glows. Summon any bonded dragon to your side at any time. With a deep enough bond, transform into one of your dragons entirely.</p>
+            </div>
+          </div>
+
+          <!-- Berry Plant — decorative -->
+          <div class="scroll-reveal fade-up" data-delay="500">
+            <img src="images/berry-plant.png" alt="Ancient vine with glowing berries" class="scene-image scroll-zoom" style="max-width: 400px;" loading="lazy">
+          </div>
+
+          <!-- The Crystal -->
+          <div class="featured-item reverse scroll-reveal fade-up" data-delay="600">
+            <img src="images/the-crystal.png" alt="The Crystal artifact" class="featured-item-image" loading="lazy">
+            <div class="featured-item-info pixel-border">
+              <h3>The Crystal</h3>
+              <p>Look directly through it with one eye while looking at a dragon. The Crystal reveals that dragon's powers. The only reliable way to identify what powers a dragon possesses.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 5: THE RACING CIRCUIT ─────── -->
+    <section id="racing" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter V</span>
+          <h2 class="chapter-title">The Racing Circuit</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="scroll-reveal fade-up">
+            <img src="images/racing-stadium.png" alt="Dragon Racing Stadium" class="scene-image scroll-zoom" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="200">
+            <p class="lore-text large">Racing is the primary competitive activity in Draco and the main way to earn badges toward becoming a Dragonette Master.</p>
+          </div>
+
+          <div class="racing-rules scroll-reveal fade-up" data-delay="400">
+            <div class="rule-card pixel-border">
+              <h3>Structure</h3>
+              <p>Races take place in stadiums built by Aloha. She also announces and hosts them.</p>
+            </div>
+            <div class="rule-card pixel-border">
+              <h3>Modes</h3>
+              <p>Solo Mode or Team Mode. Teammates share abilities — if one creates an obstacle, teammates pass through it.</p>
+            </div>
+            <div class="rule-card pixel-border">
+              <h3>Winning</h3>
+              <p>A trophy appears and begins flashing. Fly through it while visible. Timing is critical.</p>
+            </div>
+            <div class="rule-card pixel-border">
+              <h3>Powers Allowed</h3>
+              <p>Use elemental powers during races: leaf walls, illusions, obstacles. Strategy is part of the game.</p>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="500">
+            <img src="images/racing-trophy.png" alt="Racing trophy" class="scene-image scroll-zoom" style="max-width: 400px;" loading="lazy">
+          </div>
+
+          <div class="banned-box pixel-border scroll-reveal fade-up" data-delay="600">
+            <h3>BANNED FROM RACES</h3>
+            <div class="banned-dragons">
+              <div class="banned-item">
+                <span class="banned-icon" style="color: #FFB800">Speed</span>
+                <p>270 mph — 5x faster than normal dragons</p>
+              </div>
+              <div class="banned-item">
+                <span class="banned-icon rainbow-text">Power</span>
+                <p>All abilities + matching Speed dragon top speed</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="800">
+            <div class="narrative-box pixel-border">
+              <h4>Cheating & Enforcement</h4>
+              <p>Wonky Donkers always tries to disguise banned dragons with cardboard. Spirit dragons detect disguises (truth-sensing). Psychic dragons remove them (making cardboard vanish). Aloha enforces rules by literally kicking cheaters out with a giant robotic boot.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 6: COMBAT & BATTLE ─────── -->
+    <section id="combat" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter VI</span>
+          <h2 class="chapter-title">Combat & Battle</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="scroll-reveal fade-up">
+            <img src="images/battle-scene.png" alt="Two dragons battling mid-air" class="scene-image scroll-zoom" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up">
+            <div class="combat-info pixel-border">
+              <h3>Attack Power System</h3>
+              <p>Every dragon starts at 100% attack power. Abilities like "Power Breeding" degrade opponent power by 10 per hit. At 0%, the dragon is eliminated. After battle, all dragons recharge to 100%.</p>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="150">
+            <img src="images/force-field.png" alt="Dragon with force field shield" class="scene-image scroll-zoom" style="max-width: 500px;" loading="lazy">
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="200">
+            <div class="combat-info pixel-border">
+              <h3>Shelled Enemies</h3>
+              <p>Enemies with dragon scale energy shells are extremely durable. Non-fire attacks deal ~1% damage (100 hits needed). Fire attacks: only 2 hits to break through. <strong>Use Fire dragons.</strong></p>
+            </div>
+          </div>
+
+          <!-- Element Matchup Chart -->
+          <div class="scroll-reveal fade-up" data-delay="400">
+            <h3 class="sub-heading">Element Matchup Chart</h3>
+            <p class="lore-text">Click an element to see its strengths and weaknesses.</p>
+
+            <div class="matchup-chart" id="matchup-chart">
+              <div class="matchup-elements">
+                <button class="matchup-btn" data-el="fire" style="--el-color: #FF4136">Fire</button>
+                <button class="matchup-btn" data-el="water" style="--el-color: #0074D9">Water</button>
+                <button class="matchup-btn" data-el="grass" style="--el-color: #2ECC40">Grass</button>
+                <button class="matchup-btn" data-el="electric" style="--el-color: #FFDC00">Electric</button>
+                <button class="matchup-btn" data-el="psychic" style="--el-color: #B10DC9">Psychic</button>
+                <button class="matchup-btn" data-el="spirit" style="--el-color: #4A0072">Spirit</button>
+                <button class="matchup-btn" data-el="speed" style="--el-color: #FFB800">Speed</button>
+                <button class="matchup-btn" data-el="power" style="--el-color: #FF4136">Power</button>
+                <button class="matchup-btn" data-el="thundercloud" style="--el-color: #1B1464">Thunder Cloud</button>
+              </div>
+
+              <div class="matchup-result" id="matchup-result">
+                <p class="matchup-placeholder">Select an element above</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="500">
+            <img src="images/elemental-clash.png" alt="Fire, water, and grass elements colliding" class="scene-image scroll-zoom" style="max-width: 500px;" loading="lazy">
+          </div>
+
+          <!-- Core Elemental Cycle Visual -->
+          <div class="scroll-reveal fade-up" data-delay="600">
+            <div class="elemental-cycle pixel-border">
+              <h3>Core Elemental Cycle</h3>
+              <div class="cycle-visual">
+                <div class="cycle-node" style="--node-color: #2ECC40">
+                  <span>Grass</span>
+                </div>
+                <div class="cycle-arrow">&#x2192;</div>
+                <div class="cycle-node" style="--node-color: #FF4136">
+                  <span>Fire</span>
+                </div>
+                <div class="cycle-arrow">&#x2192;</div>
+                <div class="cycle-node" style="--node-color: #0074D9">
+                  <span>Water</span>
+                </div>
+                <div class="cycle-arrow">&#x2192;</div>
+                <div class="cycle-node" style="--node-color: #2ECC40">
+                  <span>Grass</span>
+                </div>
+              </div>
+              <p class="cycle-caption">Grass beats Thunder Cloud. Power is weak to Thunder Cloud & Electric. Dragon Scale is weak to Fire.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 7: HEROES & VILLAINS ─────── -->
+    <section id="characters" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter VII</span>
+          <h2 class="chapter-title">Heroes & Villains</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="character-cards">
+            <!-- Aloha -->
+            <div class="character-card scroll-reveal fade-up" data-delay="0">
+              <div class="character-portrait pixel-border">
+                <img src="images/aloha.png" alt="Aloha" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Aloha</h3>
+                <span class="character-role hero">Robot / Host</span>
+                <p>Female humanoid robot. Race announcer, host, enforcer, engineer, and stadium builder. Gray-colored, theatrical, communicates via hologram iPhone.</p>
+                <p class="character-quote">"Aloha is the racing world."</p>
+              </div>
+            </div>
+
+            <!-- Draco -->
+            <div class="character-card scroll-reveal fade-up" data-delay="200">
+              <div class="character-portrait pixel-border">
+                <img src="images/draco-evil-shell.png" alt="Draco in evil shell" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Draco</h3>
+                <span class="character-role villain">Final Boss / Raid Boss</span>
+                <p>Thunder Cloud Dragon. Not inherently evil — controlled by an evil shell connected to a mysterious voice. Once defeated, freed and can be tamed. Like a "mega Rayquaza in a Pok&eacute;mon boss stadium."</p>
+                <p class="character-quote">Weakness: Grass. Requires 10 badges to challenge.</p>
+              </div>
+            </div>
+
+            <!-- Wonky Donkers -->
+            <div class="character-card scroll-reveal fade-up" data-delay="400">
+              <div class="character-portrait pixel-border">
+                <img src="images/wonky-donkers.png" alt="Wonky Donkers" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Wonky Donkers</h3>
+                <span class="character-role villain">Recurring Villain</span>
+                <p>Always tries to disguise banned dragons using cardboard. It never works. Bumbling, not very bright, once accidentally announced to everyone that he had a Power dragon.</p>
+              </div>
+            </div>
+
+            <!-- The Tow Road -->
+            <div class="character-card scroll-reveal fade-up" data-delay="600">
+              <div class="character-portrait pixel-border">
+                <img src="images/tow-road.png" alt="The Tow Road" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>The Tow Road</h3>
+                <span class="character-role villain">World Boss</span>
+                <p>Giant evil flying turtle with dragon-scale-energy shell. Has its own dimension with special berries. Drops dragon scale and turtle meat when defeated.</p>
+                <p class="character-quote">Weakness: Fire (2 hits). Non-fire: ~1% damage per hit.</p>
+              </div>
+            </div>
+
+            <!-- Evil Groundhog -->
+            <div class="character-card scroll-reveal fade-up" data-delay="800">
+              <div class="character-portrait pixel-border">
+                <img src="images/evil-groundhog.png" alt="The Evil Groundhog" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>The Evil Groundhog</h3>
+                <span class="character-role villain">Adventure Enemy</span>
+                <p>A very, very long evil groundhog with a shell and wings. Shell made of dragon scale energy. Drops dragon scale when defeated. Fire attacks recommended.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Named Dragons -->
+          <div class="scroll-reveal fade-up" data-delay="400">
+            <h3 class="sub-heading">Named Dragons</h3>
+            <div class="named-dragons">
+              <div class="named-dragon pixel-border" style="border-color: var(--power-start)">
+                <strong>Power Up</strong> — Power element — Keeper: Aza — Rainbow-colored, Aza's first dragon.
+              </div>
+              <div class="named-dragon pixel-border" style="border-color: #2ECC40">
+                <strong>Leaf Blade</strong> — Grass element — Keeper: Aza — Found and tamed in the wild.
+              </div>
+              <div class="named-dragon pixel-border" style="border-color: #4A0072">
+                <strong>Spirit Dragon</strong> (unnamed) — Spirit element — Keeper: Brent — The dragon who lost its family.
+              </div>
+              <div class="named-dragon pixel-border" style="border-color: #B10DC9">
+                <strong>Psychic Dragon</strong> (unnamed) — Psychic element — Keeper: Brent — Brent's first dragon, chosen at the Stable.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 8: THE JOURNEY ─────── -->
+    <section id="journey" class="codex-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter VIII</span>
+          <h2 class="chapter-title">The Journey</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <!-- Progression Path -->
+          <div class="progression-path">
+            <div class="path-step scroll-reveal fade-left" data-delay="0">
+              <div class="path-node pixel-border">
+                <span class="path-number">1</span>
+                <h3>The First Choice Stable</h3>
+                <p>Choose and bond with your first dragonette.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-right" data-delay="200">
+              <div class="path-node pixel-border">
+                <span class="path-number">2</span>
+                <h3>Adventure</h3>
+                <p>Explore the world, encounter enemies, find new dragons.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-left" data-delay="400">
+              <div class="path-node pixel-border">
+                <span class="path-number">3</span>
+                <h3>Tame More Dragons</h3>
+                <p>Use berries, crystals, candy, and care to build your team.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-right" data-delay="600">
+              <div class="path-node pixel-border">
+                <span class="path-number">4</span>
+                <h3>Race</h3>
+                <p>Enter eligible dragons in stadium races.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-left" data-delay="800">
+              <div class="path-node pixel-border">
+                <span class="path-number">5</span>
+                <h3>Earn 10 Badges</h3>
+                <p>Each race win earns one or more badges.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-right" data-delay="1000">
+              <div class="path-node pixel-border boss-node">
+                <span class="path-number">6</span>
+                <h3>Challenge Draco</h3>
+                <p>The final raid boss. Free it from the evil shell.</p>
+              </div>
+            </div>
+            <div class="path-connector scroll-reveal"></div>
+            <div class="path-step scroll-reveal fade-left" data-delay="1200">
+              <div class="path-node pixel-border master-node">
+                <span class="path-number">&#x2605;</span>
+                <h3>Dragonette Master</h3>
+                <p>Draco joins your team. Thunder Cloud unlocked. Power-up potions earned. Continue adventuring!</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Keeper Transformation -->
+          <div class="transformation-section scroll-reveal fade-up" data-delay="400">
+            <img src="images/keeper-transformation.png" alt="Keeper Transformation" class="scene-image scroll-zoom" loading="lazy">
+            <div class="transformation-info pixel-border">
+              <h3>Keeper Transformation</h3>
+              <p>The deepest level of bonding. With a Dragon Eye Amulet and sufficient bond, a Keeper can physically transform into one of their dragons — gaining all powers while retaining their own mind.</p>
+              <p>If you transform into a Thunder Cloud dragon, you gain lightning feathers that generate real thunder and lightning.</p>
+            </div>
+          </div>
+
+          <!-- Story Moments Accordion -->
+          <div class="scroll-reveal fade-up" data-delay="600">
+            <h3 class="sub-heading">Story Moments</h3>
+            <div class="story-accordion">
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The Disguised Dragon Incident</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>A villain disguised a Speed dragon using cardboard to sneak it into a race. A Spirit dragon sensed the deception and alerted Aloha, who reported the dragon was going 100 mph faster than it should. A Psychic dragon then made all cardboard on the track disappear, revealing the costume.</p>
+                  <p class="story-theme">Themes: Teamwork, truth vs. deception, the unique value of each dragon type.</p>
+                </div>
+              </div>
+
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The Spirit Dragon Who Wanted a Family</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>A wild Spirit dragon who had lost its family approached Brent — the first kind person it saw — wanting to be adopted. Its wing crystal slots filled automatically because Brent showed it kindness.</p>
+                  <p class="story-theme">Themes: Found family, compassion, the emotional bond between keeper and dragon.</p>
+                </div>
+              </div>
+
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The Battle with the Tow Road</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>A flying turtle with dragon-scale-energy shell attacked. A Psychic dragon tried throwing a tree — barely 1% damage. The keepers realized the shell is weak to fire. Two fire-breath hits defeated it, harvesting dragon scale and turtle meat.</p>
+                  <p class="story-theme">Themes: Problem-solving, learning enemy weaknesses, teamwork between dragon types.</p>
+                </div>
+              </div>
+
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The Force Field Test</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>After obtaining dragon scale from the Tow Road, keepers placed it on their dragons to activate force fields. They tested by firing attacks at each other — the fields absorbed and reflected them.</p>
+                  <p class="story-theme">Themes: Preparation, trust between teammates, testing before the real fight.</p>
+                </div>
+              </div>
+
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The First Race</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>Two keepers entered as a team — Grass dragon (Leaf Blade) and Spirit dragon. The Grass dragon created a razor-leaf wall, but teammates could pass through. Wonky Donkers showed up with a cardboard-disguised Power dragon and was detected. The team won by flying through the flashing trophy, earning five badges.</p>
+                  <p class="story-theme">Themes: Friendship, strategy, humor, the thrill of competition.</p>
+                </div>
+              </div>
+
+              <div class="story-item pixel-border">
+                <button class="story-toggle">
+                  <span>The Gift of Transformation</span>
+                  <span class="toggle-icon">+</span>
+                </button>
+                <div class="story-content">
+                  <p>A keeper with a deep bond received a Dragon Eye Amulet — a glowstone containing the eye of a dragon — granting the ability to transform into any bonded dragonette while keeping their own mind.</p>
+                  <p class="story-theme">Themes: Earned trust, transformation, the reward of deep bonds.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── CHAPTER 9: KEEPER SECRETS ─────── -->
+    <section id="secrets" class="codex-chapter secrets-chapter">
+      <div class="chapter-sticky">
+        <div class="chapter-header scroll-reveal">
+          <span class="chapter-number">Chapter IX</span>
+          <h2 class="chapter-title">Keeper Secrets</h2>
+          <div class="pixel-divider"></div>
+        </div>
+
+        <div class="chapter-body">
+          <div class="scroll-reveal fade-up">
+            <p class="lore-text large">Game balance, restrictions, and mysteries yet to be revealed...</p>
+          </div>
+
+          <div class="scroll-reveal fade-up" data-delay="100">
+            <img src="images/night-scene.png" alt="Spirit dragon under silver moonlight" class="scene-image scroll-zoom" style="max-width: 600px;" loading="lazy">
+          </div>
+
+          <div class="secrets-grid">
+            <div class="secret-card pixel-border locked scroll-reveal fade-up" data-delay="0">
+              <h3>Why Not Always Choose Power?</h3>
+              <ul>
+                <li>Weaker individual abilities than specialists</li>
+                <li>Vulnerable to Thunder Cloud (the final boss)</li>
+                <li>Banned from races (can't earn badges)</li>
+                <li>Specialists excel in their domain</li>
+              </ul>
+            </div>
+
+            <div class="secret-card pixel-border locked scroll-reveal fade-up" data-delay="200">
+              <h3>Spirit Dragons in Races</h3>
+              <p>Spirit dragons are NOT banned. While they sense truth and detect deception, this doesn't give unfair racing advantage — tricks and cheating are already against the rules. Obstacles are allowed as normal strategy.</p>
+            </div>
+
+            <div class="secret-card pixel-border locked scroll-reveal fade-up" data-delay="400">
+              <h3>Power Dragon Flexibility</h3>
+              <p>Power dragon keepers can cycle through element types. Using a spell, "put the berry back" — revert to egg state — and re-bond as a different element.</p>
+            </div>
+
+            <div class="secret-card pixel-border locked scroll-reveal fade-up" data-delay="600">
+              <h3>Force Field Sensitivity</h3>
+              <p>Dragon Scale force fields have a sensitivity percentage that decreases with use. Starts high, degrades as it absorbs hits. Can reflect absorbed attacks back at the attacker.</p>
+            </div>
+          </div>
+
+          <!-- Open Questions -->
+          <div class="scroll-reveal fade-up" data-delay="400">
+            <h3 class="sub-heading">Open Questions</h3>
+            <p class="lore-text">Mysteries that await further development...</p>
+            <div class="questions-grid">
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What are the full powers for Water, Fire, and Grass?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What is the geography of the Draco world?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What is "the voice" controlling Draco's evil shell?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What unknown powers unlock with Thunder Cloud?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What is Aloha's backstory?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>How did dragons come to exist in this world?</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── GLOSSARY ─────── -->
+    <section id="glossary" class="codex-chapter glossary-chapter">
+      <div class="chapter-header scroll-reveal">
+        <span class="chapter-number">Appendix</span>
+        <h2 class="chapter-title">Glossary</h2>
+        <div class="pixel-divider"></div>
+      </div>
+
+      <div class="glossary-search-box scroll-reveal fade-up">
+        <input type="text" id="glossary-search" class="glossary-input" placeholder="Search the Codex...">
+      </div>
+
+      <div class="glossary-list" id="glossary-list">
+        <div class="glossary-entry pixel-border" data-term="aloha">
+          <strong>Aloha</strong> — Female humanoid robot who serves as race announcer, host, enforcer, engineer, and stadium builder. Gray-colored, theatrical. Communicates via hologram iPhone.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="badge">
+          <strong>Badge</strong> — Award earned by winning a race; 10 required to challenge Draco.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="berry plants">
+          <strong>Berry Plants</strong> — Vines with ancient markings where berries grow in the wild.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="draco">
+          <strong>Draco</strong> — The Thunder Cloud Dragon, final boss. Not inherently evil — controlled by a corrupt shell connected to a mysterious evil voice. The game's namesake.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragon eye amulet">
+          <strong>Dragon Eye Amulet</strong> — A glowstone containing the eye of a dragon. Always glows. Summon dragons and, with deep bond, transform into them.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragon scale">
+          <strong>Dragon Scale</strong> — Armor from defeated shelled enemies. Creates force fields. Weak to fire.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragon shell crystal">
+          <strong>Dragon Shell Crystal</strong> — Crystallized remains of a defeated shelled enemy that hardens into a usable dragon scale.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragonette">
+          <strong>Dragonette</strong> — A baby dragon in the Draco world. Despite being "babies," they are full-sized.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragonette keeper">
+          <strong>Dragonette Keeper</strong> — The starting rank for humans who bond with, train, and race dragonettes.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="dragonette master">
+          <strong>Dragonette Master</strong> — Advanced rank earned by collecting 10 badges and defeating Draco.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="element candy">
+          <strong>Element Candy</strong> — Element-specific candy fed to dragons during taming/bonding.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="element crystals">
+          <strong>Element Crystals</strong> — Crystals placed into wing slots to strengthen the bond.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="evil groundhog">
+          <strong>Evil Groundhog</strong> — Very long evil groundhog with a shell and wings. Shell made of dragon scale energy.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="first choice stable">
+          <strong>First Choice Stable</strong> — Where new keepers choose their first dragon. Only place berries rest on eggs.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="keeper transformation">
+          <strong>Keeper Transformation</strong> — Ability to physically become one of your dragons. Retains your mind. Requires Dragon Eye Amulet and deep bond.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="power breeding">
+          <strong>Power Breeding</strong> — Aza's custom ability. Degrades opponent attack power by 10 points.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="silver moonlight">
+          <strong>Silver Moonlight</strong> — The only known power that only works at nighttime. Others unlock with Thunder Cloud.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="special berries">
+          <strong>Special Berries</strong> — Rare berries from the Tow Road's dimension. Make dragons slightly faster.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="the crystal">
+          <strong>The Crystal</strong> — Artifact that reveals a dragon's powers when looked through at the dragon.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="tow road">
+          <strong>Tow Road</strong> — Giant evil flying turtle. Shell made of dragon scale energy. Has its own dimension.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="thunder cloud dragon">
+          <strong>Thunder Cloud Dragon</strong> — A dragon of the Thunder Cloud element. Draco is the most powerful, but others exist.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="wonky donkers">
+          <strong>Wonky Donkers</strong> — Bumbling recurring villain who disguises banned dragons with cardboard.
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────── FOOTER ─────── -->
+    <footer class="codex-footer">
+      <div class="pixel-divider"></div>
+      <p>The Draco Codex &mdash; Created by <strong>Aza Dixon</strong></p>
+      <p class="footer-sub">Documented by Brent Dixon &bull; Game Bible v1.3 &bull; February 2026</p>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
