@@ -4,6 +4,7 @@
 Canonical reference document for "Draco," a fantasy adventure game created by Aza Dixon. Intended for use across multiple media adaptations: tabletop game, video game, book series, video series.
 
 ## Current Status
+- **GitHub Repo**: [septapod/draco-game](https://github.com/septapod/draco-game) (private)
 - **Google Doc**: Fully formatted v1.3 — [View Doc](https://docs.google.com/document/d/1U43DoqDfHp86OGgNRhY5iRNt3Rluk5UmFo8U6oimE8E/edit?usp=drivesdk)
 - **Markdown**: `DRACO_Game_Bible.md` — complete local copy (v1.3)
 - **The Draco Codex**: Interactive 8-bit web experience at `codex/index.html` — complete with scroll-progress transform animations (no opacity fading), 28 DALL-E 3 generated images (18 existing + 10 new prompts), readable Space Mono body font, dragon card flips, element matchup chart, story accordion, glossary search
