@@ -73,6 +73,9 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
     - Narrative h4s and path node h3s: 0.65→0.8rem
     - Card desc/weak/question text: 0.8→0.9rem, card notes: 0.7→0.8rem
     - Story themes, cycle captions, matchup notes: 0.75→0.85rem
+  - **Locked element card fix** — moved `brightness(0.4) saturate(0.3)` filter from entire `.card-front` to only `.card-front img`, so h3 titles and badges render at full brightness
+- [x] Lore correction: Spirit dragons do NOT generally crave family — the story about Brent's Spirit dragon is about one specific individual, not a species trait. Updated all 6 references across game bible and codex.
+- [x] Wording fix: "Fantasy and technology" → "Magic and technology" in World Rules
 
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)

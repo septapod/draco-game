@@ -1564,8 +1564,11 @@ img {
    LOCKED ELEMENT CARD
    ═══════════════════════════════════════════ */
 .locked-element .card-front {
-  filter: brightness(0.4) saturate(0.3);
   position: relative;
+}
+
+.locked-element .card-front img {
+  filter: brightness(0.4) saturate(0.3);
 }
 
 .locked-element .card-front::after {
