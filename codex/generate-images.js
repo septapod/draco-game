@@ -123,7 +123,7 @@ const images = [
   },
   {
     filename: "racing-trophy.png",
-    prompt: `${STYLE_PREFIX} view from behind several dragons racing at high speed toward a finish line, on the other side of the finish line a blue hologram trophy floats and flickers translucently, the trophy glows with cyan-blue holographic light, stadium track stretching ahead, dramatic racing perspective, the dragons are mid-flight approaching the glowing prize`,
+    prompt: `${STYLE_PREFIX} five colorful dragons with riders on their backs racing at full speed TOWARD a glowing blue holographic trophy at the far end of a stadium track, viewed from the side at a low angle, all dragons face and fly toward the right where the trophy is, speed lines and motion blur, the blue trophy shines brightly at the finish line, intense competitive racing scene, dragons are different colors (red, green, blue, yellow, purple)`,
   },
   {
     filename: "dragon-eggs-closeup.png",
