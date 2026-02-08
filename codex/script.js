@@ -21,17 +21,24 @@ function initStars() {
   const container = document.getElementById("stars");
   if (!container) return;
 
-  const count = 150;
+  const colors = ["#fff", "#FFD700", "#87CEEB", "#FFB347", "#fff", "#fff"];
+  const count = 250;
+
   for (let i = 0; i < count; i++) {
     const star = document.createElement("div");
-    star.className = "star";
+    const r = Math.random();
+    const isLarge = r < 0.12;  // ~12% are large sparkle stars
+    const isMedium = !isLarge && r < 0.35;  // ~23% are medium
+
+    star.className = isLarge ? "star star--lg" : "star";
     star.style.left = Math.random() * 100 + "%";
     star.style.top = Math.random() * 100 + "%";
     star.style.setProperty("--duration", (2 + Math.random() * 4) + "s");
     star.style.setProperty("--delay", Math.random() * 5 + "s");
-    star.style.setProperty("--brightness", (0.3 + Math.random() * 0.7).toString());
-    // Vary star size
-    const size = Math.random() > 0.8 ? 3 : Math.random() > 0.5 ? 2 : 1;
+    star.style.setProperty("--brightness", (0.5 + Math.random() * 0.5).toString());
+    star.style.setProperty("--star-color", colors[Math.floor(Math.random() * colors.length)]);
+
+    const size = isLarge ? (Math.random() > 0.5 ? 5 : 4) : isMedium ? 3 : (Math.random() > 0.5 ? 2 : 1);
     star.style.width = size + "px";
     star.style.height = size + "px";
     container.appendChild(star);

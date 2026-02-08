@@ -3,18 +3,19 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-07
+**Last updated**: 2026-02-08
 
-**In progress**: None — Aza feedback round applied.
+**In progress**: None — all image work complete for this session.
 
-**Last session** (2026-02-07 evening):
-- Applied Aza's feedback: Breed Berry, Grass Spirit Army, Power Breathing, Rabbit Skull fix
-- Universe/Cosmic/Egg badges → "Advanced / Locked" (per Aza: all advanced dragons are locked)
-- Placed 5 unused images (spirit-grass-breed, flash-dragon, jack-o-rabbit-battle, race-drone-pink, spirit-grass-breed-encounter)
-- Fixed mobile responsiveness: nav overflow, microscopic text at 480px breakpoint
+**Last session** (2026-02-08 — More Images Everywhere):
+- **Generated all 19 icons** via `gpt-image-1`: 7 pillar/world-rules icons + 12 item icons, all transparent PNGs
+- **Pillar icons enlarged**: 120px with golden glow `drop-shadow` (up from 80px)
+- **12 item cards upgraded**: Replaced emoji `<div class="item-icon">` with pixel art `<img class="item-icon-img">` icons (berries, crystals, candy, special berries, dragon scale, potion, turtle meat, badges, breed berry, snake snacks, rabbit meat, rabbit skull)
+- **6 named dragons got portraits**: Added circular `.named-dragon-portrait` images using existing dragon GIFs (power-dragon, grass-dragon, spirit-dragon, psychic-dragon, flash-dragon, spirit-grass-breed) with flex layout
+- **2 racing rule cards got images**: Added `race-drone-pink.gif` to "Modes" and `elemental-clash.gif` to "Powers Allowed" as `box-header-img`
+- **CSS additions**: `.item-icon-img` (64px, glow), `.named-dragon-portrait` (72px circular), `.named-dragon-info`, responsive variants at 768px and 480px
 
 **Next up**:
-- Run `node generate-images.js` to generate any remaining new images (requires OPENAI_API_KEY)
 - Update Google Doc to v1.4
 - Further mobile testing and polish
 
@@ -116,8 +117,26 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Mobile responsiveness fix: nav tabs overflow at 480px, `.lore-text` scaled up from 0.55rem to 0.8rem, added 480px rules for badges/cards/roles
 - [x] Gentle float animation on all images (scene images 4s, dragon cards 5s staggered, character portraits 4.5s). Respects `prefers-reduced-motion`.
 
+## What's Done (visual overhaul — v1.4.3)
+- [x] Background stars overhaul: 250 stars (up from 150), color variety (gold `#FFD700`, ice blue `#87CEEB`, warm orange `#FFB347`), large sparkle stars with diamond `clip-path` and `@keyframes sparkle` glow pulse, brighter base opacity 0.15
+- [x] Animated GIFs: Created `animate-images.py` batch script. 39 PNGs → animated GIFs with element-themed sparkle particles (dragons get element colors, scenes get ambient twinkles, characters get subtle gleam). 10 frames, 200ms/frame, 128-color palette. Total: 21.8MB.
+- [x] All image references in `index.html` swapped from `.png` → `.gif`
+- [x] `.box-header-img` CSS class: cropped header images inside pixel-border boxes, responsive height variants for pillar/combat-info/rule-card/narrative-box/secret-card/info-box/custom-element-box/world-details
+- [x] 20 text-only boxes now have header images: 3 pillars, World Rules, 2 element info boxes, Spirit Dragon narrative, 4 racing cards, Cheating narrative, 4 combat info boxes, 5 secret cards
+
+## What's Done (symbolic icons + more images — v1.4.4)
+- [x] Created `codex/generate-icons.js` — 19 icon prompts using `gpt-image-1` with transparent backgrounds
+- [x] Generated all 19 icons (7 pillar/world + 12 item icons)
+- [x] Replaced 3 pillar banner crops with centered symbolic icons (Bond, Race, Master) — 120px with golden glow
+- [x] Added 4 detail icons to World Rules subsections (Biology, Society, Technology, Day/Night)
+- [x] Replaced 12 item card emojis with pixel art icons (berries, crystals, candy, special berries, dragon scale, potion, turtle meat, badges, breed berry, snake snacks, rabbit meat, rabbit skull)
+- [x] Added circular dragon portraits to 6 named dragons using existing GIFs
+- [x] Added images to 2 empty racing rule cards (Modes: race-drone-pink, Powers Allowed: elemental-clash)
+- [x] CSS: `.box-icon`, `.detail-icon`, `.item-icon-img`, `.named-dragon-portrait`, `.named-dragon-info` with responsive sizing
+
 ## What's Left
-- [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
+- [x] Generate new racing-trophy image (blue hologram trophy at finish line)
+- [x] Regenerate Aloha + racing-stadium images with updated character design
 - [ ] Update Google Doc to v1.4 (sync with Markdown changes)
 - [ ] Future transcript sessions — incorporate new lore from Aza
 - [ ] Open Questions (Section 18) — resolve as Aza provides answers
@@ -133,6 +152,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 | `codex/style.css` | 8-bit retro stylesheet |
 | `codex/script.js` | Interactivity (scroll animations, cards, matchups, glossary) |
 | `codex/generate-images.js` | DALL-E 3 image generation script (39 prompts) |
+| `codex/generate-icons.js` | gpt-image-1 icon generator (7 transparent icons) |
 
 ## Version History
 | Version | Date | Changes |

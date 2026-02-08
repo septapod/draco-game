@@ -71,11 +71,11 @@ const images = [
   },
   {
     filename: "aloha.png",
-    prompt: `${STYLE_PREFIX} gray female humanoid robot character called Squeakers Sister, upside-down laundry basket for a head, two glowing orange robotic eyes, very very long neck, body shaped like a right-side-up laundry basket, two arms that cycle up over the head and back down held in front, expandable robot mouth, gray colored, smaller than human, standing in front of a dragon racing stadium, theatrical personality`,
+    prompt: `${STYLE_PREFIX} gray boxy cart-like robot character standing in front of a dragon racing stadium, wide rectangular head shaped like an upside-down laundry basket or compact toolbox with rounded corners, two square glowing orange light-panel eyes, long horizontal grille strip mouth below the eyes, very very long telescoping segmented neck with ball-joint under head, large rectangular toolbox-shaped torso with open storage cavity near the top and horizontal ribbed bars, two thick bendable gray hose-segment arms with ringed joints extending from the torso cavity cycling up over the head with blocky coupler wrists and claw-fork grippers, mounted on wheels like a rolling utility cart, gray colored, smaller than a human, theatrical personality, pixel art robot character`,
   },
   {
     filename: "wonky-donkers.png",
-    prompt: `${STYLE_PREFIX} bumbling comedic villain character, skinny guy with huge puffy cheeks, tiny tiny eyebrows as small as his eyes, black hair, tan skin, holding pieces of cardboard, trying to disguise something, goofy expression, sneaky but incompetent look, NOT Joker-like, cartoon villain aesthetic`,
+    prompt: `${STYLE_PREFIX} goofy bumbling cartoon villain character, very skinny lanky man with enormous round puffed-out chipmunk cheeks, tiny dot eyebrows the same size as his small beady eyes, short messy black hair, warm tan skin, wearing a plain brown tunic and worn-out boots, holding flimsy pieces of cardboard trying to disguise a dragon egg, looking around nervously with a silly clueless expression, slapstick comedy character, lighthearted and funny, fantasy village background`,
   },
   {
     filename: "tow-road.png",
@@ -95,7 +95,7 @@ const images = [
   },
   {
     filename: "racing-stadium.png",
-    prompt: `${STYLE_PREFIX} dragon racing stadium from a wide angle, multiple dragons racing through the air above the track, a gray robot announcer on a platform, crowds cheering, trophy flashing in the middle of the race course, exciting competitive atmosphere`,
+    prompt: `${STYLE_PREFIX} dragon racing stadium from a wide angle, multiple dragons racing through the air above the track, a small gray boxy cart-like robot announcer on a platform with a rectangular toolbox head with square orange eyes and very long segmented neck, crowds cheering, trophy flashing in the middle of the race course, exciting competitive atmosphere`,
   },
   {
     filename: "keeper-transformation.png",
@@ -123,7 +123,7 @@ const images = [
   },
   {
     filename: "racing-trophy.png",
-    prompt: `${STYLE_PREFIX} golden trophy floating mid-air in a dragon racing stadium, the trophy flashing and glowing with magical energy, confetti and sparkle effects, stadium crowd in background, triumphant competitive atmosphere, prize to be won`,
+    prompt: `${STYLE_PREFIX} view from behind several dragons racing at high speed toward a finish line, on the other side of the finish line a blue hologram trophy floats and flickers translucently, the trophy glows with cyan-blue holographic light, stadium track stretching ahead, dramatic racing perspective, the dragons are mid-flight approaching the glowing prize`,
   },
   {
     filename: "dragon-eggs-closeup.png",

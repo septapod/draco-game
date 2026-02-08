@@ -202,15 +202,41 @@ img {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: #fff;
+  background: var(--star-color, #fff);
+  border-radius: 50%;
+  box-shadow: 0 0 3px 1px var(--star-color, rgba(255, 255, 255, 0.4));
   animation: twinkle var(--duration) ease-in-out infinite;
   animation-delay: var(--delay);
   opacity: 0;
 }
 
+.star--lg {
+  border-radius: 0;
+  clip-path: polygon(
+    50% 0%, 60% 35%, 100% 50%, 60% 65%,
+    50% 100%, 40% 65%, 0% 50%, 40% 35%
+  );
+  box-shadow: 0 0 6px 2px var(--star-color, rgba(255, 215, 0, 0.5));
+  animation: sparkle var(--duration) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+
 @keyframes twinkle {
-  0%, 100% { opacity: 0; }
+  0%, 100% { opacity: 0.15; }
   50% { opacity: var(--brightness, 1); }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    opacity: 0.15;
+    transform: scale(1);
+    box-shadow: 0 0 4px 1px var(--star-color, rgba(255, 215, 0, 0.3));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+    box-shadow: 0 0 10px 4px var(--star-color, rgba(255, 215, 0, 0.6));
+  }
 }
 
 .title-content {
@@ -937,6 +963,16 @@ img {
   margin-bottom: 0.75rem;
 }
 
+.item-icon-img {
+  display: block;
+  margin: 0 auto 0.75rem;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.3));
+}
+
 .item-card h3 {
   font-family: var(--font-pixel);
   font-size: 0.75rem;
@@ -1294,6 +1330,23 @@ img {
   font-size: 0.85rem;
   line-height: 2;
   background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.named-dragon-portrait {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 50%;
+  flex-shrink: 0;
+  image-rendering: pixelated;
+  border: 2px solid currentColor;
+}
+
+.named-dragon-info {
+  flex: 1;
 }
 
 /* ═══════════════════════════════════════════
@@ -1704,6 +1757,93 @@ img {
 }
 
 /* ═══════════════════════════════════════════
+   BOX HEADER IMAGES
+   ═══════════════════════════════════════════ */
+.box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1.5rem -2rem;
+  height: 120px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-bottom: 2px solid var(--pixel-border-color);
+  image-rendering: auto;
+}
+
+/* Taller headers for pillars */
+.pillar .box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1rem -2rem;
+  height: 140px;
+}
+
+/* Shorter headers for combat and rule cards */
+.combat-info .box-header-img {
+  width: calc(100% + 5rem);
+  margin: -2.5rem -2.5rem 1rem -2.5rem;
+  height: 100px;
+}
+
+.rule-card .box-header-img {
+  width: calc(100% + 3rem);
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  height: 90px;
+}
+
+.narrative-box .box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1rem -2rem;
+  height: 100px;
+}
+
+.secret-card .box-header-img {
+  width: calc(100% + 3rem);
+  margin: -1.5rem -1.5rem 1rem -1.5rem;
+  height: 90px;
+}
+
+.info-box .box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1rem -2rem;
+  height: 110px;
+}
+
+.custom-element-box .box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1rem -2rem;
+  height: 100px;
+}
+
+.world-details .box-header-img {
+  width: calc(100% + 4rem);
+  margin: -2rem -2rem 1.5rem -2rem;
+  height: 110px;
+}
+
+/* ═══════════════════════════════════════════
+   PILLAR & WORLD RULES ICONS
+   ═══════════════════════════════════════════ */
+.box-icon {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.4));
+}
+
+.detail-icon {
+  display: block;
+  margin: 0 auto 0.75rem;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.3));
+}
+
+/* ═══════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -1771,6 +1911,41 @@ img {
     flex-direction: column;
     gap: 1.5rem;
   }
+
+  .box-header-img {
+    height: 90px;
+  }
+
+  .pillar .box-header-img {
+    height: 110px;
+  }
+
+  .combat-info .box-header-img,
+  .rule-card .box-header-img,
+  .narrative-box .box-header-img,
+  .secret-card .box-header-img {
+    height: 80px;
+  }
+
+  .box-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .detail-icon {
+    width: 56px;
+    height: 56px;
+  }
+
+  .item-icon-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .named-dragon-portrait {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1825,6 +2000,46 @@ img {
       0 0 0 2px var(--bg-dark),
       0 0 0 4px var(--accent-gold),
       0 0 20px rgba(255, 215, 0, 0.2);
+  }
+
+  .box-header-img {
+    height: 70px;
+  }
+
+  .pillar .box-header-img {
+    height: 80px;
+  }
+
+  .combat-info .box-header-img,
+  .rule-card .box-header-img,
+  .narrative-box .box-header-img,
+  .secret-card .box-header-img {
+    height: 60px;
+  }
+
+  .box-icon {
+    width: 80px;
+    height: 80px;
+  }
+
+  .detail-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .item-icon-img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .named-dragon {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .named-dragon-portrait {
+    width: 56px;
+    height: 56px;
   }
 }
 
