@@ -78,6 +78,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Wording fix: "Fantasy and technology" → "Magic and technology" in World Rules
 - [x] Typo fix: "They breed fire" → "They breathe fire" in game bible and codex
 - [x] Thunder Cloud badge changed from "Locked" to "Special / Locked"
+- [x] Wood and Starlight badges changed from "Locked" to "Advanced / Locked"; removed locked-element dimming so card art is visible
 
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
