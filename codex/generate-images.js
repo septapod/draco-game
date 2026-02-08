@@ -158,6 +158,14 @@ const images = [
     prompt: `${STYLE_PREFIX} dragon with an ornate glowing egg balanced on top of its head, warm cream and gold tones, the egg is decorative and magical looking, gentle but powerful dragon, nurturing appearance, soft warm lighting, the egg pulses with magical energy`,
   },
   {
+    filename: "wood-dragon.png",
+    prompt: `${STYLE_PREFIX} dragon made of living wood and bark, gnarled tree trunk body with mossy patches, branch-like horns and wings made of woven branches with leaves sprouting from them, amber sap glowing in cracks of its bark skin, warm brown and forest green tones, standing in an ancient old-growth forest, roots trailing from its feet`,
+  },
+  {
+    filename: "starlight-dragon.png",
+    prompt: `${STYLE_PREFIX} radiant silver and white dragon glowing with pure starlight, its body shimmering like captured moonbeams, tiny pinpricks of light across its scales like stars in a night sky, crystalline translucent wings refracting light into prismatic beams, ethereal silver aura, floating above a mountaintop under a brilliant starry sky`,
+  },
+  {
     filename: "spirit-grass-breed.png",
     prompt: `${STYLE_PREFIX} hybrid dragon with ghostly translucent purple body mixed with vine and leaf patterns growing across it, green forehead gem glowing, combination of spectral spirit energy and natural grass elements, purple and green color scheme, mystical forest setting`,
   },

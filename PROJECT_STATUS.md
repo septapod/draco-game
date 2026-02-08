@@ -1,5 +1,29 @@
 # Draco Game Bible — Project Status
 
+## Current Work (Session Handoff)
+<!-- Update this section at the START and END of every Claude Code session -->
+
+**Last updated**: 2026-02-07
+
+**In progress**: None — Aza feedback round applied.
+
+**Last session** (2026-02-07 evening):
+- Applied Aza's feedback: Breed Berry, Grass Spirit Army, Power Breathing, Rabbit Skull fix
+- Universe/Cosmic/Egg badges → "Advanced / Locked" (per Aza: all advanced dragons are locked)
+- Placed 5 unused images (spirit-grass-breed, flash-dragon, jack-o-rabbit-battle, race-drone-pink, spirit-grass-breed-encounter)
+- Fixed mobile responsiveness: nav overflow, microscopic text at 480px breakpoint
+
+**Next up**:
+- Run `node generate-images.js` to generate any remaining new images (requires OPENAI_API_KEY)
+- Update Google Doc to v1.4
+- Further mobile testing and polish
+
+**Decisions / constraints**:
+- Context blowouts were happening during iterative image work — see CLAUDE.md "Session Management" section for new rules
+- Image work should be broken into mini-sessions (prompt editing → generation → review → placement)
+
+---
+
 ## Project Overview
 Canonical reference document for "Draco," a fantasy adventure game created by Aza Dixon. Intended for use across multiple media adaptations: tabletop game, video game, book series, video series.
 
@@ -80,6 +104,17 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Thunder Cloud badge changed from "Locked" to "Special / Locked"
 - [x] Wood and Starlight badges changed from "Locked" to "Advanced / Locked"; removed locked-element dimming so card art is visible
 - [x] Speed reclassified from Standard to Special (badge + game bible)
+
+## What's Done (Aza feedback round — v1.4.2)
+- [x] "Bree Berry" → "Breed Berry" (all files: game bible, codex HTML, script.js, transcript notes)
+- [x] "Spirit Army" → "Grass Spirit Army" (all files)
+- [x] "Power Breeding" → "Power Breathing" (all files)
+- [x] Rabbit Skull: "summons 7 skeletons" → "summons a skeleton Dragon so you can tame it"
+- [x] Universe, Cosmic, Egg badges: "Advanced" → "Advanced / Locked" (per Aza: all advanced dragons are locked)
+- [x] Game bible: merged "Mentioned Elements" (Wood, Starlight) into "Advanced Elements (Locked)" section
+- [x] Placed 5 previously unplaced images: spirit-grass-breed.png, flash-dragon.png, jack-o-rabbit-battle.png, race-drone-pink.png, spirit-grass-breed-encounter.png
+- [x] Mobile responsiveness fix: nav tabs overflow at 480px, `.lore-text` scaled up from 0.55rem to 0.8rem, added 480px rules for badges/cards/roles
+- [x] Gentle float animation on all images (scene images 4s, dragon cards 5s staggered, character portraits 4.5s). Respects `prefers-reduced-motion`.
 
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)

@@ -376,7 +376,7 @@ function initMatchupChart() {
     spiritgrass: {
       strong: ["Thunder Cloud"],
       weak: ["Fire"],
-      notes: "Spirit-Grass breed. Combines Spirit truth-sensing with Grass powers. Has 'Spirit Army' attack (drains 10%). Tamed with a Bree Berry.",
+      notes: "Spirit-Grass breed. Combines Spirit truth-sensing with Grass powers. Has 'Grass Spirit Army' attack (drains 10%). Tamed with a Breed Berry.",
     },
   };
 

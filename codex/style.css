@@ -306,6 +306,11 @@ img {
   50% { opacity: 0; }
 }
 
+@keyframes gentle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
 /* ═══════════════════════════════════════════
    NAVIGATION
    ═══════════════════════════════════════════ */
@@ -613,7 +618,14 @@ img {
   height: 280px;
   object-fit: cover;
   margin-bottom: 0.75rem;
+  animation: gentle-float 5s ease-in-out infinite;
 }
+
+/* Stagger dragon card float so they don't bob in unison */
+.dragon-card:nth-child(2n) .card-front img { animation-delay: -1.2s; }
+.dragon-card:nth-child(3n) .card-front img { animation-delay: -2.5s; }
+.dragon-card:nth-child(5n) .card-front img { animation-delay: -3.8s; }
+.dragon-card:nth-child(7n) .card-front img { animation-delay: -0.7s; }
 
 .card-front h3 {
   font-family: var(--font-pixel);
@@ -732,6 +744,7 @@ img {
   margin: 0 auto;
   border: 3px solid var(--accent-gold);
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.15);
+  animation: gentle-float 4s ease-in-out infinite;
 }
 
 /* Clip parallax/zoom overflow so images don't bleed into text */
@@ -1164,6 +1177,7 @@ img {
   height: 220px;
   object-fit: cover;
   transition: transform 0.5s ease;
+  animation: gentle-float 4.5s ease-in-out infinite;
 }
 
 .character-portrait:hover img {
@@ -1672,8 +1686,8 @@ img {
   }
 
   .nav-tab {
-    font-size: 0.6rem;
-    padding: 0.6rem 0.7rem;
+    font-size: 0.55rem;
+    padding: 0.5rem 0.6rem;
   }
 
   .three-pillars {
@@ -1713,7 +1727,41 @@ img {
   }
 
   .lore-text {
-    font-size: 0.55rem;
+    font-size: 0.8rem;
+  }
+
+  .lore-text.large {
+    font-size: 0.85rem;
+  }
+
+  .nav-tab {
+    font-size: 0.45rem;
+    padding: 0.4rem 0.5rem;
+  }
+
+  .element-badge {
+    font-size: 0.5rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .character-role {
+    font-size: 0.5rem;
+  }
+
+  .card-front h3 {
+    font-size: 0.7rem;
+  }
+
+  .card-back h3 {
+    font-size: 0.65rem;
+  }
+
+  .card-desc, .card-weak {
+    font-size: 0.75rem;
+  }
+
+  .card-note {
+    font-size: 0.7rem;
   }
 
   .hero-banner {
@@ -1721,5 +1769,14 @@ img {
       0 0 0 2px var(--bg-dark),
       0 0 0 4px var(--accent-gold),
       0 0 20px rgba(255, 215, 0, 0.2);
+  }
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .scene-image,
+  .card-front img,
+  .character-portrait img {
+    animation: none;
   }
 }

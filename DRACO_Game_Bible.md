@@ -72,14 +72,11 @@ Speed — Golden. Extremely fast (top speed 270 mph vs. normal 50 mph). "As fast
 Power — Rainbow. Has ALL element abilities (but weaker versions). Rare and powerful. Top speed matches Speed dragons at 270 mph.
 Thunder Cloud — Unknown (locked). Only obtainable by defeating Draco. The "missing element." There are multiple Thunder Cloud dragons in the world, but the element remains locked until you defeat the boss.
 
-### Advanced Elements
+### Advanced Elements (Locked)
 
-Universe — The dragon's body bears a microscopic map of the entire universe, so small you need a microscope to see individual stars. A tiny compass sits on the map. Can crush shelled creatures with a single hit — unique among all elements.
-Cosmic — The dragon looks like "a map of space." Powers are similar to Universe. Visually distinct: Cosmic = space map appearance; Universe = compass with microscopic star map.
-Egg — The dragon always moves with an egg balanced on top. Egg-based powers can force other dragons back inside their eggs — resetting all their training and taming. "They'll forget that they were even trained."
-
-### Mentioned Elements
-
+Universe — The dragon's body bears a microscopic map of the entire universe, so small you need a microscope to see individual stars. A tiny compass sits on the map. Can crush shelled creatures with a single hit — unique among all elements. Locked.
+Cosmic — The dragon looks like "a map of space." Powers are similar to Universe. Visually distinct: Cosmic = space map appearance; Universe = compass with microscopic star map. Locked.
+Egg — The dragon always moves with an egg balanced on top. Egg-based powers can force other dragons back inside their eggs — resetting all their training and taming. "They'll forget that they were even trained." Locked.
 Wood — Listed among the elements but no details yet. Locked.
 Starlight — Listed among the elements but no details yet. Locked.
 
@@ -91,7 +88,7 @@ There are "like 1000 elements" in the Draco universe — meaning roughly 1000 di
 
 Every player MUST invent their own unique element for at least one of their dragons. This is a core rule of Draco — creativity and personal expression are built into the game. Custom elements can be serious, silly, powerful, or anything the player imagines.
 
-Example: Aza created "Power Breeding" — an ability that degrades the attack power of every opposing dragon by 10 points.
+Example: Aza created "Power Breathing" — an ability that degrades the attack power of every opposing dragon by 10 points.
 
 ---
 
@@ -224,9 +221,9 @@ If you have a Power dragon, you can cycle through all element types. Using a spe
 
 Dragons of different elements can breed, producing hybrid dragonettes with combined powers. Known breeds:
 
-**Spirit-Grass Breed** — Combines Spirit element truth-sensing with Grass element powers. Thunder Cloud is weak to it (Grass beats Thunder Cloud) and it can sense truth (Spirit ability). Has a unique attack called "Spirit Army" that drains opponents by 10%. Particularly valuable for the Draco boss fight.
+**Spirit-Grass Breed** — Combines Spirit element truth-sensing with Grass element powers. Thunder Cloud is weak to it (Grass beats Thunder Cloud) and it can sense truth (Spirit ability). Has a unique attack called "Grass Spirit Army" that drains opponents by 10%. Particularly valuable for the Draco boss fight.
 
-To tame a breed dragon, you need a **Bree Berry** — a special berry specifically for bonding with hybrid dragonettes. Standard berries do not work for breed dragons.
+To tame a breed dragon, you need a **Breed Berry** — a special berry specifically for bonding with hybrid dragonettes. Standard berries do not work for breed dragons.
 
 ### Keeper Transformation
 
@@ -262,13 +259,13 @@ Keeper Transformation represents the ultimate expression of the bond between a h
 
 **Dragon Scale** — Dropped only by enemies whose shells are made of pure dragon scale energy (e.g., the Tow Road, the Evil Groundhog, and Draco's evil shell). Can be placed on a dragon to create a force field. Weak to fire.
 
-**Bree Berry** — A special berry used specifically to tame breed/hybrid dragons. Standard berries do not work for breed dragons — you need a Bree Berry to bond with them.
+**Breed Berry** — A special berry used specifically to tame breed/hybrid dragons. Standard berries do not work for breed dragons — you need a Breed Berry to bond with them.
 
 **Snake Snacks** — Obtained from the snake friend encounter. Grants "poisonous powers" to the dragon that consumes them. Note: Poisonous powers are NOT allowed in races.
 
 **Rabbit Meat** — Dropped when Jack O'Rabbit is defeated. Consumable item for dragons.
 
-**Rabbit Skull** — Dropped from Jack O'Rabbit. Can summon 7 skeletons that serve the dragon's master.
+**Rabbit Skull** — Dropped from Jack O'Rabbit. Summons a skeleton Dragon so you can tame it.
 
 **Power-Up Potion** — Makes dragons stronger. Tastes like "Sinistea" — tastes super gross. Earned upon becoming a Dragonette Master.
 
@@ -326,7 +323,7 @@ Villain characters (like Wonky Donkers) sometimes try to disguise banned dragons
 
 ### Attack Power System
 
-Every dragon starts each battle at 100% attack power. Certain abilities (like "Power Breeding") can degrade an opponent's attack power by 10 points per hit. When a dragon reaches 0% attack power, it is eliminated from the battle. After a battle ends, all dragons recharge back to 100%.
+Every dragon starts each battle at 100% attack power. Certain abilities (like "Power Breathing") can degrade an opponent's attack power by 10 points per hit. When a dragon reaches 0% attack power, it is eliminated from the battle. After a battle ends, all dragons recharge back to 100%.
 
 ### Shelled Enemies
 
@@ -344,9 +341,9 @@ Most powers work at any time of day. Silver Moonlight is the only *known* time-r
 
 Poisonous powers are a special ability obtained by consuming snake snacks from the snake friend encounter. They grant toxic attacks for use in combat and adventure. Poisonous powers are banned from races but are effective in battle.
 
-### Spirit Army
+### Grass Spirit Army
 
-An attack unique to Spirit-Grass breed dragons. Spirit Army drains opponents by 10% per use. It combines the spiritual energy of the Spirit element with the organic power of the Grass element, creating a devastating team-oriented attack.
+An attack unique to Spirit-Grass breed dragons. Grass Spirit Army drains opponents by 10% per use. It combines the spiritual energy of the Spirit element with the organic power of the Grass element, creating a devastating team-oriented attack.
 
 ### Speed Atmosphere
 
@@ -438,7 +435,7 @@ Clone Mechanic: When attacked, Jack O'Rabbit creates clones of itself. Clones st
 
 Weaknesses: Speed Atmosphere (launches into space). During daytime, removing it from Earth's magnetic field immediately neutralizes it. Fire attacks work but cause more cloning. Universe element would one-hit it. Ramming clones together deals only ~1% damage.
 
-Drops: Rabbit meat, a dragon skill, and a rabbit skull (which can summon 7 skeletons serving the dragon's master).
+Drops: Rabbit meat, a dragon skill, and a rabbit skull (which summons a skeleton Dragon so you can tame it).
 
 ### The Finisher
 
@@ -575,19 +572,19 @@ A keeper with a deep bond to their dragons received a Dragon Eye Amulet — a gl
 
 #### The Jack O'Rabbit Battle
 
-The keepers encountered Jack O'Rabbit — a giant fuzzy rabbit with a skull for a head. Brent used psychic powers to make a carrot float as a distraction, and the creature took a big bite. When attacked, Jack O'Rabbit began creating clones that grew to adult size in seconds. Brent used psychic powers to throw clones into space, discovering that they need Earth's magnetism to grow. Ramming clones together barely scratched them (1% damage). Fire attacks worked on the body but caused more clones to appear. Finally, the keepers used Speed Atmosphere during daytime to launch Jack O'Rabbit itself into space, defeating it. The loot: rabbit meat, a new dragon skill, and a rabbit skull that can summon skeletons.
+The keepers encountered Jack O'Rabbit — a giant fuzzy rabbit with a skull for a head. Brent used psychic powers to make a carrot float as a distraction, and the creature took a big bite. When attacked, Jack O'Rabbit began creating clones that grew to adult size in seconds. Brent used psychic powers to throw clones into space, discovering that they need Earth's magnetism to grow. Ramming clones together barely scratched them (1% damage). Fire attacks worked on the body but caused more clones to appear. Finally, the keepers used Speed Atmosphere during daytime to launch Jack O'Rabbit itself into space, defeating it. The loot: rabbit meat, a new dragon skill, and a rabbit skull that summons a skeleton Dragon you can tame.
 
 **Themes:** Creative problem-solving, environmental mechanics (magnetism/space), learning enemy weaknesses through trial and error.
 
 #### The Spirit-Grass Breed Encounter
 
-Before a race, the keepers discovered a rare Spirit-Grass breed dragon nearby. Aza recognized its strategic value immediately: "Thunder Cloud is weak to it, but also it can tell true." They tamed it with a Bree Berry — a special berry designed for bonding with hybrid dragonettes. The breed dragon combined the Grass element's superiority over Thunder Cloud with the Spirit element's truth-sensing ability, making it an ideal ally for the eventual confrontation with Draco.
+Before a race, the keepers discovered a rare Spirit-Grass breed dragon nearby. Aza recognized its strategic value immediately: "Thunder Cloud is weak to it, but also it can tell true." They tamed it with a Breed Berry — a special berry designed for bonding with hybrid dragonettes. The breed dragon combined the Grass element's superiority over Thunder Cloud with the Spirit element's truth-sensing ability, making it an ideal ally for the eventual confrontation with Draco.
 
 **Themes:** Recognizing strategic advantages, breed diversity, preparation before battle.
 
 #### Racing for Five Badges
 
-The team — Aza with Flash Dragon, Brent with Spirit and Psychic dragons, and their ally The Finisher — entered a special race event. The Race Drone changed its color to pink for the occasion. During the race, they used the Spirit-Grass breed's "Spirit Army" attack, which drained opponents by 10%. They won the Supersonic Pink Trophy and earned five badges total toward their goal of becoming Dragonette Masters.
+The team — Aza with Flash Dragon, Brent with Spirit and Psychic dragons, and their ally The Finisher — entered a special race event. The Race Drone changed its color to pink for the occasion. During the race, they used the Spirit-Grass breed's "Grass Spirit Army" attack, which drained opponents by 10%. They won the Supersonic Pink Trophy and earned five badges total toward their goal of becoming Dragonette Masters.
 
 **Themes:** Teamwork, special occasions, hybrid dragon strategy, progression toward mastery.
 
@@ -638,7 +635,7 @@ Leaf Blade — Grass element — Keeper: Aza — Found and tamed in the wild wit
 Spirit Dragon (unnamed) — Spirit element — Keeper: Brent — A dragon who lost its family; adopted Brent as its keeper after he showed it kindness. Wings filled with crystals automatically.
 Psychic Dragon (unnamed) — Psychic element — Keeper: Brent — Brent's first dragon, chosen at the First Choice Stable.
 Flash Dragon — Element unknown (likely Speed-related) — Keeper: Aza — Sleek racing dragon, used in competitive races.
-Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with a Bree Berry. Has "Spirit Army" attack (10% drain). Strong against Thunder Cloud.
+Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with a Breed Berry. Has "Grass Spirit Army" attack (10% drain). Strong against Thunder Cloud.
 
 ---
 
@@ -650,9 +647,9 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Berry Plants** — Vines with ancient markings where berries grow in the wild.
 
-**Bree Berry** — Special berry specifically for taming breed/hybrid dragons. Standard berries do not work for breed dragons.
+**Breed Berry** — Special berry specifically for taming breed/hybrid dragons. Standard berries do not work for breed dragons.
 
-**Breed Dragon** — A hybrid dragonette produced by breeding two different element types. Example: Spirit-Grass Breed. Requires a Bree Berry to tame.
+**Breed Dragon** — A hybrid dragonette produced by breeding two different element types. Example: Spirit-Grass Breed. Requires a Breed Berry to tame.
 
 **Clone Mechanic** — Some enemies (like Jack O'Rabbit) create clones when attacked. Clones grow via Earth's magnetism and can be countered by launching them into space.
 
@@ -690,9 +687,9 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Poisonous Powers** — Special toxic abilities obtained via snake snacks. Usable in combat but banned from races.
 
-**Power Breeding** — Aza's custom ability that degrades opponent attack power by 10 points.
+**Power Breathing** — Aza's custom ability that degrades opponent attack power by 10 points.
 
-**Rabbit Skull** — Dropped from Jack O'Rabbit. Can summon 7 skeletons that serve the dragon's master.
+**Rabbit Skull** — Dropped from Jack O'Rabbit. Summons a skeleton Dragon so you can tame it.
 
 **Race Drone** — A drone that announces races, manages countdowns, and can change color for special occasions.
 
@@ -706,9 +703,9 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Speed Atmosphere** — Combat move that launches enemies into space. Counter to enemies relying on Earth's magnetism.
 
-**Spirit Army** — Attack unique to Spirit-Grass breed dragons. Drains opponents by 10% per use.
+**Grass Spirit Army** — Attack unique to Spirit-Grass breed dragons. Drains opponents by 10% per use.
 
-**Spirit-Grass Breed** — A hybrid dragon combining Spirit and Grass elements. Strong against Thunder Cloud. Has Spirit Army attack.
+**Spirit-Grass Breed** — A hybrid dragon combining Spirit and Grass elements. Strong against Thunder Cloud. Has Grass Spirit Army attack.
 
 **Supersonic Pink Trophy** — A named race trophy. Different races award different trophy types.
 

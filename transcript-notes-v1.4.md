@@ -46,7 +46,7 @@
   - Clones start tiny, grow to adult in ~2 seconds
   - Growth powered by Earth's magnetism — throw into space to stop growth
 - **Weakness:** Speed Atmosphere (launches into space); during daytime "losing the only moon" knocks it out
-- **Drops:** Rabbit meat, dragon skill, rabbit skull (summons 7 skeletons serving the dragon's master)
+- **Drops:** Rabbit meat, dragon skill, rabbit skull (summons a skeleton Dragon so you can tame it)
 - **Combat notes:** Ramming = 1% damage; fire = more clones; Universe element would one-hit it
 
 ---
@@ -93,7 +93,7 @@
 
 ## New Items
 
-### Bree Berry
+### Breed Berry
 - Special berry specifically for taming breed/hybrid dragons
 - Used to tame the Spirit-Grass breed
 
@@ -106,7 +106,7 @@
 
 ### Rabbit Skull
 - Dropped from Jack O'Rabbit
-- Summons 7 skeletons that serve the dragon's master
+- Summons a skeleton Dragon so you can tame it
 
 ---
 
@@ -141,7 +141,7 @@
 - Obtained via snake snacks from snake friend
 - Banned from races, usable in adventure/combat
 
-### Spirit Army
+### Grass Spirit Army
 - Attack available to Spirit-Grass breed dragons
 - Drains opponents by 10%
 - "Spirit army is its own attack"
@@ -162,8 +162,8 @@
 ### Spirit-Grass Hybrid
 - Combines Spirit truth-sensing with Grass powers
 - Thunder Cloud is weak to it (Grass beats TC) AND it can sense truth
-- Tamed with a Bree Berry
-- Special attack: Spirit Army (drains 10%)
+- Tamed with a Breed Berry
+- Special attack: Grass Spirit Army (drains 10%)
 
 ---
 
@@ -183,13 +183,13 @@
 
 ### 2. The Spirit-Grass Breed Encounter
 - Found rare Spirit-Grass breed before a race
-- Tamed with Bree Berry
+- Tamed with Breed Berry
 - Strategic advantage: Grass vs Thunder Cloud + Spirit truth-sensing
 
 ### 3. Racing for Five Badges
 - Team: Aza (Flash Dragon) + Brent (Spirit/Psychic) + The Finisher
 - Race Drone turned pink, Supersonic Pink Trophy
-- Used Spirit Army attack (10% drain)
+- Used Grass Spirit Army attack (10% drain)
 - Won five badges total toward Dragonette Master
 
 ---
