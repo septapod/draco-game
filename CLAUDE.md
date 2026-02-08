@@ -12,11 +12,16 @@
 | `codex/script.js` | ~475 | Scroll animations, card flips, matchup chart, glossary search |
 | `codex/generate-images.js` | ~275 | DALL-E 3 batch image generator (39 prompts) |
 | `codex/images/` | 42 PNGs | 1024x1024 pixel art (~59MB total) |
+| `codex/game.html` | ~130 | Interactive game page — AI-narrated adventures |
+| `codex/game.css` | ~350 | Game page styles (minimal dark theme) |
+| `codex/game.js` | ~600 | Game logic: chat, state, audio, onboarding, discoveries |
+| `api/chat.js` | ~60 | Vercel serverless — Anthropic Messages API streaming proxy |
+| `api/transcribe.js` | ~50 | Vercel serverless — OpenAI Whisper transcription proxy |
 | `PROJECT_STATUS.md` | — | Detailed history, version log, what's done/left, **current work handoff** |
 | `transcript-notes-v1.4.md` | ~200 | Archived raw lore extraction from Aza session |
 
 ## Codex Architecture
-The Codex is a **zero-build static site** deployed on Vercel (`vercel.json` → `outputDirectory: "codex"`).
+The Codex is a **zero-build static site** deployed on Vercel (static files served from `codex/`, API functions from `api/`).
 
 **9 HTML Chapters**: World (`#world`), Elements (`#elements`), First Dragon (`#first-dragon`), Items (`#items`), Racing (`#racing`), Combat (`#combat`), Characters (`#characters`), Journey (`#journey`), Secrets (`#secrets`), plus title screen, glossary, footer.
 
@@ -58,6 +63,29 @@ The Codex is a **zero-build static site** deployed on Vercel (`vercel.json` → 
 - New characters: copy a `.character-card` block, alternate `fade-left`/`fade-right`
 - New glossary terms: add `.glossary-entry` with `data-term` attribute
 - New matchup entries: add to `matchups` object in `script.js`
+
+## Game Page Architecture
+
+The game page (`codex/game.html`) is an AI-narrated interactive adventure powered by the Anthropic Messages API.
+
+### Vercel Config
+`vercel.json` uses rewrites: `/api/*` → serverless functions, `/*` → `codex/` static files. The codex continues to work at root URL.
+
+### API Endpoints
+- **`api/chat.js`** — POST with `{ model, system, messages, max_tokens }`. Streams response via SSE. Allowed models: `claude-haiku-4-5-20251001`, `claude-sonnet-4-5-20250929`, `claude-opus-4-6-20250514`. Uses `ANTHROPIC_API_KEY` env var.
+- **`api/transcribe.js`** — POST with multipart form-data (audio file). Forwards to OpenAI Whisper API. Uses `OPENAI_API_KEY` env var.
+
+### Game State
+Saved to localStorage. Key schema: `draco_adventures` (index), `draco_adventure_{id}` (full state). Each state includes: players (with dragons, items, badges, HP), location, flags, conversation history, narrative summary, turn count, discoveries.
+
+### System Prompt
+Built dynamically per request from: narrator role + condensed Game Bible (~8K tokens) + current game state + narrative summary + response format instructions. AI outputs `<game_state>` JSON with each response to track state changes. AI wraps invented content in `<new_content>` tags.
+
+### Conversation Compression
+At 30+ messages, oldest messages are compressed into `narrativeSummary` (keeping most recent 20).
+
+### Audio
+Hold-to-record mic button → `MediaRecorder` API captures audio → sent to `/api/transcribe` → Whisper transcribes → text populates input for editing before send.
 
 ## Session Management — Prevent Context Blowouts
 

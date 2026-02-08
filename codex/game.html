@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draco Adventure</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="game.css">
+</head>
+<body>
+
+  <!-- ═══════ WELCOME SCREEN ═══════ -->
+  <div id="screen-welcome" class="screen active">
+    <div class="welcome-box">
+      <h1 class="game-title">DRACO<br>ADVENTURE</h1>
+      <p class="welcome-tagline">"The goal of the game is to become a Dragonette Master."</p>
+      <div class="welcome-actions">
+        <button id="btn-new-adventure" class="btn-primary">New Adventure</button>
+        <button id="btn-load-adventure" class="btn-secondary">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ONBOARDING: PLAYER COUNT ═══════ -->
+  <div id="screen-players" class="screen">
+    <div class="onboard-box">
+      <h2 class="onboard-title">How many Keepers?</h2>
+      <div class="player-count-options">
+        <button class="btn-count" data-count="1">1</button>
+        <button class="btn-count" data-count="2">2</button>
+        <button class="btn-count" data-count="3">3</button>
+        <button class="btn-count" data-count="4">4</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ONBOARDING: PLAYER NAMES ═══════ -->
+  <div id="screen-names" class="screen">
+    <div class="onboard-box">
+      <h2 class="onboard-title">Name your Keepers</h2>
+      <div id="name-inputs"></div>
+      <button id="btn-names-done" class="btn-primary">Next</button>
+    </div>
+  </div>
+
+  <!-- ═══════ ONBOARDING: EGG SELECTION ═══════ -->
+  <div id="screen-eggs" class="screen">
+    <div class="onboard-box">
+      <h2 class="onboard-title"><span id="egg-picker-name">Keeper</span>, choose your egg</h2>
+      <div class="egg-grid">
+        <button class="egg-btn" data-element="fire"><span class="egg-dot fire"></span>Fire</button>
+        <button class="egg-btn" data-element="water"><span class="egg-dot water"></span>Water</button>
+        <button class="egg-btn" data-element="grass"><span class="egg-dot grass"></span>Grass</button>
+        <button class="egg-btn" data-element="electric"><span class="egg-dot electric"></span>Electric</button>
+        <button class="egg-btn" data-element="psychic"><span class="egg-dot psychic"></span>Psychic</button>
+        <button class="egg-btn" data-element="spirit"><span class="egg-dot spirit"></span>Spirit</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ ONBOARDING: DRAGON NAMING ═══════ -->
+  <div id="screen-dragon-name" class="screen">
+    <div class="onboard-box">
+      <h2 class="onboard-title">Name your <span id="dragon-element-label">Fire</span> dragonette</h2>
+      <p class="onboard-hint">The egg hatches. A full-sized dragonette emerges. You take the berry and hand-feed it...</p>
+      <input type="text" id="input-dragon-name" class="text-input" placeholder="Dragon name" maxlength="24" autocomplete="off">
+      <button id="btn-dragon-named" class="btn-primary">Bond</button>
+    </div>
+  </div>
+
+  <!-- ═══════ LOAD GAME SCREEN ═══════ -->
+  <div id="screen-load" class="screen">
+    <div class="onboard-box">
+      <h2 class="onboard-title">Saved Adventures</h2>
+      <div id="save-list"></div>
+      <button id="btn-back-welcome" class="btn-secondary">Back</button>
+    </div>
+  </div>
+
+  <!-- ═══════ ADVENTURE SCREEN ═══════ -->
+  <div id="screen-adventure" class="screen">
+    <!-- Status bar -->
+    <div id="status-bar" class="status-bar"></div>
+
+    <!-- Narrative area -->
+    <div id="narrative" class="narrative"></div>
+
+    <!-- Input area -->
+    <div class="input-area">
+      <div class="input-row">
+        <input type="text" id="input-message" class="text-input" placeholder="What do you do?" autocomplete="off">
+        <button id="btn-mic" class="btn-icon" title="Hold to record" aria-label="Record audio">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button id="btn-send" class="btn-icon btn-send" title="Send" aria-label="Send message">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="toolbar">
+        <button id="btn-save" class="btn-sm">Save</button>
+        <button id="btn-new" class="btn-sm">New</button>
+        <select id="select-model" class="select-model">
+          <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+          <option value="claude-sonnet-4-5-20250929" selected>Sonnet 4.5</option>
+          <option value="claude-opus-4-6-20250514">Opus 4.6</option>
+        </select>
+        <a href="/" class="btn-sm link-codex">Codex</a>
+      </div>
+    </div>
+
+    <!-- Discoveries panel (collapsible) -->
+    <div id="discoveries-panel" class="discoveries-panel hidden">
+      <button id="btn-toggle-discoveries" class="btn-sm">Discoveries</button>
+      <div id="discoveries-list" class="discoveries-list hidden"></div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

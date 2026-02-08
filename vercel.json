@@ -1,3 +1,6 @@
 {
-  "outputDirectory": "codex"
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/:path*", "destination": "/codex/:path*" }
+  ]
 }

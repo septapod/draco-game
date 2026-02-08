@@ -5,23 +5,44 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: None — all image work complete for this session.
+**In progress**: None — game page feature complete, ready for deploy + testing.
 
-**Last session** (2026-02-08 — More Images Everywhere):
-- **Generated all 19 icons** via `gpt-image-1`: 7 pillar/world-rules icons + 12 item icons, all transparent PNGs
-- **Pillar icons enlarged**: 120px with golden glow `drop-shadow` (up from 80px)
-- **12 item cards upgraded**: Replaced emoji `<div class="item-icon">` with pixel art `<img class="item-icon-img">` icons (berries, crystals, candy, special berries, dragon scale, potion, turtle meat, badges, breed berry, snake snacks, rabbit meat, rabbit skull)
-- **6 named dragons got portraits**: Added circular `.named-dragon-portrait` images using existing dragon GIFs (power-dragon, grass-dragon, spirit-dragon, psychic-dragon, flash-dragon, spirit-grass-breed) with flex layout
-- **2 racing rule cards got images**: Added `race-drone-pink.gif` to "Modes" and `elemental-clash.gif` to "Powers Allowed" as `box-header-img`
-- **CSS additions**: `.item-icon-img` (64px, glow), `.named-dragon-portrait` (72px circular), `.named-dragon-info`, responsive variants at 768px and 480px
+**Last session** (2026-02-08 — Draco Adventure Game Page):
+- **Built interactive game page** (`codex/game.html`) — AI-narrated D&D-style adventure using Anthropic API
+- **Vercel serverless API** (`api/chat.js`) — streaming proxy to Anthropic Messages API with SSE
+- **Whisper transcription** (`api/transcribe.js`) — voice input via OpenAI Whisper API
+- **Onboarding wizard**: welcome → player count (1-4) → names → egg selection → dragon naming → adventure begins
+- **Full game state management**: save/load to localStorage, auto-save after each turn, conversation history compression at 30+ turns
+- **Condensed Game Bible** (~8K tokens) embedded in system prompt for every AI request
+- **Rich status bar**: per-player HP, dragon info, badges, items, location, turn count — updates live as AI reports state changes
+- **AI state tracking**: `<game_state>` JSON blocks parsed from AI responses to update items, badges, HP, location, flags
+- **New content discovery**: AI wraps invented content in `<new_content>` tags → parsed, stored, toast notification, discoveries panel
+- **Voice input**: hold-to-record mic button → Whisper transcription → text input
+- **Model selector**: Haiku 4.5, Sonnet 4.5 (default), Opus 4.6
+- **Minimal visual design**: dark, text-focused, not attention-grabbing — encourages real-world play over screen time
+- **Added "Play" link** to codex nav bar
+- **Updated `vercel.json`**: rewrites config (API routes + codex static serving)
+- **Added `package.json`** with `@anthropic-ai/sdk` dependency
+
+**Previous session** (2026-02-08 — More Images Everywhere):
+- Generated all 19 icons via `gpt-image-1`: 7 pillar/world-rules icons + 12 item icons
+- 12 item cards upgraded with pixel art icons
+- 6 named dragons got portraits
+- 2 racing rule cards got images
 
 **Next up**:
+- Deploy to Vercel and test game page end-to-end
+- Test voice input (Whisper) on Chrome desktop + mobile
+- Test save/load across browser sessions
 - Update Google Doc to v1.4
 - Further mobile testing and polish
 
 **Decisions / constraints**:
-- Context blowouts were happening during iterative image work — see CLAUDE.md "Session Management" section for new rules
-- Image work should be broken into mini-sessions (prompt editing → generation → review → placement)
+- Minimal UI design — the game should encourage real-world play, not screen addiction
+- Condensed Game Bible in system prompt (not RAG) — source is only ~12-15K tokens, no reason for retrieval complexity
+- Whisper API for transcription (OpenAI key in Vercel env) rather than browser-only Web Speech API
+- No database — localStorage sufficient for personal/family game
+- Context blowouts were happening during iterative image work — see CLAUDE.md "Session Management" section for rules
 
 ---
 
@@ -134,9 +155,29 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Added images to 2 empty racing rule cards (Modes: race-drone-pink, Powers Allowed: elemental-clash)
 - [x] CSS: `.box-icon`, `.detail-icon`, `.item-icon-img`, `.named-dragon-portrait`, `.named-dragon-info` with responsive sizing
 
+## What's Done (interactive game page — v2.0)
+- [x] Game page (`codex/game.html`) with AI narrator using Anthropic Messages API
+- [x] Vercel serverless API (`api/chat.js`) — streaming SSE proxy to Anthropic
+- [x] Whisper transcription endpoint (`api/transcribe.js`) — voice input support
+- [x] Onboarding wizard: welcome → player count → names → egg selection → dragon naming
+- [x] Game state: save/load to localStorage, auto-save, conversation compression
+- [x] Condensed Game Bible (~8K tokens) in system prompt
+- [x] Rich status bar: HP, dragons, badges, items, location, turn count
+- [x] AI state tracking via `<game_state>` JSON blocks
+- [x] New content discovery system with toast notifications and panel
+- [x] Hold-to-record mic button with Whisper transcription
+- [x] Model selector (Haiku 4.5, Sonnet 4.5, Opus 4.6)
+- [x] "Play" link added to codex nav bar
+- [x] `vercel.json` updated with rewrites (API + static)
+- [x] `package.json` with `@anthropic-ai/sdk` dependency
+- [x] Minimal dark UI design — text-focused, not attention-grabbing
+
 ## What's Left
 - [x] Generate new racing-trophy image (blue hologram trophy at finish line)
 - [x] Regenerate Aloha + racing-stadium images with updated character design
+- [ ] Deploy game page to Vercel and test end-to-end
+- [ ] Test voice input (Whisper) on Chrome desktop + mobile
+- [ ] Test save/load across browser sessions
 - [ ] Update Google Doc to v1.4 (sync with Markdown changes)
 - [ ] Future transcript sessions — incorporate new lore from Aza
 - [ ] Open Questions (Section 18) — resolve as Aza provides answers
@@ -151,6 +192,11 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 | `codex/index.html` | The Draco Codex interactive web experience |
 | `codex/style.css` | 8-bit retro stylesheet |
 | `codex/script.js` | Interactivity (scroll animations, cards, matchups, glossary) |
+| `codex/game.html` | Interactive game page — AI-narrated adventures |
+| `codex/game.css` | Game page styles (minimal dark theme) |
+| `codex/game.js` | Game logic: chat, state, audio, onboarding, discoveries |
+| `api/chat.js` | Vercel serverless — Anthropic Messages API streaming proxy |
+| `api/transcribe.js` | Vercel serverless — OpenAI Whisper transcription proxy |
 | `codex/generate-images.js` | DALL-E 3 image generation script (39 prompts) |
 | `codex/generate-icons.js` | gpt-image-1 icon generator (7 transparent icons) |
 
