@@ -229,6 +229,7 @@ img {
     0 0 0 4px var(--bg-dark),
     0 0 0 8px var(--accent-gold),
     0 0 40px rgba(255, 215, 0, 0.3);
+  animation: gentle-float 4s ease-in-out infinite;
 }
 
 .codex-title {
@@ -1774,6 +1775,7 @@ img {
 
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
+  .hero-banner,
   .scene-image,
   .card-front img,
   .character-portrait img {
