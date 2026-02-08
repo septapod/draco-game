@@ -1432,6 +1432,20 @@ const app = {
         document.getElementById('btn-names-done').click();
       }
     });
+
+    // iOS keyboard: resize adventure screen so input stays visible
+    if (window.visualViewport) {
+      const onViewportResize = () => {
+        const adventureScreen = document.getElementById('screen-adventure');
+        if (!adventureScreen.classList.contains('active')) return;
+        adventureScreen.style.height = window.visualViewport.height + 'px';
+        // Scroll narrative to bottom when keyboard opens
+        const narrative = document.getElementById('narrative');
+        narrative.scrollTop = narrative.scrollHeight;
+      };
+      window.visualViewport.addEventListener('resize', onViewportResize);
+      window.visualViewport.addEventListener('scroll', onViewportResize);
+    }
   },
 
   showEggPicker() {
