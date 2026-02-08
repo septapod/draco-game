@@ -59,7 +59,7 @@ Every dragonette belongs to an elemental type that determines its powers, appear
 
 ### Standard Elements
 
-Fire — Red/Orange. Most common and most popular variety. "They breed fire."
+Fire — Red/Orange. Most common and most popular variety. "They breathe fire."
 Water — Blue. Standard element.
 Grass — Green. Strong against Thunder Cloud.
 Electric — Yellow. Similar to Thunder Cloud.
