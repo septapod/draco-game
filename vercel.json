@@ -3,6 +3,7 @@
   "outputDirectory": ".",
   "rewrites": [
     { "source": "/api/:path*", "destination": "/api/:path*" },
+    { "source": "/", "destination": "/codex/index.html" },
     { "source": "/:path*", "destination": "/codex/:path*" }
   ]
 }
