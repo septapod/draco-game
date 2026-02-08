@@ -46,10 +46,40 @@ function initPressStart() {
   if (!btn) return;
 
   btn.addEventListener("click", () => {
-    const target = document.getElementById("world");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
+    // Disable button immediately
+    btn.disabled = true;
+    btn.style.pointerEvents = "none";
+
+    // 1. Flash the button bright gold
+    btn.classList.add("press-start--activated");
+
+    // 2. Burst stars outward from center
+    const starsEl = document.getElementById("stars");
+    if (starsEl) {
+      starsEl.classList.add("stars--burst");
     }
+
+    // 3. Create a bright flash overlay
+    const flash = document.createElement("div");
+    flash.className = "screen-flash";
+    document.body.appendChild(flash);
+
+    // 4. After flash peaks, zoom the title screen away
+    setTimeout(() => {
+      const titleScreen = document.getElementById("title-screen");
+      if (titleScreen) {
+        titleScreen.classList.add("title-screen--departing");
+      }
+    }, 400);
+
+    // 5. Scroll to Chapter I after the drama
+    setTimeout(() => {
+      flash.remove();
+      const target = document.getElementById("world");
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 900);
   });
 }
 

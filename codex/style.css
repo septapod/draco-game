@@ -189,12 +189,13 @@ img {
 
 /* Twinkling Stars */
 .stars-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   z-index: 0;
+  pointer-events: none;
 }
 
 .star {
@@ -296,6 +297,60 @@ img {
   background: rgba(255, 215, 0, 0.15);
   box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
   transform: scale(1.05);
+}
+
+/* PRESS START activation sequence */
+.press-start--activated {
+  animation: btn-flash 0.6s ease-out forwards !important;
+  border-color: #fff !important;
+}
+
+.press-start--activated .blink {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+@keyframes btn-flash {
+  0% { background: transparent; box-shadow: 0 0 0 rgba(255, 215, 0, 0); color: var(--accent-gold); }
+  30% { background: var(--accent-gold); box-shadow: 0 0 80px rgba(255, 215, 0, 0.8); color: #0f0f1a; }
+  100% { background: transparent; box-shadow: 0 0 0 rgba(255, 215, 0, 0); color: transparent; }
+}
+
+/* Stars burst outward on activation */
+.stars--burst .star {
+  animation: star-burst 1s ease-out forwards !important;
+}
+
+@keyframes star-burst {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(2.5); opacity: 1; }
+  100% { transform: scale(1); opacity: var(--brightness, 0.5); }
+}
+
+/* Title screen zooms away */
+.title-screen--departing {
+  animation: title-depart 0.8s ease-in forwards;
+}
+
+@keyframes title-depart {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1.15); opacity: 0; }
+}
+
+/* Full-screen white flash */
+.screen-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at center, rgba(255, 215, 0, 0.6), transparent 70%);
+  animation: flash-pulse 0.9s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes flash-pulse {
+  0% { opacity: 0; }
+  25% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 .blink {
