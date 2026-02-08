@@ -5,24 +5,19 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: None — game page feature complete, ready for deploy + testing.
+**In progress**: None — all changes pushed to main, Vercel deploying.
 
-**Last session** (2026-02-08 — Draco Adventure Game Page):
-- **Built interactive game page** (`codex/game.html`) — AI-narrated D&D-style adventure using Anthropic API
-- **Vercel serverless API** (`api/chat.js`) — streaming proxy to Anthropic Messages API with SSE
-- **Whisper transcription** (`api/transcribe.js`) — voice input via OpenAI Whisper API
-- **Onboarding wizard**: welcome → player count (1-4) → names → egg selection → dragon naming → adventure begins
-- **Full game state management**: save/load to localStorage, auto-save after each turn, conversation history compression at 30+ turns
-- **Condensed Game Bible** (~8K tokens) embedded in system prompt for every AI request
-- **Rich status bar**: per-player HP, dragon info, badges, items, location, turn count — updates live as AI reports state changes
-- **AI state tracking**: `<game_state>` JSON blocks parsed from AI responses to update items, badges, HP, location, flags
-- **New content discovery**: AI wraps invented content in `<new_content>` tags → parsed, stored, toast notification, discoveries panel
-- **Voice input**: hold-to-record mic button → Whisper transcription → text input
-- **Model selector**: Haiku 4.5, Sonnet 4.5 (default), Opus 4.6
-- **Minimal visual design**: dark, text-focused, not attention-grabbing — encourages real-world play over screen time
-- **Added "Play" link** to codex nav bar
-- **Updated `vercel.json`**: rewrites config (API routes + codex static serving)
-- **Added `package.json`** with `@anthropic-ai/sdk` dependency
+**Last session** (2026-02-08 — Polish + Favicon):
+- **Removed "Trophy Variations" rule card** from racing section (per Aza's decision)
+- **Added pixel art dragon favicon** — golden dragon head with flame, generated via gpt-image-1
+  - `favicon-32.png`, `favicon-192.png`, `apple-touch-icon.png` — linked in both `index.html` and `game.html`
+- **Regenerated `racing-trophy.png`** — dragons now race TOWARD the blue trophy (updated prompt, side-view angle)
+- **All changes committed and pushed to main** — 3 commits this session
+
+**Previous session** (2026-02-08 — Draco Adventure Game Page):
+- Built interactive game page (`codex/game.html`) — AI-narrated D&D-style adventure
+- Vercel serverless API (`api/chat.js`, `api/transcribe.js`)
+- Onboarding wizard, game state management, status bar, voice input, model selector
 
 **Previous session** (2026-02-08 — More Images Everywhere):
 - Generated all 19 icons via `gpt-image-1`: 7 pillar/world-rules icons + 12 item icons
