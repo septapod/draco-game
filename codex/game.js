@@ -431,9 +431,16 @@ This helps players track what's canonical vs. newly created.`;
 
 // ── State Management ──
 
+function generateId() {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let id = '';
+  for (let i = 0; i < 8; i++) id += chars[Math.floor(Math.random() * chars.length)];
+  return id;
+}
+
 function createAdventure(players, model) {
   return {
-    id: 'adv_' + Date.now(),
+    id: generateId(),
     name: players.map(p => p.name).join(' & ') + "'s Quest",
     createdAt: new Date().toISOString(),
     lastPlayedAt: new Date().toISOString(),
@@ -1127,6 +1134,8 @@ const app = {
   // Start adventure from state
   startAdventure(state) {
     this.state = state;
+    // Push adventure ID into URL
+    history.replaceState(null, '', '/game/' + state.id);
     document.getElementById('select-model').value = state.model;
     this.renderStatusBar();
     this.renderDiscoveries();
@@ -1215,6 +1224,21 @@ const app = {
   },
 
   init() {
+    // Check URL for adventure ID (e.g. /game/abc12345)
+    const pathMatch = window.location.pathname.match(/\/game\/([a-z0-9]+)/);
+    if (pathMatch) {
+      // Try to find this adventure in localStorage
+      const allAdventures = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
+      const entry = allAdventures.find(e => e.id === pathMatch[1]);
+      if (entry) {
+        const state = loadAdventure(entry.id);
+        if (state) {
+          this.startAdventure(state);
+          // Still attach all event listeners below
+        }
+      }
+    }
+
     // Welcome screen
     document.getElementById('btn-new-adventure').addEventListener('click', () => {
       this.onboardingState = { playerCount: 0, players: [], currentPlayerIndex: 0 };
@@ -1353,6 +1377,7 @@ const app = {
     document.getElementById('btn-new').addEventListener('click', () => {
       if (this.state) saveAdventure(this.state);
       this.state = null;
+      history.replaceState(null, '', '/game.html');
       this.showScreen('screen-welcome');
     });
 

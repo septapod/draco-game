@@ -21,7 +21,7 @@ module.exports = async function handler(req, res) {
     const voiceId = voice_id || "21m00Tcm4TlvDq8ikWAM";
 
     const response = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}/stream`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
       {
         method: "POST",
         headers: {
@@ -34,7 +34,6 @@ module.exports = async function handler(req, res) {
           voice_settings: {
             stability: 0.6,
             similarity_boost: 0.75,
-            style: 0.4,
           },
         }),
       }
@@ -42,22 +41,20 @@ module.exports = async function handler(req, res) {
 
     if (!response.ok) {
       const errText = await response.text();
+      console.error("ElevenLabs API error:", response.status, errText);
       res.status(response.status).json({ error: errText });
       return;
     }
 
-    // Stream the audio back to the client
-    res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Transfer-Encoding", "chunked");
+    // Collect the full audio response as a buffer
+    const arrayBuffer = await response.arrayBuffer();
+    const audioBuffer = Buffer.from(arrayBuffer);
 
-    const reader = response.body.getReader();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      res.write(Buffer.from(value));
-    }
-    res.end();
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Length", audioBuffer.length);
+    res.end(audioBuffer);
   } catch (err) {
+    console.error("TTS handler error:", err);
     if (!res.headersSent) {
       res.status(500).json({ error: err.message });
     }

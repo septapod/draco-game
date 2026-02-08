@@ -5,9 +5,14 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: Deploy and verify fixes.
+**In progress**: Commit and deploy — all code changes complete.
 
-**Last session** (2026-02-08 — Bug Fixes + ElevenLabs TTS):
+**Last session** (2026-02-08 — Transcription Fix + TTS Fix + Unique URLs):
+- **Fix: Transcription endpoint** — rewrote `api/transcribe.js` to use Node 18 built-in `File` + `FormData` (from `node:buffer`) instead of manual multipart boundary construction. The manual approach was fragile and breaking on Vercel. Still uses `formidable` for parsing the incoming upload.
+- **Fix: ElevenLabs TTS** — fixed `api/speak.js`: removed unsupported `style` parameter from `voice_settings` (Flash v2.5 may reject it), switched from `/stream` endpoint to non-streaming `/text-to-speech` endpoint, replaced `response.body.getReader()` streaming with `response.arrayBuffer()` collection (more reliable in serverless), added `Content-Length` header and error logging.
+- **Feature: Unique adventure URLs** — already implemented in previous session (game.js: `generateId()`, `history.replaceState('/game/{id}')`, URL-based auto-load in `init()`; vercel.json: `/game/:id` rewrite). Ready to deploy.
+
+**Previous session** (2026-02-08 — Bug Fixes + ElevenLabs TTS):
 - **Fix 1: Play button** — `initNavigation()` in `script.js` was calling `preventDefault()` on ALL nav tab clicks including the Play link (`href="game.html"`). Added early return for non-hash hrefs so external links navigate normally.
 - **Fix 2: Voice capture MIME type** — replaced hardcoded `audio/webm` with fallback chain (`webm;codecs=opus` → `webm` → `mp4` → `ogg`). Fixes Safari which doesn't support webm recording. Blob type and filename extension now match detected MIME.
 - **Fix 3: Voice capture race condition** — `mouseup` and `mouseleave` could both fire `stopAndTranscribe`. Fixed by clearing `isRecording` flag immediately at top of handler (before async work).
