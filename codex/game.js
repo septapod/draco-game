@@ -670,11 +670,14 @@ const ELEMENT_COLORS = {
 let mediaRecorder = null;
 let audioChunks = [];
 let isRecording = false;
+let recordingMimeType = '';
 
 async function startRecording() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorder = new MediaRecorder(stream, { mimeType: 'audio/webm' });
+    recordingMimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg']
+      .find(t => MediaRecorder.isTypeSupported(t)) || '';
+    mediaRecorder = new MediaRecorder(stream, recordingMimeType ? { mimeType: recordingMimeType } : {});
     audioChunks = [];
 
     mediaRecorder.ondataavailable = (e) => {
@@ -690,6 +693,13 @@ async function startRecording() {
   }
 }
 
+function getRecordingExt() {
+  if (recordingMimeType.includes('webm')) return 'webm';
+  if (recordingMimeType.includes('mp4')) return 'mp4';
+  if (recordingMimeType.includes('ogg')) return 'ogg';
+  return 'webm';
+}
+
 function stopRecording() {
   return new Promise((resolve) => {
     if (!mediaRecorder || mediaRecorder.state !== 'recording') {
@@ -697,10 +707,10 @@ function stopRecording() {
       return;
     }
     mediaRecorder.onstop = () => {
-      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      const blobType = recordingMimeType || 'audio/webm';
+      const blob = new Blob(audioChunks, { type: blobType });
       // Stop all tracks
       mediaRecorder.stream.getTracks().forEach(t => t.stop());
-      isRecording = false;
       resolve(blob);
     };
     mediaRecorder.stop();
@@ -708,8 +718,9 @@ function stopRecording() {
 }
 
 async function transcribeAudio(blob) {
+  const ext = getRecordingExt();
   const formData = new FormData();
-  formData.append('file', blob, 'recording.webm');
+  formData.append('file', blob, `recording.${ext}`);
   formData.append('model', 'whisper-1');
 
   const resp = await fetch('/api/transcribe', {
@@ -871,42 +882,63 @@ const app = {
     }
   },
 
-  // ── Text-to-Speech ──
+  // ── Text-to-Speech (ElevenLabs) ──
   ttsEnabled: false,
-  ttsSynth: window.speechSynthesis || null,
-  ttsVoice: null,
+  ttsAudio: null,
+  ttsSpeaking: false,
 
   initTTS() {
-    if (!this.ttsSynth) return;
-    // Pick a good default voice once voices are loaded
-    const pickVoice = () => {
-      const voices = this.ttsSynth.getVoices();
-      // Prefer a natural-sounding English voice
-      this.ttsVoice = voices.find(v => v.lang.startsWith('en') && v.name.includes('Samantha'))
-        || voices.find(v => v.lang.startsWith('en') && v.localService)
-        || voices.find(v => v.lang.startsWith('en'))
-        || voices[0] || null;
-    };
-    if (this.ttsSynth.getVoices().length > 0) {
-      pickVoice();
-    } else {
-      this.ttsSynth.addEventListener('voiceschanged', pickVoice, { once: true });
+    // No init needed for ElevenLabs — API-based
+  },
+
+  async speak(text) {
+    if (!text) return;
+    this.stopSpeaking();
+
+    // Truncate to ~5000 chars to stay within ElevenLabs limits
+    const truncated = text.length > 5000 ? text.slice(0, 5000) + '...' : text;
+
+    try {
+      this.ttsSpeaking = true;
+      const resp = await fetch('/api/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: truncated }),
+      });
+
+      if (!resp.ok) {
+        console.error('TTS error:', resp.status);
+        this.ttsSpeaking = false;
+        return;
+      }
+
+      const audioBlob = await resp.blob();
+      const url = URL.createObjectURL(audioBlob);
+      this.ttsAudio = new Audio(url);
+      this.ttsAudio.onended = () => {
+        URL.revokeObjectURL(url);
+        this.ttsSpeaking = false;
+        this.ttsAudio = null;
+      };
+      this.ttsAudio.onerror = () => {
+        URL.revokeObjectURL(url);
+        this.ttsSpeaking = false;
+        this.ttsAudio = null;
+      };
+      this.ttsAudio.play();
+    } catch (err) {
+      console.error('TTS error:', err);
+      this.ttsSpeaking = false;
     }
   },
 
-  speak(text) {
-    if (!this.ttsSynth || !text) return;
-    // Cancel any ongoing speech
-    this.ttsSynth.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 1.0;
-    if (this.ttsVoice) utterance.voice = this.ttsVoice;
-    this.ttsSynth.speak(utterance);
-  },
-
   stopSpeaking() {
-    if (this.ttsSynth) this.ttsSynth.cancel();
+    if (this.ttsAudio) {
+      this.ttsAudio.pause();
+      this.ttsAudio.src = '';
+      this.ttsAudio = null;
+    }
+    this.ttsSpeaking = false;
   },
 
   // Stream text character by character
@@ -1326,21 +1358,39 @@ const app = {
 
     // Mic button
     const micBtn = document.getElementById('btn-mic');
+    const flashPlaceholder = (msg) => {
+      const input = document.getElementById('input-message');
+      input.placeholder = msg;
+      setTimeout(() => { input.placeholder = 'What do you do?'; }, 2500);
+    };
+
     micBtn.addEventListener('mousedown', async () => {
       const ok = await startRecording();
-      if (ok) micBtn.classList.add('recording');
+      if (ok) {
+        micBtn.classList.add('recording');
+      } else {
+        flashPlaceholder('Mic access denied');
+      }
     });
     micBtn.addEventListener('touchstart', async (e) => {
       e.preventDefault();
       const ok = await startRecording();
-      if (ok) micBtn.classList.add('recording');
+      if (ok) {
+        micBtn.classList.add('recording');
+      } else {
+        flashPlaceholder('Mic access denied');
+      }
     });
 
     const stopAndTranscribe = async () => {
       if (!isRecording) return;
+      isRecording = false; // clear immediately to prevent double-fire
       micBtn.classList.remove('recording');
       const blob = await stopRecording();
-      if (!blob || blob.size < 1000) return; // too short
+      if (!blob || blob.size < 1000) {
+        flashPlaceholder('Hold longer to record');
+        return;
+      }
 
       const input = document.getElementById('input-message');
       input.placeholder = 'Transcribing...';
@@ -1351,10 +1401,11 @@ const app = {
           input.value = text;
           input.focus();
         }
+        input.placeholder = 'What do you do?';
       } catch (err) {
         console.error('Transcription error:', err);
+        flashPlaceholder('Transcription failed — try again');
       }
-      input.placeholder = 'What do you do?';
     };
 
     micBtn.addEventListener('mouseup', stopAndTranscribe);

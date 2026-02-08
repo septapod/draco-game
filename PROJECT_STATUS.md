@@ -5,9 +5,24 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: None — enhancements committed, ready to push.
+**In progress**: Deploy and verify fixes.
 
-**Last session** (2026-02-08 — Game Enhancements + Deploy Fix):
+**Last session** (2026-02-08 — Bug Fixes + ElevenLabs TTS):
+- **Fix 1: Play button** — `initNavigation()` in `script.js` was calling `preventDefault()` on ALL nav tab clicks including the Play link (`href="game.html"`). Added early return for non-hash hrefs so external links navigate normally.
+- **Fix 2: Voice capture MIME type** — replaced hardcoded `audio/webm` with fallback chain (`webm;codecs=opus` → `webm` → `mp4` → `ogg`). Fixes Safari which doesn't support webm recording. Blob type and filename extension now match detected MIME.
+- **Fix 3: Voice capture race condition** — `mouseup` and `mouseleave` could both fire `stopAndTranscribe`. Fixed by clearing `isRecording` flag immediately at top of handler (before async work).
+- **Fix 4: User error feedback** — mic denied, recording too short, and transcription failed now show messages in the input placeholder (auto-reset after 2.5s) instead of only logging to console.
+- **Fix 5: Transcribe endpoint robustness** — rewrote `api/transcribe.js` to build multipart form-data manually with `Buffer.concat` instead of relying on `Blob`/`FormData` globals (flaky on some Vercel Node.js runtimes).
+- **Fix 6: ElevenLabs TTS** — replaced browser `speechSynthesis` with ElevenLabs API for high-quality narrator voice. New `api/speak.js` endpoint. Uses "Rachel" voice (warm female narrator, `eleven_multilingual_v2` model). Voice toggle button still works.
+
+**Previous session** (2026-02-08 — Deployment Fix):
+- **Root cause**: GitHub-triggered deploys weren't including static files. CLI deploys (`npx vercel --prod`) work correctly because they upload all local files.
+- **Fix 1**: Deployed directly via CLI to restore static files (144 files, 114.5MB)
+- **Fix 2**: Added explicit root rewrite `/` → `/codex/index.html` in `vercel.json` (the `/:path*` wildcard didn't resolve bare `/` to `index.html`)
+- **Fix 3**: Fixed `.vercel/project.json` — was accidentally linked to wrong project ("draco-game" instead of "draco") by `npx vercel ls`
+- **Note**: The `buildCommand: ""` and `outputDirectory: "."` in `vercel.json` are needed for CLI deploys. GitHub-triggered deploys may still need dashboard settings to match.
+
+**Previous session** (2026-02-08 — Game Enhancements + Deploy Fix):
 - **Fixed Vercel 404** — added `buildCommand` and `outputDirectory` to `vercel.json` so static files deploy correctly
 - **Fixed transcription endpoint** — rewrote `api/transcribe.js` to use `formidable` for reliable multipart parsing on Vercel
 - **Removed "iPhone" reference** — changed "hologram iPhone" → "hologram communicator" in Game Bible
@@ -35,7 +50,7 @@
 - 2 racing rule cards got images
 
 **Next up**:
-- Push to main and verify Vercel deployment (static files + API)
+- Verify that GitHub-triggered deploys (pushes to main) also include static files — if not, update Vercel dashboard settings (Output Directory → `.`, Build Command → empty)
 - Test voice input (Whisper) on Chrome desktop + mobile
 - Test save/load across browser sessions
 - Test multi-player with player selector

@@ -154,8 +154,10 @@ function initNavigation() {
   // Smooth scroll on click
   tabs.forEach((tab) => {
     tab.addEventListener("click", (e) => {
+      const href = tab.getAttribute("href");
+      if (!href || !href.startsWith("#")) return; // let external links navigate normally
       e.preventDefault();
-      const target = document.querySelector(tab.getAttribute("href"));
+      const target = document.querySelector(href);
       if (target) {
         const offset = 60; // nav height
         const top = target.getBoundingClientRect().top + window.scrollY - offset;

@@ -1,5 +1,6 @@
 const formidable = require("formidable");
 const { readFileSync } = require("fs");
+const { basename } = require("path");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -24,20 +25,46 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // Read the uploaded file and construct FormData for OpenAI
+    // Read the uploaded file
     const fileBuffer = readFileSync(file.filepath);
-    const blob = new Blob([fileBuffer], { type: file.mimetype || "audio/webm" });
+    const filename = file.originalFilename || "recording.webm";
+    const mimetype = file.mimetype || "audio/webm";
+    const model = fields.model?.[0] || "whisper-1";
 
-    const formData = new FormData();
-    formData.append("file", blob, file.originalFilename || "recording.webm");
-    formData.append("model", fields.model?.[0] || "whisper-1");
+    // Build multipart/form-data manually (avoids Blob/FormData compat issues)
+    const boundary = "----WhisperBoundary" + Date.now();
+    const parts = [];
+
+    // File part
+    parts.push(
+      `--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="file"; filename="${filename}"\r\n` +
+      `Content-Type: ${mimetype}\r\n\r\n`
+    );
+    parts.push(fileBuffer);
+    parts.push("\r\n");
+
+    // Model part
+    parts.push(
+      `--${boundary}\r\n` +
+      `Content-Disposition: form-data; name="model"\r\n\r\n` +
+      `${model}\r\n`
+    );
+
+    parts.push(`--${boundary}--\r\n`);
+
+    // Combine into a single Buffer
+    const body = Buffer.concat(
+      parts.map(p => typeof p === "string" ? Buffer.from(p) : p)
+    );
 
     const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${apiKey}`,
+        "Content-Type": `multipart/form-data; boundary=${boundary}`,
       },
-      body: formData,
+      body,
     });
 
     if (!response.ok) {
