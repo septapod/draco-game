@@ -2,7 +2,7 @@
 
 **Created by: Aza Dixon**
 **Documented by: Brent Dixon**
-**Version: 1.3 — February 2026**
+**Version: 1.4 — February 2026**
 
 ---
 
@@ -72,6 +72,21 @@ Speed — Golden. Extremely fast (top speed 270 mph vs. normal 50 mph). "As fast
 Power — Rainbow. Has ALL element abilities (but weaker versions). Rare and powerful. Top speed matches Speed dragons at 270 mph.
 Thunder Cloud — Unknown (locked). Only obtainable by defeating Draco. The "missing element." There are multiple Thunder Cloud dragons in the world, but the element remains locked until you defeat the boss.
 
+### Advanced Elements
+
+Universe — The dragon's body bears a microscopic map of the entire universe, so small you need a microscope to see individual stars. A tiny compass sits on the map. Can crush shelled creatures with a single hit — unique among all elements.
+Cosmic — The dragon looks like "a map of space." Powers are similar to Universe. Visually distinct: Cosmic = space map appearance; Universe = compass with microscopic star map.
+Egg — The dragon always moves with an egg balanced on top. Egg-based powers can force other dragons back inside their eggs — resetting all their training and taming. "They'll forget that they were even trained."
+
+### Mentioned Elements
+
+Wood — Listed among the elements but no details yet. Locked.
+Starlight — Listed among the elements but no details yet. Locked.
+
+### Locked Elements
+
+There are "like 1000 elements" in the Draco universe — meaning roughly 1000 different types of dragons. Most elements remain locked and undiscovered. These are intentionally mysterious: "locked elements that I'm not supposed to tell you about, their secret." The element system is designed to be open-ended, with new elements continuously discoverable.
+
 ### Custom Element Rule
 
 Every player MUST invent their own unique element for at least one of their dragons. This is a core rule of Draco — creativity and personal expression are built into the game. Custom elements can be serious, silly, powerful, or anything the player imagines.
@@ -93,6 +108,9 @@ Spirit — Dark purple, with a gem on the forehead; spectral, translucent qualit
 Power — Rainbow — all colors swirling together
 Speed — Golden
 Thunder Cloud — Unknown until unlocked
+Universe — Microscopic star map and compass pattern across the body; cosmic dark tones
+Cosmic — Space map pattern: nebulae, constellations, deep space visuals across the body
+Egg — Warm cream and gold tones; always has an ornate egg balanced on top
 Custom — Varies (player-defined)
 
 All dragons breathe colored fire that matches their element color (e.g., a Spirit dragon breathes purple fire).
@@ -136,6 +154,18 @@ Extreme top speed: 270 mph (vs. normal dragon speed of 50 mph). "As fast as a pe
 ### Thunder Cloud
 
 Lightning feathers — when a Thunder Cloud dragon (or a Keeper transformed into one) has these lightly glowing feathers, they can release charged particles. When the particles combine, they generate actual thunder and lightning. This makes the Thunder Cloud element extraordinarily powerful and dangerous — a force of nature made physical.
+
+### Universe
+
+The dragon's body displays a microscopic map of the entire universe — individual stars are only visible under a microscope. A tiny compass sits on the map. The Universe element's signature ability is one-hit shell crush: it can destroy shelled creatures in a single hit, bypassing the usual 100-hit requirement for non-fire attacks. This makes it extraordinarily effective against shelled enemies.
+
+### Cosmic
+
+Similar powers to Universe. The dragon appears as "a map of space" — nebulae, constellations, and deep space visuals across its body. Visually distinct from Universe (space map vs. microscopic compass), but combat capabilities are essentially the same.
+
+### Egg
+
+The dragon always carries an ornate egg balanced on top. Its power forces other dragons back inside their eggs — a complete reset. Any dragon hit by this power forgets all training and taming. "They'll forget that they were even trained... if they were even tamed in the first place." This is one of the most disruptive powers in the game.
 
 ### Silver Moonlight (Special Ability)
 
@@ -190,6 +220,14 @@ Berries are NOT found on eggs outside of the First Choice Stable. In the wild, b
 
 If you have a Power dragon, you can cycle through all element types. Using a spell, you can "put the berry back" — reverting the dragon to its egg state — and then re-bond it as a different element. This gives Power dragon keepers unique flexibility.
 
+### Breed Dragons
+
+Dragons of different elements can breed, producing hybrid dragonettes with combined powers. Known breeds:
+
+**Spirit-Grass Breed** — Combines Spirit element truth-sensing with Grass element powers. Thunder Cloud is weak to it (Grass beats Thunder Cloud) and it can sense truth (Spirit ability). Has a unique attack called "Spirit Army" that drains opponents by 10%. Particularly valuable for the Draco boss fight.
+
+To tame a breed dragon, you need a **Bree Berry** — a special berry specifically for bonding with hybrid dragonettes. Standard berries do not work for breed dragons.
+
 ### Keeper Transformation
 
 The deepest level of bonding in Draco unlocks an extraordinary ability: a Dragonette Keeper can physically transform into one of their dragons.
@@ -224,11 +262,19 @@ Keeper Transformation represents the ultimate expression of the bond between a h
 
 **Dragon Scale** — Dropped only by enemies whose shells are made of pure dragon scale energy (e.g., the Tow Road, the Evil Groundhog, and Draco's evil shell). Can be placed on a dragon to create a force field. Weak to fire.
 
-**Power-Up Potion** — Makes dragons stronger. Tastes like "Sinistea" (a tea that tastes bad). Earned upon becoming a Dragonette Master.
+**Bree Berry** — A special berry used specifically to tame breed/hybrid dragons. Standard berries do not work for breed dragons — you need a Bree Berry to bond with them.
+
+**Snake Snacks** — Obtained from the snake friend encounter. Grants "poisonous powers" to the dragon that consumes them. Note: Poisonous powers are NOT allowed in races.
+
+**Rabbit Meat** — Dropped when Jack O'Rabbit is defeated. Consumable item for dragons.
+
+**Rabbit Skull** — Dropped from Jack O'Rabbit. Can summon 7 skeletons that serve the dragon's master.
+
+**Power-Up Potion** — Makes dragons stronger. Tastes like "Sinistea" — tastes super gross. Earned upon becoming a Dragonette Master.
 
 **Turtle Meat** — Dropped when the Tow Road is defeated. Dragons love it. Acts as a consumable power boost (not a permanent power-up, but nourishment).
 
-**Badges** — Earned by winning races. 10 are required to challenge Draco.
+**Badges** — Earned by winning races. 10 are required to challenge Draco. Different races award different types of trophies (e.g., the Supersonic Pink Trophy).
 
 **Dragon Eye Amulet** — A glowstone artifact that contains the eye of a dragon. It always glows, and the Keeper can summon any bonded dragon to their side at any time. With a deep enough bond, it enables the Keeper to physically transform into one of their dragons.
 
@@ -256,7 +302,15 @@ Races take place in racing stadiums. Stadiums can be built/created by Aloha (the
 
 ### Rules
 
-Each race earns the winner a badge (or sometimes multiple badges). 10 badges are required to challenge Draco. Players can choose Team Mode (cooperative) or Solo Mode. In Team Mode, players can be on the same team or separate teams. Teammates share abilities — if one dragon creates an obstacle, teammates can pass through it. Power dragons and Speed dragons are BANNED from races (they would obviously win due to their overpowered speed and abilities). Obstacles to block other Keepers are allowed. Players CAN use their dragon's elemental powers during races (e.g., creating leaf walls, using illusions).
+Each race earns the winner a badge (or sometimes multiple badges). 10 badges are required to challenge Draco. Players can choose Team Mode (cooperative) or Solo Mode. In Team Mode, players can be on the same team or separate teams. Teammates share abilities — if one dragon creates an obstacle, teammates can pass through it. Power dragons and Speed dragons are BANNED from races (they would obviously win due to their overpowered speed and abilities). **Poisonous powers are also NOT allowed in races** (obtained via snake snacks). Obstacles to block other Keepers are allowed. Players CAN use their dragon's elemental powers during races (e.g., creating leaf walls, using illusions).
+
+### Race Drone
+
+A Race Drone announces races and manages countdowns ("3, 2, 1, begin!"). The Race Drone can change color for special occasions — for example, turning pink for a special race event. The drone also announces the selected trophy for each race.
+
+### Trophy Variations
+
+Different races award different types of trophies. Trophies are named and styled per race event (e.g., the "Supersonic Pink Trophy"). The trophy still appears during the race and flashes — you must fly through it while visible to win.
 
 ### Winning a Race
 
@@ -285,6 +339,22 @@ Normal players: dragon simply cannot battle anymore and is removed. Evil charact
 ### Day/Night Cycle
 
 Most powers work at any time of day. Silver Moonlight is the only *known* time-restricted power — it only works at night. However, there are additional unknown time-restricted powers, including some that only work during the daytime, which are unlocked when a player obtains the Thunder Cloud element. This creates strategic considerations around when to battle.
+
+### Poisonous Powers
+
+Poisonous powers are a special ability obtained by consuming snake snacks from the snake friend encounter. They grant toxic attacks for use in combat and adventure. Poisonous powers are banned from races but are effective in battle.
+
+### Spirit Army
+
+An attack unique to Spirit-Grass breed dragons. Spirit Army drains opponents by 10% per use. It combines the spiritual energy of the Spirit element with the organic power of the Grass element, creating a devastating team-oriented attack.
+
+### Speed Atmosphere
+
+A combat move that launches enemies into space. Particularly effective against enemies that rely on Earth's magnetism for their abilities (such as Jack O'Rabbit clones, which cannot grow without magnetism).
+
+### Clone Mechanic
+
+Some enemies (such as Jack O'Rabbit) can create clones of themselves when attacked. Clones start as tiny babies but grow to adult size in approximately 2 seconds. Growth is powered by Earth's magnetism — clones thrown into space via psychic powers or Speed Atmosphere cannot grow, neutralizing the threat. Ramming clones together deals only ~1% damage per hit. Fire attacks may cause additional clone creation. The Universe element's one-hit shell crush is effective against cloned enemies with defensive features.
 
 ### Elemental Strengths & Weaknesses
 
@@ -320,7 +390,7 @@ Absorbs incoming attacks. Can reflect absorbed attacks back at the attacker. Has
 
 Role: The central robot character of the Draco world. Aloha is a female humanoid robot who serves as race announcer, host, enforcer, engineer, and stadium builder. (Note: Previously referred to by other names including "Kasoka" and "Otto" — these are all the same character. The correct name is Aloha.)
 
-Appearance: Gray-colored humanoid robot; looks like a gray version of "Squeakers" from Hot Wheels.
+Appearance: Looks like "Squeakers' Sister" — a gray version of the Hot Wheels robot "Squeakers," but with distinct features. Head is shaped like an upside-down laundry basket. Body is like a right-side-up laundry basket. Two robotic glowing orange eyes. A very, very long neck. Two arms that cycle up over the head and back down, usually held in front. A normal robot mouth that can expand to pour or put stuff in. Not as big as a human. Gray-colored. Beeps a lot.
 
 Personality: Theatrical, authoritative, communicates via hologram. Owns a "hologram iPhone" — calls people using full holograms.
 
@@ -348,7 +418,7 @@ Requirements: Must have 10 racing badges to challenge it.
 
 ### Wonky Donkers
 
-Role: Recurring villain / comic antagonist. Scheme: Always tries to disguise his Speed or Power dragon (using cardboard) to sneak it into races. Track record: It never works — he's been caught every time. Personality: Bumbling, not very bright, accidentally reveals his own secrets. Comedic trait: Once accidentally announced to everyone that he had a Power dragon when it was supposed to be secret.
+Role: Recurring villain / comic antagonist. Appearance: A skinny guy with huge cheeks, tiny eyebrows ("as small as your eyes"), black hair, and tan skin. NOT Joker-like — no exaggerated grin, face paint, or dramatic villain styling. Scheme: Always tries to disguise his Speed or Power dragon (using cardboard) to sneak it into races. Track record: It never works — he's been caught every time. Personality: Bumbling, not very bright, accidentally reveals his own secrets. Comedic trait: Once accidentally announced to everyone that he had a Power dragon when it was supposed to be secret.
 
 ### The Tow Road
 
@@ -359,6 +429,32 @@ The Tow Road's Dimension: The Tow Road has its own dimension that players can en
 ### The Evil Groundhog
 
 Role: Adventure enemy. Description: A very, very long evil groundhog with a shell and wings. Its shell is made of pure dragon scale energy. Drops: Dragon scale material when defeated. Another shelled enemy where fire attacks are recommended.
+
+### Jack O'Rabbit
+
+Role: Adventure enemy. Description: A giant fuzzy rabbit with a skull for a head. The skull acts as a shield (defensive like a shell). Does NOT have an actual shell on its body. Uses "they" pronouns.
+
+Clone Mechanic: When attacked, Jack O'Rabbit creates clones of itself. Clones start as tiny babies but grow to adult size in approximately 2 seconds. Growth is powered by Earth's magnetism — clones thrown into space cannot grow.
+
+Weaknesses: Speed Atmosphere (launches into space). During daytime, removing it from Earth's magnetic field immediately neutralizes it. Fire attacks work but cause more cloning. Universe element would one-hit it. Ramming clones together deals only ~1% damage.
+
+Drops: Rabbit meat, a dragon skill, and a rabbit skull (which can summon 7 skeletons serving the dragon's master).
+
+### The Finisher
+
+Role: Ally / Team Member. A person (not a dragon) who joins the player's racing team. Male. Named character who races alongside the player.
+
+### Snake Friend
+
+Role: Ally encounter. Found during adventure. Gives the player "poisonous powers" through snake snacks. A friendly snake who offers glowing snacks in a forest clearing.
+
+### Flash Dragon
+
+Role: Named dragon. Owner: Aza. Used primarily for racing. Likely Speed-related given the name. A sleek dragon built for competition.
+
+### Thunder Cloud Dragon — Shell Note
+
+Not all Thunder Cloud dragons have shells. Shells are NOT a universal trait of the Thunder Cloud element — some may have them, but it varies.
 
 ---
 
@@ -477,6 +573,24 @@ A keeper with a deep bond to their dragons received a Dragon Eye Amulet — a gl
 
 **Themes:** Earned trust, transformation, the reward of deep bonds.
 
+#### The Jack O'Rabbit Battle
+
+The keepers encountered Jack O'Rabbit — a giant fuzzy rabbit with a skull for a head. Brent used psychic powers to make a carrot float as a distraction, and the creature took a big bite. When attacked, Jack O'Rabbit began creating clones that grew to adult size in seconds. Brent used psychic powers to throw clones into space, discovering that they need Earth's magnetism to grow. Ramming clones together barely scratched them (1% damage). Fire attacks worked on the body but caused more clones to appear. Finally, the keepers used Speed Atmosphere during daytime to launch Jack O'Rabbit itself into space, defeating it. The loot: rabbit meat, a new dragon skill, and a rabbit skull that can summon skeletons.
+
+**Themes:** Creative problem-solving, environmental mechanics (magnetism/space), learning enemy weaknesses through trial and error.
+
+#### The Spirit-Grass Breed Encounter
+
+Before a race, the keepers discovered a rare Spirit-Grass breed dragon nearby. Aza recognized its strategic value immediately: "Thunder Cloud is weak to it, but also it can tell true." They tamed it with a Bree Berry — a special berry designed for bonding with hybrid dragonettes. The breed dragon combined the Grass element's superiority over Thunder Cloud with the Spirit element's truth-sensing ability, making it an ideal ally for the eventual confrontation with Draco.
+
+**Themes:** Recognizing strategic advantages, breed diversity, preparation before battle.
+
+#### Racing for Five Badges
+
+The team — Aza with Flash Dragon, Brent with Spirit and Psychic dragons, and their ally The Finisher — entered a special race event. The Race Drone changed its color to pink for the occasion. During the race, they used the Spirit-Grass breed's "Spirit Army" attack, which drained opponents by 10%. They won the Supersonic Pink Trophy and earned five badges total toward their goal of becoming Dragonette Masters.
+
+**Themes:** Teamwork, special occasions, hybrid dragon strategy, progression toward mastery.
+
 ---
 
 ## 18. Open Questions & Future Development
@@ -485,7 +599,7 @@ These are areas that need further development as the Draco universe expands.
 
 ### Elements & Powers
 
-What are the full powers for Water, Fire, and Grass beyond basics? How does the custom element creation work mechanically (for the tabletop/video game)? What custom elements have other players invented? What are the unknown time-restricted powers unlocked with the Thunder Cloud element?
+What are the full powers for Water, Fire, and Grass beyond basics? What are the full powers of Universe, Cosmic, and Egg elements beyond what's described? What are the details for Wood and Starlight elements? How does the custom element creation work mechanically (for the tabletop/video game)? What custom elements have other players invented? What are the unknown time-restricted powers unlocked with the Thunder Cloud element? What other breed combinations exist beyond Spirit-Grass?
 
 ### World Building
 
@@ -505,7 +619,7 @@ Can keepers trade dragons? Are there keeper-vs-keeper battles (outside of races)
 
 ### Characters
 
-What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots?
+What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots? What is the Snake Friend's backstory? What is The Finisher's backstory — how did they join the team?
 
 ### Keeper Transformation
 
@@ -523,16 +637,26 @@ Power Up — Power element — Keeper: Aza — Rainbow-colored, Aza's first drag
 Leaf Blade — Grass element — Keeper: Aza — Found and tamed in the wild with grass crystals and candy.
 Spirit Dragon (unnamed) — Spirit element — Keeper: Brent — A dragon who lost its family; adopted Brent as its keeper after he showed it kindness. Wings filled with crystals automatically.
 Psychic Dragon (unnamed) — Psychic element — Keeper: Brent — Brent's first dragon, chosen at the First Choice Stable.
+Flash Dragon — Element unknown (likely Speed-related) — Keeper: Aza — Sleek racing dragon, used in competitive races.
+Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with a Bree Berry. Has "Spirit Army" attack (10% drain). Strong against Thunder Cloud.
 
 ---
 
 ## Appendix: Glossary
 
-**Aloha** — Female humanoid robot who serves as race announcer, host, enforcer, engineer, and stadium builder. Gray-colored, looks like a gray version of Squeakers from Hot Wheels. Communicates via hologram iPhone.
+**Aloha** — Female humanoid robot who serves as race announcer, host, enforcer, engineer, and stadium builder. Looks like "Squeakers' Sister" from Hot Wheels — gray, with upside-down laundry basket head, long neck, orange eyes, expandable mouth. Communicates via hologram iPhone.
 
 **Badge** — Award earned by winning a race; 10 required to challenge Draco.
 
 **Berry Plants** — Vines with ancient markings where berries grow in the wild.
+
+**Bree Berry** — Special berry specifically for taming breed/hybrid dragons. Standard berries do not work for breed dragons.
+
+**Breed Dragon** — A hybrid dragonette produced by breeding two different element types. Example: Spirit-Grass Breed. Requires a Bree Berry to tame.
+
+**Clone Mechanic** — Some enemies (like Jack O'Rabbit) create clones when attacked. Clones grow via Earth's magnetism and can be countered by launching them into space.
+
+**Cosmic Dragon** — Dragon covered in a space map pattern (nebulae, constellations). Powers similar to Universe element.
 
 **Draco** — The Thunder Cloud Dragon who serves as the final boss. Not inherently evil — controlled by a corrupt shell connected to a mysterious evil voice. The game's namesake.
 
@@ -544,6 +668,8 @@ Psychic Dragon (unnamed) — Psychic element — Keeper: Brent — Brent's first
 
 **Dragonette** — A baby dragon in the Draco world. Despite being called "babies," they are full-sized.
 
+**Egg Dragon** — Dragon that always carries an egg on top. Can force other dragons back into their eggs, resetting all training and taming.
+
 **Dragonette Keeper** — The starting rank for humans who bond with, train, and race dragonettes.
 
 **Dragonette Master** — The advanced rank earned by collecting 10 badges and defeating Draco.
@@ -554,23 +680,49 @@ Psychic Dragon (unnamed) — Psychic element — Keeper: Brent — Brent's first
 
 **Evil Groundhog** — A very long evil groundhog with a shell and wings. Shell made of dragon scale energy.
 
+**Flash Dragon** — Aza's named racing dragon. Sleek and fast, used in competitive races.
+
 **First Choice Stable** — The location where new keepers choose their first dragon. The only place where berries are found resting on eggs.
+
+**Jack O'Rabbit** — Giant fuzzy rabbit enemy with a skull for a head. The skull acts as a shield. Creates clones when attacked; clones grow via Earth's magnetism. Drops rabbit meat, a dragon skill, and a rabbit skull.
 
 **Keeper Transformation** — The ability for a Keeper to physically become one of their dragons. The Keeper retains their mind and control. Requires a Dragon Eye Amulet and a deep bond.
 
+**Poisonous Powers** — Special toxic abilities obtained via snake snacks. Usable in combat but banned from races.
+
 **Power Breeding** — Aza's custom ability that degrades opponent attack power by 10 points.
+
+**Rabbit Skull** — Dropped from Jack O'Rabbit. Can summon 7 skeletons that serve the dragon's master.
+
+**Race Drone** — A drone that announces races, manages countdowns, and can change color for special occasions.
 
 **Silver Moonlight** — The only *known* power that only works at nighttime. Other time-restricted powers exist but are unlocked with the Thunder Cloud element.
 
+**Snake Friend** — Ally encounter. A friendly snake who gives players snake snacks, granting poisonous powers.
+
+**Snake Snacks** — Items from the snake friend encounter. Grant poisonous powers to dragons. Banned from races.
+
 **Special Berries** — Rare berries found in the Tow Road's dimension that make dragons slightly faster.
+
+**Speed Atmosphere** — Combat move that launches enemies into space. Counter to enemies relying on Earth's magnetism.
+
+**Spirit Army** — Attack unique to Spirit-Grass breed dragons. Drains opponents by 10% per use.
+
+**Spirit-Grass Breed** — A hybrid dragon combining Spirit and Grass elements. Strong against Thunder Cloud. Has Spirit Army attack.
+
+**Supersonic Pink Trophy** — A named race trophy. Different races award different trophy types.
 
 **The Crystal** — An artifact that reveals a dragon's powers when looked through directly at the dragon.
 
+**The Finisher** — Ally character (person, not dragon) who joins the player's racing team.
+
 **Tow Road** — A giant evil flying turtle enemy. Shell made of dragon scale energy. Has its own dimension where special berries can be found.
 
-**Thunder Cloud Dragon** — A dragon of the Thunder Cloud element. Draco is the most powerful of these, but others exist.
+**Thunder Cloud Dragon** — A dragon of the Thunder Cloud element. Draco is the most powerful of these, but others exist. Not all Thunder Cloud dragons have shells.
 
-**Wonky Donkers** — Bumbling recurring villain who disguises banned dragons with cardboard.
+**Universe Dragon** — Dragon bearing a microscopic map of the entire universe with a tiny compass. Can crush shelled creatures in one hit.
+
+**Wonky Donkers** — Bumbling recurring villain who disguises banned dragons with cardboard. Skinny, huge cheeks, tiny eyebrows, black hair, tan skin.
 
 ---
 

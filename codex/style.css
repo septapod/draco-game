@@ -17,6 +17,9 @@
   --spirit: #4A0072;
   --speed: #FFB800;
   --thundercloud: #1B1464;
+  --universe: #0D1B2A;
+  --cosmic: #1B0A3C;
+  --egg: #D4A574;
   --power-start: #FF4136;
   --power-end: #0074D9;
   --pixel-border-color: #FFD700;
@@ -1555,6 +1558,76 @@ img {
 .footer-sub {
   font-size: 0.7rem !important;
   color: var(--text-muted) !important;
+}
+
+/* ═══════════════════════════════════════════
+   LOCKED ELEMENT CARD
+   ═══════════════════════════════════════════ */
+.locked-element .card-front {
+  filter: brightness(0.4) saturate(0.3);
+  position: relative;
+}
+
+.locked-element .card-front::after {
+  content: "???";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-pixel);
+  font-size: 2rem;
+  color: var(--accent-gold);
+  opacity: 0.7;
+  text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+  z-index: 2;
+}
+
+.locked-element .card-inner:hover,
+.locked-element.flipped .card-inner {
+  transform: none;
+}
+
+/* ═══════════════════════════════════════════
+   BREED DRAGON BORDER
+   ═══════════════════════════════════════════ */
+.spirit-grass-breed {
+  border-image: linear-gradient(135deg, #4A0072, #2ECC40) 1;
+}
+
+/* ═══════════════════════════════════════════
+   ROLE BADGES — ENEMY & ALLY
+   ═══════════════════════════════════════════ */
+.character-role.enemy {
+  color: var(--fire);
+  border: 1px solid var(--fire);
+}
+
+.character-role.ally {
+  color: var(--grass);
+  border: 1px solid var(--grass);
+}
+
+/* ═══════════════════════════════════════════
+   INFO BOX (for breed/locked explanations)
+   ═══════════════════════════════════════════ */
+.info-box {
+  padding: 2rem;
+  margin: 2rem 0;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.info-box h3 {
+  font-family: var(--font-pixel);
+  font-size: 0.7rem;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+.info-box p {
+  font-size: 0.85rem;
+  line-height: 2.2;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
 }
 
 /* ═══════════════════════════════════════════

@@ -4,7 +4,7 @@
 "Draco" is a fantasy adventure game created by Aza Dixon (Brent's son). This project contains the canonical game bible and supporting materials for all Draco adaptations: tabletop game, video game, book series, video series.
 
 ## Key Files
-- `DRACO_Game_Bible.md` — Full Markdown game bible (v1.2)
+- `DRACO_Game_Bible.md` — Full Markdown game bible (v1.4)
 - `PROJECT_STATUS.md` — Current project status and version history
 - Google Doc (formatted version): https://docs.google.com/document/d/1U43DoqDfHp86OGgNRhY5iRNt3Rluk5UmFo8U6oimE8E/edit
 

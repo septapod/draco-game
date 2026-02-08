@@ -10,7 +10,7 @@ An interactive 8-bit web experience that brings the game bible to life with pixe
 
 ## Regenerating Images
 
-The codex includes 28 DALL-E 3 generated pixel art images. To regenerate them:
+The codex includes 39 DALL-E 3 generated pixel art images. To regenerate them:
 
 ```bash
 export OPENAI_API_KEY=your-key-here
@@ -20,13 +20,14 @@ node codex/generate-images.js
 ## Project Structure
 
 ```
-DRACO_Game_Bible.md        Full game bible (Markdown, v1.3)
+DRACO_Game_Bible.md        Full game bible (Markdown, v1.4)
+transcript-notes-v1.4.md   Lore extraction from Feb 7 session
 codex/
   index.html               Interactive web experience
   style.css                8-bit retro theme
   script.js                Scroll animations, cards, glossary
   generate-images.js       DALL-E 3 batch generation script
-  images/                  28 generated pixel art PNGs
+  images/                  39 generated pixel art PNGs
 ```
 
 ## Credits

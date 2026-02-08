@@ -5,9 +5,9 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 
 ## Current Status
 - **GitHub Repo**: [septapod/draco-game](https://github.com/septapod/draco-game) (private)
-- **Google Doc**: Fully formatted v1.3 — [View Doc](https://docs.google.com/document/d/1U43DoqDfHp86OGgNRhY5iRNt3Rluk5UmFo8U6oimE8E/edit?usp=drivesdk)
-- **Markdown**: `DRACO_Game_Bible.md` — complete local copy (v1.3)
-- **The Draco Codex**: Interactive 8-bit web experience at `codex/index.html` — complete with scroll-progress transform animations (no opacity fading), 28 DALL-E 3 generated images (18 existing + 10 new prompts), readable Space Mono body font, dragon card flips, element matchup chart, story accordion, glossary search
+- **Google Doc**: Fully formatted v1.3 — [View Doc](https://docs.google.com/document/d/1U43DoqDfHp86OGgNRhY5iRNt3Rluk5UmFo8U6oimE8E/edit?usp=drivesdk) (needs v1.4 update)
+- **Markdown**: `DRACO_Game_Bible.md` — complete local copy (v1.4)
+- **The Draco Codex**: Interactive 8-bit web experience at `codex/index.html` — v1.4 with 39 DALL-E 3 image prompts (28 existing + 11 new/replaced), 3 new elements (Universe, Cosmic, Egg), 2 locked elements (Wood, Starlight), breed dragons, Jack O'Rabbit enemy, 3 new story moments, 18 new glossary terms
 
 ## What's Done
 - [x] Initial doc created from transcript (v1.0)
@@ -34,9 +34,28 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
   - Removed all scroll-linked opacity/fading effects (chapter title fade, codex title fade, section transition fade, word-by-word text reveal) — scroll animations now use transforms only, keeping all content fully readable while scrolling
   - Increased spacing: chapter padding, content max-width, component padding
   - Headings stay in "Press Start 2P" with tighter line-height; body copy uses wider line-height (2.4)
+- [x] v1.4 lore update from Feb 7 Aza transcript session
+  - 3 new elements: Universe, Cosmic, Egg (with Advanced badge)
+  - 2 locked elements: Wood, Starlight (silhouette "???" style)
+  - "1000 elements" concept and locked elements system
+  - Breed Dragons mechanic (Spirit-Grass hybrid, Bree Berry taming)
+  - Jack O'Rabbit enemy (skull head, clones, magnetism growth, space counter)
+  - New allies: Snake Friend, The Finisher, Flash Dragon
+  - 4 new items: Bree Berry, Snake Snacks, Rabbit Meat, Rabbit Skull
+  - Racing: poisonous powers banned, Race Drone, trophy variations
+  - Combat: Poisonous Powers, Spirit Army, Speed Atmosphere, Clone Mechanic
+  - 3 new stories: Jack O'Rabbit Battle, Spirit-Grass Breed Encounter, Racing for Five Badges
+  - Appearance corrections: Wonky Donkers (skinny, huge cheeks, tiny eyebrows, black hair, tan skin), Aloha (Squeakers-sister: laundry basket head, orange eyes, long neck, expandable mouth)
+  - Power-Up Potion: "tastes super gross"
+  - Thunder Cloud shell note: "not all have shells"
+  - 11 new/replaced DALL-E 3 image prompts
+  - ~18 new glossary terms
+  - 4 new matchup chart entries (Universe, Cosmic, Egg, Spirit-Grass)
+  - 5 new open questions
 
 ## What's Left
-- [ ] Run `node generate-images.js` to generate the 10 new images (requires OPENAI_API_KEY)
+- [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
+- [ ] Update Google Doc to v1.4 (sync with Markdown changes)
 - [ ] Future transcript sessions — incorporate new lore from Aza
 - [ ] Open Questions (Section 18) — resolve as Aza provides answers
 - [ ] Potential adaptations: tabletop rules, video game design doc, story outline
@@ -44,12 +63,13 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 ## Key Files
 | File | Description |
 |------|-------------|
-| `DRACO_Game_Bible.md` | Full Markdown version of the game bible |
-| Google Doc (linked above) | Formatted canonical version |
+| `DRACO_Game_Bible.md` | Full Markdown version of the game bible (v1.4) |
+| `transcript-notes-v1.4.md` | Archived lore extraction from Feb 7 transcript |
+| Google Doc (linked above) | Formatted canonical version (needs v1.4 sync) |
 | `codex/index.html` | The Draco Codex interactive web experience |
 | `codex/style.css` | 8-bit retro stylesheet |
 | `codex/script.js` | Interactivity (scroll animations, cards, matchups, glossary) |
-| `codex/generate-images.js` | DALL-E 3 image generation script |
+| `codex/generate-images.js` | DALL-E 3 image generation script (39 prompts) |
 
 ## Version History
 | Version | Date | Changes |
@@ -58,3 +78,4 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 | 1.1 | 2026-02-05 | Added Dragon Stone Amulet, Keeper Transformation, Thunder Cloud lightning feathers |
 | 1.2 | 2026-02-05 | Removed Spirit Rangers references; amulet origin left mysterious |
 | 1.3 | 2026-02-05 | Aza review session: 29 changes — boss named Draco, Spirit/Ghost merged, Dragon Eye Amulet rename, crystal wing taming mechanic, Aloha robot consolidation, Evil Groundhog enemy, Draco's evil shell lore, Tow Road dimension, elemental cycle, speed/berry/race corrections |
+| 1.4 | 2026-02-07 | Aza lore session: 3 new elements (Universe, Cosmic, Egg), 2 locked (Wood, Starlight), breed dragons, Jack O'Rabbit enemy, Snake Friend/Finisher allies, 4 new items, racing/combat mechanics, 3 new stories, appearance corrections (Wonky Donkers, Aloha), 11 new images |

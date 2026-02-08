@@ -2,11 +2,11 @@
 
 /**
  * Draco Codex — DALL-E 3 Image Generator
- * Generates 28 8-bit pixel art illustrations for The Draco Codex.
+ * Generates 39 8-bit pixel art illustrations for The Draco Codex.
  *
  * Usage: OPENAI_API_KEY=sk-... node generate-images.js
  *
- * Cost estimate: ~$1.12 (28 images × $0.04 each at standard quality)
+ * Cost estimate: ~$1.56 (39 images × $0.04 each at standard quality)
  */
 
 const fs = require("fs");
@@ -71,11 +71,11 @@ const images = [
   },
   {
     filename: "aloha.png",
-    prompt: `${STYLE_PREFIX} friendly gray female humanoid robot character, theatrical personality, holding a holographic phone projecting a hologram, standing in front of a dragon racing stadium, robotic but expressive, futuristic yet retro design`,
+    prompt: `${STYLE_PREFIX} gray female humanoid robot character called Squeakers Sister, upside-down laundry basket for a head, two glowing orange robotic eyes, very very long neck, body shaped like a right-side-up laundry basket, two arms that cycle up over the head and back down held in front, expandable robot mouth, gray colored, smaller than human, standing in front of a dragon racing stadium, theatrical personality`,
   },
   {
     filename: "wonky-donkers.png",
-    prompt: `${STYLE_PREFIX} bumbling comedic villain character holding pieces of cardboard, trying to disguise something, goofy expression, sneaky but incompetent look, comically obvious disguise materials, cartoon villain aesthetic`,
+    prompt: `${STYLE_PREFIX} bumbling comedic villain character, skinny guy with huge puffy cheeks, tiny tiny eyebrows as small as his eyes, black hair, tan skin, holding pieces of cardboard, trying to disguise something, goofy expression, sneaky but incompetent look, NOT Joker-like, cartoon villain aesthetic`,
   },
   {
     filename: "tow-road.png",
@@ -140,6 +140,46 @@ const images = [
   {
     filename: "elemental-clash.png",
     prompt: `${STYLE_PREFIX} fire water and grass elements colliding in a triangle of energy, three streams of elemental power meeting at a central point creating a brilliant explosion, red flames blue water and green leaves swirling together, elemental cycle visualization`,
+  },
+  {
+    filename: "jack-o-rabbit.png",
+    prompt: `${STYLE_PREFIX} giant menacing rabbit creature with a skull for a head, fuzzy rabbit body, the skull head acts as a shield, no shell on body, intimidating yet slightly comical, glowing eyes in skull sockets, standing in a grassy field, boss enemy appearance`,
+  },
+  {
+    filename: "universe-dragon.png",
+    prompt: `${STYLE_PREFIX} dragon with a microscopic universe map pattern across its entire body, tiny stars and galaxies visible on its scales, a small glowing compass on its chest, deep dark cosmic blue tones, mysterious and vast feeling, space and stars within its form`,
+  },
+  {
+    filename: "cosmic-dragon.png",
+    prompt: `${STYLE_PREFIX} dragon covered in a space map pattern, nebulae and constellations visible across its scales, deep purple and blue cosmic colors, stars and galaxies swirling on its body, ethereal and vast, different from universe dragon with more visible space imagery`,
+  },
+  {
+    filename: "egg-dragon.png",
+    prompt: `${STYLE_PREFIX} dragon with an ornate glowing egg balanced on top of its head, warm cream and gold tones, the egg is decorative and magical looking, gentle but powerful dragon, nurturing appearance, soft warm lighting, the egg pulses with magical energy`,
+  },
+  {
+    filename: "spirit-grass-breed.png",
+    prompt: `${STYLE_PREFIX} hybrid dragon with ghostly translucent purple body mixed with vine and leaf patterns growing across it, green forehead gem glowing, combination of spectral spirit energy and natural grass elements, purple and green color scheme, mystical forest setting`,
+  },
+  {
+    filename: "flash-dragon.png",
+    prompt: `${STYLE_PREFIX} sleek aerodynamic racing dragon with lightning bolt patterns across its body, motion blur lines behind it, built for speed, metallic sheen, dynamic flying pose, golden and electric blue highlights, racing through a stadium track`,
+  },
+  {
+    filename: "snake-friend.png",
+    prompt: `${STYLE_PREFIX} friendly colorful snake in a forest clearing, offering small glowing snacks from its coils, warm and inviting expression, magical glowing food items, peaceful forest setting with dappled light, ally character, non-threatening and helpful`,
+  },
+  {
+    filename: "race-drone-pink.png",
+    prompt: `${STYLE_PREFIX} small hovering pink racing drone robot with tiny speakers and a holographic display, floating above a race track, glowing pink color, announcing a race countdown, futuristic yet retro design, stadium background with cheering crowds`,
+  },
+  {
+    filename: "jack-o-rabbit-battle.png",
+    prompt: `${STYLE_PREFIX} epic battle scene with a giant skull-headed rabbit creating clone copies of itself, small baby rabbit clones growing rapidly, a psychic dragon using telekinesis to throw clones into the sky toward space, dramatic action composition, magical energy effects`,
+  },
+  {
+    filename: "spirit-grass-breed-encounter.png",
+    prompt: `${STYLE_PREFIX} a rare hybrid dragon with purple ghostly body and green vine patterns being discovered in a meadow, a small glowing berry being offered to it, sense of wonder and discovery, forest edge setting, magical particles in the air`,
   },
 ];
 

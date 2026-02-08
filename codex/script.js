@@ -356,7 +356,27 @@ function initMatchupChart() {
     thundercloud: {
       strong: ["Power"],
       weak: ["Grass"],
-      notes: "Lightning feathers generate real thunder and lightning. Only obtainable by defeating Draco. Unlocks unknown time-restricted powers.",
+      notes: "Lightning feathers generate real thunder and lightning. Only obtainable by defeating Draco. Unlocks unknown time-restricted powers. Not all Thunder Cloud dragons have shells.",
+    },
+    universe: {
+      strong: ["Shelled Enemies (one-hit crush)"],
+      weak: [],
+      notes: "Body bears a microscopic universe map with a tiny compass. Can crush shelled creatures in a single hit — unique among all elements.",
+    },
+    cosmic: {
+      strong: ["Shelled Enemies (one-hit crush)"],
+      weak: [],
+      notes: "Looks like a map of space. Powers similar to Universe. Visually distinct: Cosmic = space map, Universe = compass.",
+    },
+    egg: {
+      strong: ["All dragons (forces reset to egg)"],
+      weak: [],
+      notes: "Always carries an egg on top. Forces other dragons back inside their eggs — they forget ALL training and taming. A complete reset.",
+    },
+    spiritgrass: {
+      strong: ["Thunder Cloud"],
+      weak: ["Fire"],
+      notes: "Spirit-Grass breed. Combines Spirit truth-sensing with Grass powers. Has 'Spirit Army' attack (drains 10%). Tamed with a Bree Berry.",
     },
   };
 
