@@ -210,7 +210,7 @@ You CAN feed a berry before placing all the crystals, but the resulting bond wil
 
 ### Bonding a Lost Dragon (Narrative Moment)
 
-In one notable story, a wild Spirit dragon who had lost its family approached Brent — the first kind person it encountered — wanting to be adopted. Because Brent showed the dragon kindness and offered it a family, its wings automatically filled with crystals. This special mechanic applies to any dragon that has lost its family: if you show it kindness and offer it a home, its crystal slots fill on their own. Spirit dragons in particular crave family and companionship and are described as being "more like a dog" — loyal, affectionate, dependent.
+In one notable story, a specific wild Spirit dragon who had lost its family approached Brent — the first kind person it encountered — wanting to be adopted. This particular dragon craved family and companionship and was described as being "more like a dog" — loyal, affectionate, dependent. Because Brent showed the dragon kindness and offered it a home, its wings automatically filled with crystals. This special mechanic applies to any dragon that has lost its family: if you show it kindness and offer it a home, its crystal slots fill on their own. Note: this is the story of one specific Spirit dragon — not a trait shared by all Spirit dragons.
 
 ### Where to Find Berries
 
@@ -466,7 +466,7 @@ Dragonettes hatch from eggs at full adult size. Despite being "babies," they are
 
 ### Dragon Society
 
-Fire dragons are the most common variety — described as the "most popular." Spirit dragons crave family and companionship; they seek out keepers. Dragons can protect each other in battle (cooperative defense). There is an organized racing circuit with stadiums, an announcer (Aloha), and rules.
+Fire dragons are the most common variety — described as the "most popular." Dragons can protect each other in battle (cooperative defense). There is an organized racing circuit with stadiums, an announcer (Aloha), and rules.
 
 ### Keeper-Dragon Bond
 
@@ -545,7 +545,7 @@ A villain disguised a Speed dragon as a regular dragon using cardboard to sneak 
 
 #### The Spirit Dragon Who Wanted a Family
 
-A wild Spirit dragon who had lost its family approached Brent — the first kind person it saw — wanting to be adopted. Because Brent showed it kindness and offered it a home, the dragon's wing crystal slots filled automatically. Spirit dragons crave family and companionship, and by caring for this Spirit dragon, Brent earned its trust, and it chose to stay.
+One specific wild Spirit dragon who had lost its family approached Brent — the first kind person it saw — wanting to be adopted. This particular dragon craved family and companionship. Because Brent showed it kindness and offered it a home, the dragon's wing crystal slots filled automatically. By caring for this Spirit dragon, Brent earned its trust, and it chose to stay. (Note: this is the story of one individual dragon — craving family is not a general trait of Spirit dragons.)
 
 **Themes:** Found family, compassion, the emotional bond between keeper and dragon.
 
