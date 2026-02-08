@@ -65,10 +65,10 @@ Grass — Green. Strong against Thunder Cloud.
 Electric — Yellow. Similar to Thunder Cloud.
 Psychic — Purple with pink stripes. Mind powers: telekinesis, making things vanish, unlocking doors.
 Spirit — Dark purple. Can sense truth, create illusions, fire a beam from a forehead gem. Also encompasses ghost and "Halloween" powers (spooky-themed abilities). Spirit and Ghost are the same element.
-Speed — Golden. Extremely fast (top speed 270 mph vs. normal 50 mph). "As fast as a peregrine falcon."
 
 ### Special Elements
 
+Speed — Golden. Extremely fast (top speed 270 mph vs. normal 50 mph). "As fast as a peregrine falcon."
 Power — Rainbow. Has ALL element abilities (but weaker versions). Rare and powerful. Top speed matches Speed dragons at 270 mph.
 Thunder Cloud — Unknown (locked). Only obtainable by defeating Draco. The "missing element." There are multiple Thunder Cloud dragons in the world, but the element remains locked until you defeat the boss.
 

@@ -79,6 +79,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Typo fix: "They breed fire" → "They breathe fire" in game bible and codex
 - [x] Thunder Cloud badge changed from "Locked" to "Special / Locked"
 - [x] Wood and Starlight badges changed from "Locked" to "Advanced / Locked"; removed locked-element dimming so card art is visible
+- [x] Speed reclassified from Standard to Special (badge + game bible)
 
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
