@@ -250,6 +250,30 @@ body {
   padding: 0.2rem 0.4rem;
 }
 .save-delete:hover { color: var(--fire); }
+.save-archive, .save-unarchive {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-family: var(--font-pixel);
+  font-size: 0.4rem;
+  padding: 0.2rem 0.5rem;
+  transition: color 0.2s;
+}
+.save-archive:hover { color: var(--electric); }
+.save-unarchive:hover { color: var(--grass); }
+.archived-entry {
+  opacity: 0.6;
+  border-style: dashed;
+}
+.archived-entry:hover { opacity: 0.85; }
+#archived-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
 .no-saves {
   color: var(--text-dim);
   font-size: 0.8rem;
@@ -356,6 +380,33 @@ body {
   font-size: 0.8rem;
   font-style: italic;
   text-align: center;
+}
+
+/* Narrative scene images */
+.narrative-image {
+  display: block;
+  max-width: 200px;
+  width: 100%;
+  margin: 0.5rem auto 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  opacity: 0.85;
+}
+
+/* Player selector */
+.select-player {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 0.3rem 0.4rem;
+  cursor: pointer;
+  outline: none;
+  flex-shrink: 0;
+}
+.select-player option {
+  background: var(--bg);
+  color: var(--text);
 }
 
 /* Input area */

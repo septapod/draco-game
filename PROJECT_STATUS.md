@@ -5,9 +5,18 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: None — all changes pushed to main, Vercel deploying.
+**In progress**: None — enhancements committed, ready to push.
 
-**Last session** (2026-02-08 — Polish + Favicon):
+**Last session** (2026-02-08 — Game Enhancements + Deploy Fix):
+- **Fixed Vercel 404** — added `buildCommand` and `outputDirectory` to `vercel.json` so static files deploy correctly
+- **Fixed transcription endpoint** — rewrote `api/transcribe.js` to use `formidable` for reliable multipart parsing on Vercel
+- **Removed "iPhone" reference** — changed "hologram iPhone" → "hologram communicator" in Game Bible
+- **Added player selector** — dropdown in input area for multi-player games (hidden for solo)
+- **Wired TTS toggle** — Voice button now toggles narrator speech on/off
+- **Fixed streaming display** — no longer re-parses images or triggers TTS on every streamed chunk; `renderNarratorFinal` only called once after stream completes
+- **Added CSS** — `.narrative-image`, `.save-archive`/`.save-unarchive`, `.archived-entry`, `.select-player` styles
+
+**Previous session** (2026-02-08 — Polish + Favicon):
 - **Removed "Trophy Variations" rule card** from racing section (per Aza's decision)
 - **Added pixel art dragon favicon** — golden dragon head with flame, generated via gpt-image-1
   - `favicon-32.png`, `favicon-192.png`, `apple-touch-icon.png` — linked in both `index.html` and `game.html`
@@ -26,9 +35,10 @@
 - 2 racing rule cards got images
 
 **Next up**:
-- Deploy to Vercel and test game page end-to-end
+- Push to main and verify Vercel deployment (static files + API)
 - Test voice input (Whisper) on Chrome desktop + mobile
 - Test save/load across browser sessions
+- Test multi-player with player selector
 - Update Google Doc to v1.4
 - Further mobile testing and polish
 

@@ -78,6 +78,10 @@
     <div class="onboard-box">
       <h2 class="onboard-title">Saved Adventures</h2>
       <div id="save-list"></div>
+      <div id="archived-section" class="hidden">
+        <h3 class="onboard-title" style="font-size:0.6rem; margin-top:1.5rem;">Archived</h3>
+        <div id="archived-list"></div>
+      </div>
       <button id="btn-back-welcome" class="btn-secondary">Back</button>
     </div>
   </div>
@@ -93,6 +97,7 @@
     <!-- Input area -->
     <div class="input-area">
       <div class="input-row">
+        <select id="select-player" class="select-player hidden"></select>
         <input type="text" id="input-message" class="text-input" placeholder="What do you do?" autocomplete="off">
         <button id="btn-mic" class="btn-icon" title="Hold to record" aria-label="Record audio">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -112,6 +117,7 @@
       <div class="toolbar">
         <button id="btn-save" class="btn-sm">Save</button>
         <button id="btn-new" class="btn-sm">New</button>
+        <button id="btn-tts" class="btn-sm" title="Toggle narrator voice">Voice: Off</button>
         <select id="select-model" class="select-model">
           <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
           <option value="claude-sonnet-4-5-20250929" selected>Sonnet 4.5</option>
