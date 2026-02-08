@@ -7,7 +7,7 @@
   --bg-dark: #0f0f1a;
   --bg-chapter: #12122a;
   --text-light: #e8e8e8;
-  --text-muted: #a0a0b0;
+  --text-muted: #c0c0d0;
   --accent-gold: #FFD700;
   --fire: #FF4136;
   --water: #0074D9;
@@ -343,10 +343,10 @@ img {
 
 .nav-tab {
   font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-decoration: none;
-  padding: 0.8rem 1rem;
+  padding: 0.8rem 1.2rem;
   white-space: nowrap;
   position: relative;
   transition: color 0.3s ease;
@@ -617,14 +617,14 @@ img {
 
 .card-front h3 {
   font-family: var(--font-pixel);
-  font-size: 0.8rem;
-  color: var(--element-color, var(--text-light));
+  font-size: 0.9rem;
+  color: var(--element-text-color, var(--element-color, var(--text-light)));
   margin-bottom: 0.5rem;
 }
 
 .element-badge {
   font-family: var(--font-pixel);
-  font-size: 0.45rem;
+  font-size: 0.65rem;
   color: white;
   padding: 0.25rem 0.75rem;
   display: inline-block;
@@ -642,33 +642,33 @@ img {
 
 .card-back h3 {
   font-family: var(--font-pixel);
-  font-size: 0.7rem;
-  color: var(--element-color, var(--accent-gold));
+  font-size: 0.85rem;
+  color: var(--element-text-color, var(--element-color, var(--accent-gold)));
   margin-bottom: 0.75rem;
 }
 
 .card-color {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
   font-style: italic;
 }
 
 .card-desc {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 2;
   color: var(--text-light);
   margin-bottom: 0.75rem;
 }
 
 .card-weak {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--fire);
   margin-bottom: 0.5rem;
 }
 
 .card-note {
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-style: italic;
   margin-top: auto;
@@ -825,7 +825,7 @@ img {
 
 .narrative-box h4 {
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   color: var(--accent-gold);
   margin-bottom: 1rem;
 }
@@ -870,13 +870,13 @@ img {
 
 .item-card h3 {
   font-family: var(--font-pixel);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   color: var(--accent-gold);
   margin-bottom: 0.5rem;
 }
 
 .item-card p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 2;
   color: var(--text-muted);
 }
@@ -936,7 +936,7 @@ img {
 
 .rule-card h3 {
   font-family: var(--font-pixel);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   color: var(--speed);
   margin-bottom: 0.75rem;
 }
@@ -983,7 +983,7 @@ img {
 }
 
 .banned-item p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
 }
 
@@ -1026,11 +1026,11 @@ img {
 
 .matchup-btn {
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   padding: 0.5rem 1rem;
   background: rgba(255, 255, 255, 0.05);
   border: 2px solid var(--el-color);
-  color: var(--el-color);
+  color: var(--el-text-color, var(--el-color));
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -1038,7 +1038,7 @@ img {
 .matchup-btn:hover,
 .matchup-btn.active {
   background: var(--el-color);
-  color: var(--bg-dark);
+  color: white;
   box-shadow: 0 0 15px var(--el-color);
 }
 
@@ -1050,7 +1050,7 @@ img {
 }
 
 .matchup-placeholder {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
 }
 
@@ -1070,7 +1070,7 @@ img {
 }
 
 .matchup-result .matchup-notes {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   font-style: italic;
 }
@@ -1118,8 +1118,8 @@ img {
 
 .cycle-node span {
   font-family: var(--font-pixel);
-  font-size: 0.45rem;
-  color: var(--node-color);
+  font-size: 0.65rem;
+  color: var(--node-text-color, var(--node-color));
 }
 
 .cycle-arrow {
@@ -1128,7 +1128,7 @@ img {
 }
 
 .cycle-caption {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   line-height: 2;
 }
@@ -1183,7 +1183,7 @@ img {
 
 .character-role {
   font-family: var(--font-pixel);
-  font-size: 0.45rem;
+  font-size: 0.6rem;
   padding: 0.2rem 0.75rem;
   display: inline-block;
   margin-bottom: 1rem;
@@ -1262,7 +1262,7 @@ img {
 
 .path-node h3 {
   font-family: var(--font-pixel);
-  font-size: 0.65rem;
+  font-size: 0.8rem;
   color: var(--accent-gold);
   margin-bottom: 0.5rem;
 }
@@ -1308,8 +1308,8 @@ img {
 
 .transformation-info h3 {
   font-family: var(--font-pixel);
-  font-size: 0.7rem;
-  color: var(--spirit);
+  font-size: 0.85rem;
+  color: #D9A8FF;
   margin-bottom: 1rem;
 }
 
@@ -1337,7 +1337,7 @@ img {
 .story-toggle {
   width: 100%;
   font-family: var(--font-pixel);
-  font-size: 0.55rem;
+  font-size: 0.7rem;
   color: var(--accent-gold);
   background: transparent;
   border: none;
@@ -1385,7 +1385,7 @@ img {
 .story-theme {
   color: var(--text-muted) !important;
   font-style: italic;
-  font-size: 0.75rem !important;
+  font-size: 0.85rem !important;
 }
 
 /* ═══════════════════════════════════════════
@@ -1421,14 +1421,14 @@ img {
 
 .secret-card h3 {
   font-family: var(--font-pixel);
-  font-size: 0.6rem;
-  color: var(--spirit);
+  font-size: 0.75rem;
+  color: #D9A8FF;
   margin-bottom: 1rem;
 }
 
 .secret-card p,
 .secret-card li {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 2.2;
   color: var(--text-muted);
 }
@@ -1465,13 +1465,13 @@ img {
 .question-icon {
   font-family: var(--font-pixel);
   font-size: 1.2rem;
-  color: var(--spirit);
+  color: #C77DFF;
   min-width: 2rem;
   text-align: center;
 }
 
 .question-card p {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   line-height: 2;
   color: var(--text-muted);
 }
@@ -1556,7 +1556,7 @@ img {
 }
 
 .footer-sub {
-  font-size: 0.7rem !important;
+  font-size: 0.8rem !important;
   color: var(--text-muted) !important;
 }
 
@@ -1669,8 +1669,8 @@ img {
   }
 
   .nav-tab {
-    font-size: 0.4rem;
-    padding: 0.6rem 0.6rem;
+    font-size: 0.6rem;
+    padding: 0.6rem 0.7rem;
   }
 
   .three-pillars {

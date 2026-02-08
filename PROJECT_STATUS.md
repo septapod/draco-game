@@ -53,6 +53,27 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
   - 4 new matchup chart entries (Universe, Cosmic, Egg, Spirit-Grass)
   - 5 new open questions
 
+## What's Done (accessibility — v1.4.1)
+- [x] WCAG AA text contrast & readability overhaul for the Codex
+  - **Dark element h3 text colors** — bright overrides via `--element-text-color` CSS variable:
+    - Spirit: `#D9A8FF`, Thunder Cloud: `#A9A2FF`, Universe: `#8CC8FF`, Cosmic: `#C4A8FF`, Wood: `#E8CDB0`, Starlight: `#FFFFFF`
+  - **Dark element badge backgrounds** — swapped invisible dark badges for visible mid-tone backgrounds:
+    - Spirit: `#9B59B6`, Thunder Cloud: `#6C63FF`, Universe: `#4A90D9`, Cosmic: `#8B6FC0`, Wood: `#A07855`
+    - Universe badge text set to dark `#0f0f1a`; Grass badge text set to dark `#0f0f1a`
+  - **Matchup buttons** — dark elements get `--el-text-color` overrides; active/hover state uses white text
+  - **`--text-muted` brightened** from `#a0a0b0` → `#c0c0d0` (affects ~20 selectors: card notes, nav tabs, cycle captions, question cards, story themes, etc.)
+  - **`.question-icon`** color from invisible `#4A0072` → bright `#C77DFF`
+  - **`.secret-card h3`** and **`.transformation-info h3`** from invisible `var(--spirit)` → bright `#D9A8FF`
+  - **Global font-size increase** — bumped all pixel-font and body text sizes up 0.1-0.15rem across the entire stylesheet:
+    - Nav tabs: 0.55→0.75rem (desktop), 0.4→0.6rem (mobile)
+    - Card front h3: 0.8→0.9rem, card back h3: 0.7→0.85rem
+    - Element badges: 0.45→0.65rem, character roles: 0.45→0.6rem
+    - Story toggles: 0.55→0.7rem, matchup buttons: 0.65→0.75rem
+    - Cycle nodes: 0.45→0.65rem, secret/item/rule h3s: 0.6→0.75rem
+    - Narrative h4s and path node h3s: 0.65→0.8rem
+    - Card desc/weak/question text: 0.8→0.9rem, card notes: 0.7→0.8rem
+    - Story themes, cycle captions, matchup notes: 0.75→0.85rem
+
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
 - [ ] Update Google Doc to v1.4 (sync with Markdown changes)
