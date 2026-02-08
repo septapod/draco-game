@@ -77,6 +77,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Lore correction: Spirit dragons do NOT generally crave family — the story about Brent's Spirit dragon is about one specific individual, not a species trait. Updated all 6 references across game bible and codex.
 - [x] Wording fix: "Fantasy and technology" → "Magic and technology" in World Rules
 - [x] Typo fix: "They breed fire" → "They breathe fire" in game bible and codex
+- [x] Thunder Cloud badge changed from "Locked" to "Special / Locked"
 
 ## What's Left
 - [ ] Run `node generate-images.js` to generate 11 new/replaced images (requires OPENAI_API_KEY)
