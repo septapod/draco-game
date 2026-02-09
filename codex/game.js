@@ -138,7 +138,7 @@ Racing is the primary competitive activity and main way to earn badges.
 - Each race earns badges. 10 badges needed to challenge Draco.
 - Team Mode (cooperative) or Solo Mode. Teammates share abilities.
 - Power and Speed dragons are BANNED. Poisonous powers also BANNED.
-- Obstacles (leaf walls, illusions) allowed as strategy.
+- Races are FULL-CONTACT: ALL other dragon abilities are allowed and encouraged — combat attacks, health-draining moves, elemental powers, obstacles, everything. Using your dragon's full arsenal is part of racing strategy.
 - Win by flying through the flashing trophy at the right moment.
 - Race Drone announces races, manages countdowns, can change color for special occasions.
 - Different races award different named trophies (e.g., "Supersonic Pink Trophy").
@@ -212,6 +212,7 @@ Giant fuzzy rabbit with skull for a head (skull = shield, NOT a shell on body). 
 
 ## 16. Game Balance
 - Power/Speed banned from races (too fast/powerful).
+- Races are full-contact — combat, health-draining, and all elemental powers are allowed and encouraged. Only Power/Speed dragons and poisonous powers are banned.
 - Spirit NOT banned (truth-sensing doesn't give unfair racing advantage).
 - Power dragon trade-off: weaker individual abilities than specialists, vulnerable to Thunder Cloud and Electric.
 - Why not always Power? Weaker abilities, vulnerable to final boss, banned from races.
@@ -906,7 +907,7 @@ const app = {
   },
 
   // ── Text-to-Speech (OpenAI TTS + browser fallback) ──
-  ttsEnabled: false,
+  ttsEnabled: localStorage.getItem('draco_tts_enabled') === 'true',
   ttsAudio: null,
   ttsSpeaking: false,
   audioContext: null,
@@ -1570,11 +1571,13 @@ const app = {
     micBtn.addEventListener('mouseleave', stopAndTranscribe);
     micBtn.addEventListener('touchend', stopAndTranscribe);
 
-    // TTS toggle
+    // TTS toggle — restore persisted state
     this.initTTS();
+    document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
     document.getElementById('btn-tts').addEventListener('click', () => {
       this.unlockAudio();
       this.ttsEnabled = !this.ttsEnabled;
+      localStorage.setItem('draco_tts_enabled', this.ttsEnabled ? 'true' : 'false');
       document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
       if (!this.ttsEnabled) this.stopSpeaking();
     });
@@ -1625,11 +1628,16 @@ const app = {
   },
 
   async finishDragonNaming() {
+    if (this.isSending) return;
     const name = document.getElementById('input-dragon-name').value.trim();
     if (!name) {
       document.getElementById('input-dragon-name').style.borderBottomColor = '#FF4136';
       return;
     }
+    this.isSending = true;
+    const bondBtn = document.getElementById('btn-dragon-named');
+    bondBtn.disabled = true;
+    bondBtn.textContent = 'Bonding...';
 
     const idx = this.onboardingState.currentPlayerIndex;
     const player = this.onboardingState.players[idx];
@@ -1641,15 +1649,21 @@ const app = {
     });
     delete player.selectedElement;
 
+    // Reset bond button
+    bondBtn.disabled = false;
+    bondBtn.textContent = 'Bond';
+
     // Next player or start game
     this.onboardingState.currentPlayerIndex++;
     if (this.onboardingState.currentPlayerIndex < this.onboardingState.playerCount) {
+      this.isSending = false;
       this.showEggPicker();
     } else {
       // All players ready — create adventure
       const model = 'claude-sonnet-4-5-20250929';
       const state = createAdventure(this.onboardingState.players, model);
       await saveAdventure(state);
+      this.isSending = false;
       this.startAdventure(state);
     }
   },

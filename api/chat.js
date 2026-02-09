@@ -31,10 +31,17 @@ module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
 
+  // Wrap system prompt in content block with cache_control for prompt caching.
+  // The Game Bible (~15K tokens) is identical across turns — caching reduces
+  // input cost by ~90% (cache reads are 0.1x base price).
+  const systemBlocks = system
+    ? [{ type: "text", text: system, cache_control: { type: "ephemeral" } }]
+    : undefined;
+
   try {
     const stream = await client.messages.stream({
       model,
-      system: system || undefined,
+      system: systemBlocks,
       messages,
       max_tokens: max_tokens || 1024,
     });

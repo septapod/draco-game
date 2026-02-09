@@ -5,9 +5,21 @@
 
 **Last updated**: 2026-02-08
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS switched from ElevenLabs to OpenAI (pay-per-use, no quota). Six bugs fixed. Ready to deploy.
+**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. 8 frontend UI/UX fixes + prompt caching applied. Ready to deploy.
 
-**Last session** (2026-02-08 — TTS Switch + Bug Fixes):
+**Last session** (2026-02-08 — Frontend UI/UX Fixes + Prompt Caching):
+- **Fix: Broken assets on page refresh (CRITICAL)** — `game.html` used relative asset paths (`href="game.css"`) which resolved against `/game/{id}` URL, causing CSS/JS/favicon 404s on browser refresh. Changed all to root-relative paths (`href="/game.css"`). The catch-all rewrite `/:path*` → `/codex/:path*` resolves them correctly.
+- **Fix: TTS resets on refresh** — `ttsEnabled` was a runtime variable that reset to `false` on page load. Now persisted in `localStorage` (`draco_tts_enabled`). Button text restores to match saved state on init.
+- **Fix: Narrative text overflow on mobile** — `.msg` had no word-break rules, so long dragon names or AI-generated words could overflow on narrow screens. Added `overflow-wrap: break-word` and `word-break: break-word`.
+- **Fix: Dragon pill touch targets too small** — Mobile `.dragon-pill` was 28px tall, below WCAG 44px minimum. Increased to 36px min-height with slightly more padding (reasonable compromise between space and tappability).
+- **Fix: Status bar space theft on mobile** — With 2+ players, status bar wrapped vertically and stole most of the narrative area. Changed to horizontal scroll (`flex-wrap: nowrap; overflow-x: auto`) with `min-width: 160px` per player.
+- **Fix: Discoveries panel overlaps toolbar on mobile** — Panel was `position: fixed; top: 0` covering toolbar buttons. Moved to `top: auto; bottom: 0` on mobile so it anchors to the bottom of the screen.
+- **Fix: Double-submit during onboarding** — `finishDragonNaming()` had no `isSending` guard. Player could click "Bond" twice during save. Added early return if `isSending`, set flag before save, clear after.
+- **Fix: No loading feedback during onboarding** — After clicking "Bond", saving takes 1-2s with no UI feedback. Bond button now disables and shows "Bonding..." while saving, resets after.
+- **Optimization: Prompt caching** — The ~15K token Game Bible system prompt was sent at full price every turn (~$0.05/turn). Added `cache_control: { type: "ephemeral" }` to the system prompt content block in `api/chat.js`. First call pays 1.25x write fee, subsequent calls within 5 min pay only 0.1x read fee. Reduces per-turn cost to ~$0.008 (83% savings). At 100 turns/day: ~$24/month vs ~$146/month without caching. TTL refreshes on each hit so active play sessions maintain 100% cache hit rate. Zero quality loss — model still sees full bible.
+- **Lore fix: Racing rules — full-contact** — The AI narrator was incorrectly banning combat/health-draining moves during races (e.g., "HEALTH-DRAINING MOVES ARE BANNED IN RACES!"). The old text only mentioned "obstacles allowed as strategy," which was too narrow. Updated game bible (game.js GAME_BIBLE, DRACO_Game_Bible.md) and codex (index.html) to explicitly state races are FULL-CONTACT: all dragon abilities — combat attacks, health-draining moves, elemental powers, obstacles — are allowed and encouraged. Only Power/Speed dragons and poisonous powers remain banned.
+
+**Previous session** (2026-02-08 — TTS Switch + Bug Fixes):
 - **Fix: TTS switched from ElevenLabs to OpenAI** — ElevenLabs API key exhausted its character quota (401 errors). Rewrote `api/speak.js` to use OpenAI TTS (`tts-1` model, `nova` voice, mp3 format). Uses existing `OPENAI_API_KEY` env var. Pay-per-use (~$0.003/response) with no monthly quota ceiling. `ELEVENLABS_API_KEY` env var no longer needed.
 - **Fix: Migration data loss** — `migrateToCloud()` was clearing ALL localStorage if any saves migrated. Now only clears if ALL migrated successfully (`migrated === localIndex.length`). Partial migration preserves localStorage and logs a warning.
 - **Fix: Old saves crash** — saves created before the discoveries feature had no `discoveries` property, causing `TypeError` on `push()`. Added defensive initialization in `startAdventure()` for `discoveries`, `flags`, `narrativeSummary`, and `turnCount`.

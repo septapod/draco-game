@@ -299,7 +299,7 @@ Races take place in racing stadiums. Stadiums can be built/created by Aloha (the
 
 ### Rules
 
-Each race earns the winner a badge (or sometimes multiple badges). 10 badges are required to challenge Draco. Players can choose Team Mode (cooperative) or Solo Mode. In Team Mode, players can be on the same team or separate teams. Teammates share abilities — if one dragon creates an obstacle, teammates can pass through it. Power dragons and Speed dragons are BANNED from races (they would obviously win due to their overpowered speed and abilities). **Poisonous powers are also NOT allowed in races** (obtained via snake snacks). Obstacles to block other Keepers are allowed. Players CAN use their dragon's elemental powers during races (e.g., creating leaf walls, using illusions).
+Each race earns the winner a badge (or sometimes multiple badges). 10 badges are required to challenge Draco. Players can choose Team Mode (cooperative) or Solo Mode. In Team Mode, players can be on the same team or separate teams. Teammates share abilities — if one dragon creates an obstacle, teammates can pass through it. Power dragons and Speed dragons are BANNED from races (they would obviously win due to their overpowered speed and abilities). **Poisonous powers are also NOT allowed in races** (obtained via snake snacks). **Races are full-contact**: ALL other dragon abilities are allowed and encouraged — combat attacks, health-draining moves, elemental powers, obstacles, everything. Using your dragon's full arsenal is part of racing strategy.
 
 ### Race Drone
 
@@ -510,7 +510,7 @@ Power and Speed dragons are banned from standard races because:
 Power dragons have all abilities and match Speed dragon top speed (270 mph).
 Speed dragons move at 270 mph (5x+ faster than normal).
 
-Note: Spirit dragons are NOT banned. While they can sense truth and detect deception, this does not give an unfair racing advantage — tricks and cheating are already against the rules. Using obstacles to block other Keepers is allowed as part of normal racing strategy.
+Note: Spirit dragons are NOT banned. While they can sense truth and detect deception, this does not give an unfair racing advantage — tricks and cheating are already against the rules. Races are full-contact — all dragon abilities (combat, health-draining, elemental attacks) are allowed and encouraged as part of racing strategy.
 
 ### Power Dragon Trade-offs
 
