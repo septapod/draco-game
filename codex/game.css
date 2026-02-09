@@ -539,19 +539,28 @@ body {
   z-index: 10;
   padding: 0.5rem;
 }
+.discoveries-panel .btn-sm {
+  font-size: 0.55rem;
+  color: var(--gold);
+  border: 1px solid var(--gold-dim);
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+}
+.discoveries-panel .btn-sm:hover { color: #fff; border-color: var(--gold); }
 .discoveries-list {
   background: var(--bg-surface);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   padding: 0.6rem;
   max-height: 40vh;
   overflow-y: auto;
   font-size: 0.75rem;
   margin-top: 0.3rem;
+  min-width: 220px;
 }
 .discovery-item {
   padding: 0.3rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-dim);
+  color: var(--text);
 }
 .discovery-item:last-child { border-bottom: none; }
 

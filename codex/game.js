@@ -1587,7 +1587,10 @@ const app = {
 
     // Discoveries toggle
     document.getElementById('btn-toggle-discoveries').addEventListener('click', () => {
-      document.getElementById('discoveries-list').classList.toggle('hidden');
+      const list = document.getElementById('discoveries-list');
+      const btn = document.getElementById('btn-toggle-discoveries');
+      list.classList.toggle('hidden');
+      btn.textContent = list.classList.contains('hidden') ? 'Discoveries' : 'Discoveries \u2715';
     });
 
     // Enter key on name inputs
