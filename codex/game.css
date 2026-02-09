@@ -666,17 +666,18 @@ body {
 }
 .bottom-sheet-btn {
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 1rem;
   background: transparent;
   color: var(--text);
   border: none;
-  padding: 0.85rem 0.75rem;
+  padding: 1rem 0.75rem;
   text-align: left;
   cursor: pointer;
   border-radius: 8px;
   transition: background 0.15s;
   text-decoration: none;
   display: block;
+  min-height: 48px;
 }
 .bottom-sheet-btn:hover, .bottom-sheet-btn:active {
   background: rgba(255, 255, 255, 0.06);
@@ -770,59 +771,64 @@ body {
   .status-collapsed {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem 0.6rem;
-    padding: 0.35rem 0.6rem;
+    gap: 0.4rem 0.75rem;
+    padding: 0.5rem 0.75rem;
     background: rgba(22, 22, 42, 0.85);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
   }
   .status-collapsed-player {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: 0.65rem;
+    gap: 0.5rem;
+    font-size: 0.85rem;
     color: var(--text-dim);
     flex: 1;
     min-width: 0;
   }
   .status-collapsed-name {
     font-family: var(--font-pixel);
-    font-size: 0.4rem;
+    font-size: 0.55rem;
     white-space: nowrap;
   }
   .status-collapsed-dragon {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .status-collapsed-hp {
-    width: 40px;
-    height: 3px;
+    width: 50px;
+    height: 5px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 3px;
     flex-shrink: 0;
   }
   .status-collapsed-hp-fill {
     height: 100%;
-    border-radius: 2px;
+    border-radius: 3px;
     transition: width 0.3s;
   }
   .status-collapsed-hp-pct {
-    font-size: 0.55rem;
-    color: rgba(255, 255, 255, 0.4);
-    min-width: 24px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+    min-width: 30px;
   }
   .btn-status-toggle {
     background: transparent;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
     color: var(--text-dim);
     cursor: pointer;
-    padding: 0.2rem;
-    font-size: 0.8rem;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
     line-height: 1;
     transition: transform 0.3s;
     flex-shrink: 0;
@@ -837,31 +843,51 @@ body {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     padding: 0;
     border-bottom: none;
-    gap: 0.5rem;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
   .status-bar.expanded {
-    max-height: 300px;
-    padding: 0.4rem 0.6rem;
+    max-height: 500px;
+    padding: 0.75rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    overflow-y: auto;
   }
-  .status-player { min-width: 160px; flex-shrink: 0; }
-  .status-player-name { font-size: 0.5rem; }
-  .status-dragon { font-size: 0.7rem; }
-  .status-detail { font-size: 0.6rem; }
-  .status-items { font-size: 0.6rem; }
-  .status-location { font-size: 0.45rem; }
+  .status-player {
+    min-width: 100%;
+    flex-shrink: 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  .status-player:last-of-type { border-bottom: none; }
+  .status-player-name {
+    font-size: 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+  .status-dragon { font-size: 0.85rem; }
+  .status-hp-bar { height: 5px; margin: 0.3rem 0; }
+  .status-detail {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .status-items {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 0.2rem;
+  }
+  .status-location {
+    font-size: 0.55rem;
+    padding-top: 0.4rem;
+  }
 
-  /* Dragon pills — bigger touch targets on mobile */
+  /* Dragon pills — proper touch targets on mobile */
   .dragon-pill {
-    font-size: 0.5rem;
-    padding: 0.35rem 0.6rem;
-    min-height: 36px;
+    font-size: 0.55rem;
+    padding: 0.45rem 0.75rem;
+    min-height: 44px;
     display: flex;
     align-items: center;
   }
@@ -948,16 +974,16 @@ body {
     transform: translateX(0);
   }
   .discoveries-panel .btn-sm {
-    font-size: 0.6rem;
-    padding: 0.5rem 0.6rem;
-    min-height: 36px;
+    font-size: 0.7rem;
+    padding: 0.75rem;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
   .discoveries-list {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
     max-height: none;
     flex: 1;
     overflow-y: auto;
@@ -966,6 +992,9 @@ body {
     padding: 0;
     margin-top: 0.5rem;
     min-width: 0;
+  }
+  .discovery-item {
+    padding: 0.6rem 0;
   }
 
   /* Save list entries — bigger touch targets */
