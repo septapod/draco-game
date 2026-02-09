@@ -813,7 +813,7 @@ const app = {
   renderStatusBar() {
     const bar = document.getElementById('status-bar');
     const collapsed = document.getElementById('status-collapsed');
-    if (!this.state) { bar.innerHTML = ''; collapsed.innerHTML = ''; return; }
+    if (!this.state) { bar.innerHTML = ''; if (collapsed) collapsed.innerHTML = ''; return; }
 
     // ── Collapsed summary (mobile) ──
     const collapsedCards = this.state.players.map(p => {
@@ -831,7 +831,9 @@ const app = {
         <span class="status-collapsed-hp-pct">${hp}%</span>
       </div>`;
     }).join('');
-    collapsed.innerHTML = collapsedCards + `<button class="btn-status-toggle${this.statusExpanded ? ' expanded' : ''}" id="btn-status-toggle" aria-label="Toggle status details">\u25BC</button>`;
+    if (collapsed) {
+      collapsed.innerHTML = collapsedCards + `<button class="btn-status-toggle${this.statusExpanded ? ' expanded' : ''}" id="btn-status-toggle" aria-label="Toggle status details">\u25BC</button>`;
+    }
 
     // ── Full detail bar (expandable) ──
     const playerCards = this.state.players.map((p, pIdx) => {
@@ -1538,11 +1540,14 @@ const app = {
     });
 
     // Collapsed status bar toggle (event delegation)
-    document.getElementById('status-collapsed').addEventListener('click', (e) => {
-      if (e.target.closest('.btn-status-toggle')) {
-        this.toggleStatusBar();
-      }
-    });
+    const statusCollapsed = document.getElementById('status-collapsed');
+    if (statusCollapsed) {
+      statusCollapsed.addEventListener('click', (e) => {
+        if (e.target.closest('.btn-status-toggle')) {
+          this.toggleStatusBar();
+        }
+      });
+    }
 
     // Adventure screen controls
     document.getElementById('btn-send').addEventListener('click', () => { this.unlockAudio(); this.send(); });
@@ -1638,10 +1643,10 @@ const app = {
 
     // TTS toggle — restore persisted state
     this.initTTS();
+    const voiceIcon = document.getElementById('btn-voice-icon');
     const updateVoiceUI = () => {
       document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
-      const voiceIcon = document.getElementById('btn-voice-icon');
-      voiceIcon.classList.toggle('voice-on', this.ttsEnabled);
+      if (voiceIcon) voiceIcon.classList.toggle('voice-on', this.ttsEnabled);
     };
     updateVoiceUI();
 
@@ -1654,13 +1659,15 @@ const app = {
     });
 
     // Voice icon button (mobile input row) — same toggle logic
-    document.getElementById('btn-voice-icon').addEventListener('click', () => {
-      this.unlockAudio();
-      this.ttsEnabled = !this.ttsEnabled;
-      localStorage.setItem('draco_tts_enabled', this.ttsEnabled ? 'true' : 'false');
-      updateVoiceUI();
-      if (!this.ttsEnabled) this.stopSpeaking();
-    });
+    if (voiceIcon) {
+      voiceIcon.addEventListener('click', () => {
+        this.unlockAudio();
+        this.ttsEnabled = !this.ttsEnabled;
+        localStorage.setItem('draco_tts_enabled', this.ttsEnabled ? 'true' : 'false');
+        updateVoiceUI();
+        if (!this.ttsEnabled) this.stopSpeaking();
+      });
+    }
 
     // Test Voice button
     document.getElementById('btn-test-voice').addEventListener('click', () => {
@@ -1673,47 +1680,56 @@ const app = {
     const bs = document.getElementById('bottom-sheet');
 
     const openBottomSheet = () => {
+      if (!bs || !bsOverlay) return;
       bs.classList.add('open');
       bsOverlay.classList.add('open');
       // Sync model selector with main one
-      document.getElementById('bs-select-model').value = document.getElementById('select-model').value;
+      const bsModel = document.getElementById('bs-select-model');
+      if (bsModel) bsModel.value = document.getElementById('select-model').value;
     };
     const closeBottomSheet = () => {
-      bs.classList.remove('open');
-      bsOverlay.classList.remove('open');
+      if (bs) bs.classList.remove('open');
+      if (bsOverlay) bsOverlay.classList.remove('open');
     };
 
-    document.getElementById('btn-more').addEventListener('click', openBottomSheet);
-    bsOverlay.addEventListener('click', closeBottomSheet);
+    const btnMore = document.getElementById('btn-more');
+    if (btnMore) btnMore.addEventListener('click', openBottomSheet);
+    if (bsOverlay) bsOverlay.addEventListener('click', closeBottomSheet);
 
     // Bottom sheet actions
-    document.getElementById('bs-save').addEventListener('click', async () => {
-      closeBottomSheet();
-      if (this.state) {
-        const ok = await saveAdventure(this.state);
-        this.addSystemMessage(ok ? 'Adventure saved.' : 'Save failed — try again');
-      }
-    });
-    document.getElementById('bs-new').addEventListener('click', async () => {
-      closeBottomSheet();
-      if (this.state) await saveAdventure(this.state);
-      this.state = null;
-      history.replaceState(null, '', '/game.html');
-      this.showScreen('screen-welcome');
-    });
-    document.getElementById('bs-test-voice').addEventListener('click', () => {
-      closeBottomSheet();
-      this.unlockAudio();
-      this.speak('The adventure begins. A full-sized dragonette emerges from the egg, scales shimmering in the light.');
-    });
-    document.getElementById('bs-select-model').addEventListener('change', async (e) => {
-      // Sync both selectors
-      document.getElementById('select-model').value = e.target.value;
-      if (this.state) {
-        this.state.model = e.target.value;
-        await saveAdventure(this.state);
-      }
-    });
+    if (bs) {
+      const bsSave = document.getElementById('bs-save');
+      if (bsSave) bsSave.addEventListener('click', async () => {
+        closeBottomSheet();
+        if (this.state) {
+          const ok = await saveAdventure(this.state);
+          this.addSystemMessage(ok ? 'Adventure saved.' : 'Save failed — try again');
+        }
+      });
+      const bsNew = document.getElementById('bs-new');
+      if (bsNew) bsNew.addEventListener('click', async () => {
+        closeBottomSheet();
+        if (this.state) await saveAdventure(this.state);
+        this.state = null;
+        history.replaceState(null, '', '/game.html');
+        this.showScreen('screen-welcome');
+      });
+      const bsTestVoice = document.getElementById('bs-test-voice');
+      if (bsTestVoice) bsTestVoice.addEventListener('click', () => {
+        closeBottomSheet();
+        this.unlockAudio();
+        this.speak('The adventure begins. A full-sized dragonette emerges from the egg, scales shimmering in the light.');
+      });
+      const bsSelectModel = document.getElementById('bs-select-model');
+      if (bsSelectModel) bsSelectModel.addEventListener('change', async (e) => {
+        // Sync both selectors
+        document.getElementById('select-model').value = e.target.value;
+        if (this.state) {
+          this.state.model = e.target.value;
+          await saveAdventure(this.state);
+        }
+      });
+    }
 
     // ── Discoveries panel — drawer on mobile, dropdown on desktop ──
     const discPanel = document.getElementById('discoveries-panel');
@@ -1724,9 +1740,11 @@ const app = {
     document.getElementById('btn-toggle-discoveries').addEventListener('click', () => {
       if (isMobile()) {
         // Toggle drawer
-        const isOpen = discPanel.classList.contains('drawer-open');
-        discPanel.classList.toggle('drawer-open', !isOpen);
-        discOverlay.classList.toggle('open', !isOpen);
+        if (discPanel && discOverlay) {
+          const isOpen = discPanel.classList.contains('drawer-open');
+          discPanel.classList.toggle('drawer-open', !isOpen);
+          discOverlay.classList.toggle('open', !isOpen);
+        }
       } else {
         // Desktop: toggle list visibility
         const list = document.getElementById('discoveries-list');
@@ -1736,10 +1754,12 @@ const app = {
       }
     });
 
-    discOverlay.addEventListener('click', () => {
-      discPanel.classList.remove('drawer-open');
-      discOverlay.classList.remove('open');
-    });
+    if (discOverlay) {
+      discOverlay.addEventListener('click', () => {
+        if (discPanel) discPanel.classList.remove('drawer-open');
+        discOverlay.classList.remove('open');
+      });
+    }
 
     // ── Auto-hide status bar on scroll (mobile only) ──
     let lastScrollTop = 0;
@@ -1752,6 +1772,7 @@ const app = {
       scrollThrottleTimer = setTimeout(() => {
         scrollThrottleTimer = null;
         const wrapper = document.getElementById('status-wrapper');
+        if (!wrapper) return;
         const st = narrativeEl.scrollTop;
         if (st > lastScrollTop && st > 50) {
           // Scrolling down — hide
