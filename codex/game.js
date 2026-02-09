@@ -936,10 +936,15 @@ const app = {
   },
 
   ttsSourceNode: null,
+  ttsGeneration: 0, // generation counter to prevent overlapping speech
 
   async speak(text) {
     if (!text) return;
     this.stopSpeaking();
+
+    // Increment generation — any in-flight speak() with a stale generation
+    // will bail after its await instead of starting a second audio stream.
+    const gen = ++this.ttsGeneration;
 
     // Truncate to ~3000 chars for faster TTS
     const truncated = text.length > 3000 ? text.slice(0, 3000) + '...' : text;
@@ -954,6 +959,7 @@ const app = {
       if (this.audioContext.state === 'suspended') {
         await this.audioContext.resume();
       }
+      if (gen !== this.ttsGeneration) return; // superseded
 
       const resp = await fetch('/api/speak', {
         method: 'POST',
@@ -961,16 +967,20 @@ const app = {
         body: JSON.stringify({ text: truncated }),
       });
 
+      if (gen !== this.ttsGeneration) return; // superseded
+
       if (!resp.ok) {
         console.error('TTS API error:', resp.status);
         throw new Error('TTS API returned ' + resp.status);
       }
 
       const arrayBuffer = await resp.arrayBuffer();
+      if (gen !== this.ttsGeneration) return; // superseded
 
       // Primary: decode + play through AudioContext
       try {
         const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+        if (gen !== this.ttsGeneration) return; // superseded
         const source = this.audioContext.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(this.audioContext.destination);
@@ -982,6 +992,7 @@ const app = {
         source.start(0);
         return; // Success
       } catch (decodeErr) {
+        if (gen !== this.ttsGeneration) return;
         console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
       }
 
@@ -997,6 +1008,8 @@ const app = {
         };
         audio.onerror = () => {
           URL.revokeObjectURL(url);
+          // Only fall through to speechSynthesis if this is still the current generation
+          if (gen !== this.ttsGeneration) return;
           console.warn('Audio element also failed, trying speechSynthesis');
           this.speakBrowserFallback(truncated);
         };
@@ -1004,15 +1017,19 @@ const app = {
         await audio.play();
         return; // Success
       } catch (playErr) {
+        if (gen !== this.ttsGeneration) return;
         console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
       }
 
       // Last resort: browser speechSynthesis
+      if (gen !== this.ttsGeneration) return;
       this.speakBrowserFallback(truncated);
     } catch (err) {
       console.error('TTS error:', err);
       this.ttsSpeaking = false;
-      this.addSystemMessage('Voice failed — try toggling Voice off and on');
+      if (gen === this.ttsGeneration) {
+        this.addSystemMessage('Voice failed — try toggling Voice off and on');
+      }
     }
   },
 
@@ -1030,6 +1047,7 @@ const app = {
   },
 
   stopSpeaking() {
+    this.ttsGeneration++; // invalidate any in-flight speak() calls
     if (this.ttsSourceNode) {
       try { this.ttsSourceNode.stop(); } catch (e) {}
       this.ttsSourceNode = null;
