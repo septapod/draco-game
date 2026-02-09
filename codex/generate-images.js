@@ -206,27 +206,8 @@ const images = [
     filename: "marcus-the-finisher.png",
     prompt: `${STYLE_PREFIX} determined young male human racer in dragon riding gear, standing next to a dragon, confident expression, racing goggles on forehead, practical but worn racing outfit, kind eyes showing perseverance and heart, stadium background`,
   },
-  // ── New item icons (Session 2026-02-09) ──
-  {
-    filename: "icon-speed-berry.png",
-    prompt: `${STYLE_PREFIX} single golden shimmering berry glowing with magical energy, transparent background, pixel art icon style, simple centered composition, no other objects`,
-  },
-  {
-    filename: "icon-forest-crystal.png",
-    prompt: `${STYLE_PREFIX} deep green crystal pulsing with nature energy, transparent background, pixel art icon style, simple centered composition, emerald glow`,
-  },
-  {
-    filename: "icon-forest-essence.png",
-    prompt: `${STYLE_PREFIX} small glass vial filled with glowing green liquid, cork stopper, transparent background, pixel art icon style, simple centered composition, nature magic glow`,
-  },
-  {
-    filename: "icon-wooden-whistle.png",
-    prompt: `${STYLE_PREFIX} small carved wooden whistle with rustic bark texture, transparent background, pixel art icon style, simple centered composition, warm brown tones`,
-  },
-  {
-    filename: "icon-magic-acorn.png",
-    prompt: `${STYLE_PREFIX} glowing golden acorn with magical aura, tiny sparkles emanating from it, transparent background, pixel art icon style, simple centered composition`,
-  },
+  // NOTE: v1.5 item icons (icon-speed-berry, icon-forest-crystal, icon-forest-essence,
+  // icon-wooden-whistle, icon-magic-acorn) moved to generate-icons.js for transparent backgrounds.
 ];
 
 async function generateImage(imageConfig) {

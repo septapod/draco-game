@@ -109,6 +109,27 @@ const icons = [
     filename: "icon-rabbit-skull.png",
     prompt: `${STYLE_PREFIX} a small white rabbit skull with long ear bones extending upward, glowing red eye sockets, dark and magical, summoning item`,
   },
+  // === v1.5 Item Icons ===
+  {
+    filename: "icon-speed-berry.png",
+    prompt: `${STYLE_PREFIX} a single golden shimmering berry glowing with magical energy, warm gold tones, fantasy game collectible item style`,
+  },
+  {
+    filename: "icon-forest-crystal.png",
+    prompt: `${STYLE_PREFIX} a deep green crystal pulsing with nature energy, emerald glow, faceted gem with inner light, magical forest item`,
+  },
+  {
+    filename: "icon-forest-essence.png",
+    prompt: `${STYLE_PREFIX} a small glass vial filled with glowing green liquid, cork stopper, nature magic glow, potion item`,
+  },
+  {
+    filename: "icon-wooden-whistle.png",
+    prompt: `${STYLE_PREFIX} a small carved wooden whistle with rustic bark texture, warm brown tones, simple musical instrument item`,
+  },
+  {
+    filename: "icon-magic-acorn.png",
+    prompt: `${STYLE_PREFIX} a glowing golden acorn with magical aura, tiny sparkles emanating from it, warm gold and brown tones, nature magic item`,
+  },
 ];
 
 async function generateIcon(iconConfig) {

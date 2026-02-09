@@ -5,7 +5,7 @@
 
 **Last updated**: 2026-02-09
 
-**Status**: Navigation UX improved — "PLAY THE GAME" button on title screen navigates to game.html with brief flash, scroll hint added below, welcome screen has "Back to Codex" link, Play nav tab visually distinct. Images still need generation from v1.5 (`OPENAI_API_KEY=... node codex/generate-images.js`), then GIF animation (`python codex/animate-images.py`).
+**Status**: Performance optimization complete. Page image payload reduced from 124MB (32MB GIFs + 92MB PNGs at 1024x1024) down to ~36MB (all images at 512px, only 6 animated GIFs kept). Item icons regenerated with proper transparency via gpt-image-1. Aloha character inconsistency across images is a known limitation — flagged in memory.
 
 **Last session** (2026-02-09 — Improve Codex ↔ Game Navigation):
 - **"PLAY THE GAME" button** — renamed from "PRESS START", now navigates to `game.html` with brief 0.4s flash animation instead of scrolling to Chapter I. Title screen no longer permanently disappears (removed `title-screen--departing` logic).
@@ -15,7 +15,9 @@
 - **Scroll hint visibility fix** — bumped from faded white Space Mono to gold pixel font (`var(--accent-gold)`) with `text-shadow` glow, larger size (`clamp(0.65rem, 2vw, 0.85rem)`), and stronger bounce animation (opacity 0.7→1.0). Now clearly visible on dark background.
 - **Removed Named Dragons section** — the list grows with gameplay and isn't needed to understand the world. Removed all 7 named dragon entries from Characters chapter.
 - **Generated v1.5 images** — 10 new PNGs via DALL-E 3 (starlight-dragon, rainbow-tortoise, forest-bear, forest-stag, marcus-the-finisher, 5 item icons), plus GIF animations for all new images.
-- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/style.css`, `codex/game.html`, `codex/game.css`, `codex/images/` (21 new files), `PROJECT_STATUS.md`
+- **Performance optimization** — resized all images from 1024x1024 to 512px. Switched 57 images from animated GIF to static PNG. Kept only 6 GIFs animated (hero-banner, the-crystal, dragon-eye-amulet, keeper-transformation, night-scene, elemental-clash). Deleted 59 unused GIFs. Total image payload: 124MB → 36MB. Page load: ~32MB GIFs → ~1.5MB above fold + lazy-loaded PNGs.
+- **Item icon fix** — regenerated 5 item icons (speed-berry, forest-crystal, forest-essence, wooden-whistle, magic-acorn) via `generate-icons.js` with gpt-image-1 for real transparent backgrounds. Moved prompts from `generate-images.js` to `generate-icons.js`.
+- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/style.css`, `codex/game.html`, `codex/game.css`, `codex/generate-images.js`, `codex/generate-icons.js`, `codex/optimize-images.py` (new), `codex/images/` (resized + cleaned up), `PROJECT_STATUS.md`
 
 **Previous session** (2026-02-09 — v1.5 Lore Update: 11 New Discoveries):
 - **Starlight element unlocked** — changed from "Advanced / Locked" to "Advanced / Unlocked", updated color from silver to deep blue/violet (#1a0a3d), added full powers (starlight beams, illumination, blinding, truth through light, crystalline wind-chime spines)
