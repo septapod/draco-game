@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
   <title>Draco Adventure</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
@@ -92,8 +92,11 @@
 
   <!-- ═══════ ADVENTURE SCREEN ═══════ -->
   <div id="screen-adventure" class="screen">
-    <!-- Status bar -->
-    <div id="status-bar" class="status-bar"></div>
+    <!-- Status bar: collapsed summary (mobile) + expandable detail -->
+    <div id="status-wrapper" class="status-wrapper">
+      <div id="status-collapsed" class="status-collapsed"></div>
+      <div id="status-bar" class="status-bar"></div>
+    </div>
 
     <!-- Narrative area -->
     <div id="narrative" class="narrative"></div>
@@ -109,6 +112,20 @@
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
             <line x1="12" y1="19" x2="12" y2="23"/>
             <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+        <button id="btn-voice-icon" class="btn-icon btn-voice" title="Toggle voice" aria-label="Toggle voice">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path class="voice-on-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            <path class="voice-on-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+          </svg>
+        </button>
+        <button id="btn-more" class="btn-icon btn-more" title="More options" aria-label="More options">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="5" r="2"/>
+            <circle cx="12" cy="12" r="2"/>
+            <circle cx="12" cy="19" r="2"/>
           </svg>
         </button>
         <button id="btn-send" class="btn-icon btn-send" title="Send" aria-label="Send message">
@@ -132,10 +149,31 @@
       </div>
     </div>
 
-    <!-- Discoveries panel (collapsible) -->
+    <!-- Discoveries panel (collapsible on desktop, drawer on mobile) -->
+    <div id="discoveries-overlay" class="discoveries-overlay"></div>
     <div id="discoveries-panel" class="discoveries-panel hidden">
       <button id="btn-toggle-discoveries" class="btn-sm">Discoveries</button>
       <div id="discoveries-list" class="discoveries-list hidden"></div>
+    </div>
+
+    <!-- Bottom sheet (mobile only) -->
+    <div id="bottom-sheet-overlay" class="bottom-sheet-overlay"></div>
+    <div id="bottom-sheet" class="bottom-sheet">
+      <div class="bottom-sheet-handle"></div>
+      <div class="bottom-sheet-actions">
+        <button id="bs-save" class="bottom-sheet-btn">Save Adventure</button>
+        <button id="bs-new" class="bottom-sheet-btn">New Adventure</button>
+        <button id="bs-test-voice" class="bottom-sheet-btn">Test Voice</button>
+        <div class="bottom-sheet-btn bottom-sheet-model">
+          <span>Model</span>
+          <select id="bs-select-model" class="select-model">
+            <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
+            <option value="claude-sonnet-4-5-20250929" selected>Sonnet 4.5</option>
+            <option value="claude-opus-4-6-20250514">Opus 4.6</option>
+          </select>
+        </div>
+        <a href="/" class="bottom-sheet-btn bottom-sheet-link">Back to Codex</a>
+      </div>
     </div>
   </div>
 

@@ -3,11 +3,21 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-08
+**Last updated**: 2026-02-09
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. 8 frontend UI/UX fixes + prompt caching applied. Ready to deploy.
+**Status**: Mobile UI overhaul complete. All 7 changes implemented — collapsible status bar, bottom sheet toolbar, voice icon in input row, discoveries drawer, enhanced recording state, auto-hide on scroll, viewport meta. Desktop unchanged. Ready to deploy + test on mobile.
 
-**Last session** (2026-02-08 — Frontend UI/UX Fixes + Prompt Caching):
+**Last session** (2026-02-09 — Mobile-Optimized Game UI):
+- **Change 1: Collapsible status bar** — Mobile shows a compact 32px collapsed bar per player (name, dragon, HP inline). Chevron toggles expansion to full status details. Frosted glass background. Desktop unchanged (collapsed bar hidden).
+- **Change 2: Toolbar → bottom sheet** — Mobile toolbar replaced with "⋯" more button in input row. Opens a slide-up bottom sheet with Save, New, Test Voice, Model selector, Back to Codex. Desktop toolbar unchanged.
+- **Change 3: Voice toggle in input row** — Speaker icon button added between mic and send buttons. Toggles TTS on/off with gold color when active, sound waves fade when off. Mobile-only; desktop keeps text "Voice: On/Off" in toolbar.
+- **Change 4: Discoveries → slide-out drawer** — On mobile, discoveries panel slides in from the right (280px, max 80vw) with dimmed overlay. Tap overlay to close. Desktop keeps original fixed dropdown.
+- **Change 5: Enhanced recording state** — During recording: input row border glows red (`box-shadow`), placeholder shows "Listening..." immediately on press. "Transcribing..." shows after release as before.
+- **Change 6: Auto-hide status bar on scroll** — Throttled scroll handler (100ms) on narrative. Scrolling down past 50px hides collapsed status bar with translateY + opacity transition. Scrolling up reveals it. Mobile only.
+- **Change 7: Viewport meta + narrator tint** — Added `interactive-widget=resizes-content` for better Android keyboard behavior. Added subtle gold tint (`rgba(255,215,0,0.03)`) on narrator messages for visual differentiation.
+- **Architecture**: All changes scoped to `@media (max-width: 600px)` — desktop renders identically to before. New HTML elements (bottom sheet, overlays, voice icon, more button, collapsed bar) are hidden on desktop via CSS. JS uses `isMobile()` check for behavior branching.
+
+**Previous session** (2026-02-08 — Frontend UI/UX Fixes + Prompt Caching):
 - **Fix: Broken assets on page refresh (CRITICAL)** — `game.html` used relative asset paths (`href="game.css"`) which resolved against `/game/{id}` URL, causing CSS/JS/favicon 404s on browser refresh. Changed all to root-relative paths (`href="/game.css"`). The catch-all rewrite `/:path*` → `/codex/:path*` resolves them correctly.
 - **Fix: TTS resets on refresh** — `ttsEnabled` was a runtime variable that reset to `false` on page load. Now persisted in `localStorage` (`draco_tts_enabled`). Button text restores to match saved state on init.
 - **Fix: Narrative text overflow on mobile** — `.msg` had no word-break rules, so long dragon names or AI-generated words could overflow on narrow screens. Added `overflow-wrap: break-word` and `word-break: break-word`.
@@ -108,12 +118,11 @@
 - 2 racing rule cards got images
 
 **Next up**:
-- Verify that GitHub-triggered deploys (pushes to main) also include static files — if not, update Vercel dashboard settings (Output Directory → `.`, Build Command → empty)
-- Test voice input (Whisper) on Chrome desktop + mobile
-- Test save/load across browser sessions
-- Test multi-player with player selector
+- Deploy and test mobile UI on iPhone Safari (verification checklist in plan)
+- Test 2-player mode — collapsed status bar shows both players inline
+- Test desktop — confirm zero visual changes from before
+- Verify that GitHub-triggered deploys include static files
 - Update Google Doc to v1.4
-- Further mobile testing and polish
 
 **Decisions / constraints**:
 - Minimal UI design — the game should encourage real-world play, not screen addiction
