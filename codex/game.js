@@ -899,6 +899,8 @@ const app = {
     }
   },
 
+  ttsSourceNode: null,
+
   async speak(text) {
     if (!text) return;
     this.stopSpeaking();
@@ -908,6 +910,12 @@ const app = {
 
     try {
       this.ttsSpeaking = true;
+
+      // Ensure AudioContext is running
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
+
       const resp = await fetch('/api/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -916,59 +924,32 @@ const app = {
 
       if (!resp.ok) {
         console.error('TTS API error:', resp.status);
-        this.speakBrowserFallback(truncated);
+        this.ttsSpeaking = false;
         return;
       }
 
-      const audioBlob = await resp.blob();
-      const url = URL.createObjectURL(audioBlob);
-      this.ttsAudio = new Audio(url);
-      this.ttsAudio.onended = () => {
-        URL.revokeObjectURL(url);
+      // Decode and play through AudioContext (bypasses autoplay policy)
+      const arrayBuffer = await resp.arrayBuffer();
+      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioContext.destination);
+      source.onended = () => {
         this.ttsSpeaking = false;
-        this.ttsAudio = null;
+        this.ttsSourceNode = null;
       };
-      this.ttsAudio.onerror = () => {
-        URL.revokeObjectURL(url);
-        console.error('TTS audio playback error, trying browser fallback');
-        this.speakBrowserFallback(truncated);
-      };
-      try {
-        await this.ttsAudio.play();
-      } catch (playErr) {
-        console.error('TTS play blocked (autoplay policy), trying browser fallback:', playErr);
-        URL.revokeObjectURL(url);
-        this.speakBrowserFallback(truncated);
-      }
+      this.ttsSourceNode = source;
+      source.start(0);
     } catch (err) {
-      console.error('TTS fetch error, trying browser fallback:', err);
-      this.speakBrowserFallback(truncated);
-    }
-  },
-
-  // Browser-native speech synthesis as fallback
-  speakBrowserFallback(text) {
-    if (!window.speechSynthesis) {
+      console.error('TTS error:', err);
       this.ttsSpeaking = false;
-      return;
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1.0;
-    utterance.pitch = 0.9;
-    utterance.onend = () => { this.ttsSpeaking = false; };
-    utterance.onerror = () => { this.ttsSpeaking = false; };
-    window.speechSynthesis.speak(utterance);
   },
 
   stopSpeaking() {
-    if (this.ttsAudio) {
-      this.ttsAudio.pause();
-      this.ttsAudio.src = '';
-      this.ttsAudio = null;
-    }
-    if (window.speechSynthesis) {
-      window.speechSynthesis.cancel();
+    if (this.ttsSourceNode) {
+      try { this.ttsSourceNode.stop(); } catch (e) {}
+      this.ttsSourceNode = null;
     }
     this.ttsSpeaking = false;
   },
