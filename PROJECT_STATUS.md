@@ -5,9 +5,20 @@
 
 **Last updated**: 2026-02-08
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS working with George voice + fallback.
+**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS pipeline fully repaired with 3-layer fallback.
 
-**Last session** (2026-02-08 — Voice upgrade, image removal, transcription fixes):
+**Last session** (2026-02-08 — TTS comprehensive pipeline repair):
+- **Fix: AudioContext re-suspends on Safari** — `unlockAudio()` now plays a silent buffer through the AudioContext during the user gesture. This is the standard iOS/Safari workaround — without it, Safari re-suspends the context between the click and when `speak()` runs after streaming completes.
+- **Fix: Zero fallbacks after commit `aea19c2`** — previous commit removed both HTMLAudioElement and speechSynthesis fallback, leaving AudioContext as the only path. If decoding failed for any reason, total silence. Now has 3-layer fallback: AudioContext → HTMLAudioElement (blob URL) → browser speechSynthesis.
+- **Fix: Null guard on audioContext** — `speak()` now creates AudioContext as safety net if somehow missing, preventing TypeError on `this.audioContext.state`.
+- **Fix: API errors invisible to user** — `/api/speak` non-200 responses now throw (caught by outer try/catch) so user sees the "Voice failed" system message instead of silent failure.
+- **Technical detail**: `arrayBuffer.slice(0)` used before `decodeAudioData()` because that API detaches the ArrayBuffer — without the copy, the HTMLAudioElement fallback would get an empty buffer.
+
+**Previous session** (2026-02-08 — AudioContext fix for TTS):
+- **Fix: AudioContext not playing ElevenLabs audio** — root cause was AudioContext created at page load (in `initTTS()` during DOMContentLoaded), which starts permanently `suspended` on mobile browsers (especially Safari). Moved AudioContext creation into `unlockAudio()` so it's lazily created AND resumed inside an actual user gesture handler (send button, Enter key, or Voice toggle click).
+- **Fix: Silent TTS failures** — added visible system message ("Voice failed — try toggling Voice off and on") in the `speak()` catch block so users know when TTS fails instead of silent failure.
+
+**Previous session** (2026-02-08 — Voice upgrade, image removal, transcription fixes):
 - **Fix: TTS voice quality** — switched from Rachel (generic neutral female, flash model) to George (warm British storyteller, `eleven_multilingual_v2` model). Much better for fantasy narration. Style parameter added for expressiveness.
 - **Fix: Transcription broken** — `formidable` v3 changed its export (object not function), causing "formidable is not a function." Replaced with zero-dependency multipart parser. Removed formidable from dependencies entirely.
 - **Fix: Whisper hallucinations** — short/silent recordings caused Whisper to output "thank you", "thanks for watching", etc. Added hallucination filter (blocklist + min-length check), increased min blob size to 2KB, added 1-second minimum recording duration.

@@ -888,15 +888,26 @@ const app = {
   audioContext: null,
 
   initTTS() {
-    // Create AudioContext — must be resumed on user gesture to unlock audio playback
-    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    // AudioContext created lazily in unlockAudio() on first user gesture
+    // Creating it here (at DOMContentLoaded) causes it to start permanently
+    // suspended on mobile browsers, especially Safari
   },
 
   // Call on any user gesture (send, mic, TTS toggle) to unlock audio playback
   unlockAudio() {
-    if (this.audioContext && this.audioContext.state === 'suspended') {
+    if (!this.audioContext) {
+      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (this.audioContext.state === 'suspended') {
       this.audioContext.resume();
     }
+    // Play a silent buffer to genuinely activate AudioContext on Safari/iOS.
+    // Without this, Safari may re-suspend the context before speak() runs.
+    const buf = this.audioContext.createBuffer(1, 1, 22050);
+    const src = this.audioContext.createBufferSource();
+    src.buffer = buf;
+    src.connect(this.audioContext.destination);
+    src.start(0);
   },
 
   ttsSourceNode: null,
@@ -911,7 +922,10 @@ const app = {
     try {
       this.ttsSpeaking = true;
 
-      // Ensure AudioContext is running
+      // Safety net: create AudioContext if somehow missing
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
       if (this.audioContext.state === 'suspended') {
         await this.audioContext.resume();
       }
@@ -924,32 +938,83 @@ const app = {
 
       if (!resp.ok) {
         console.error('TTS API error:', resp.status);
-        this.ttsSpeaking = false;
-        return;
+        throw new Error('TTS API returned ' + resp.status);
       }
 
-      // Decode and play through AudioContext (bypasses autoplay policy)
       const arrayBuffer = await resp.arrayBuffer();
-      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer);
-      const source = this.audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(this.audioContext.destination);
-      source.onended = () => {
-        this.ttsSpeaking = false;
-        this.ttsSourceNode = null;
-      };
-      this.ttsSourceNode = source;
-      source.start(0);
+
+      // Primary: decode + play through AudioContext
+      try {
+        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+        const source = this.audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(this.audioContext.destination);
+        source.onended = () => {
+          this.ttsSpeaking = false;
+          this.ttsSourceNode = null;
+        };
+        this.ttsSourceNode = source;
+        source.start(0);
+        return; // Success
+      } catch (decodeErr) {
+        console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
+      }
+
+      // Fallback: play via HTMLAudioElement with blob URL
+      try {
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audio.onended = () => {
+          URL.revokeObjectURL(url);
+          this.ttsSpeaking = false;
+          this.ttsAudio = null;
+        };
+        audio.onerror = () => {
+          URL.revokeObjectURL(url);
+          console.warn('Audio element also failed, trying speechSynthesis');
+          this.speakBrowserFallback(truncated);
+        };
+        this.ttsAudio = audio;
+        await audio.play();
+        return; // Success
+      } catch (playErr) {
+        console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
+      }
+
+      // Last resort: browser speechSynthesis
+      this.speakBrowserFallback(truncated);
     } catch (err) {
       console.error('TTS error:', err);
       this.ttsSpeaking = false;
+      this.addSystemMessage('Voice failed — try toggling Voice off and on');
     }
+  },
+
+  speakBrowserFallback(text) {
+    if (!window.speechSynthesis) {
+      this.ttsSpeaking = false;
+      this.addSystemMessage('Voice not supported in this browser');
+      return;
+    }
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 0.95;
+    utterance.onend = () => { this.ttsSpeaking = false; };
+    utterance.onerror = () => { this.ttsSpeaking = false; };
+    speechSynthesis.speak(utterance);
   },
 
   stopSpeaking() {
     if (this.ttsSourceNode) {
       try { this.ttsSourceNode.stop(); } catch (e) {}
       this.ttsSourceNode = null;
+    }
+    if (this.ttsAudio) {
+      this.ttsAudio.pause();
+      this.ttsAudio = null;
+    }
+    if (window.speechSynthesis) {
+      speechSynthesis.cancel();
     }
     this.ttsSpeaking = false;
   },
