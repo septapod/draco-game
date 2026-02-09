@@ -407,13 +407,15 @@ function createAdventure(players, model) {
 async function saveAdventure(state) {
   state.lastPlayedAt = new Date().toISOString();
   try {
-    await fetch('/api/adventures', {
+    const resp = await fetch('/api/adventures', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(state),
     });
+    return resp.ok;
   } catch (err) {
     console.error('Save failed:', err);
+    return false;
   }
 }
 
@@ -498,12 +500,14 @@ async function migrateToCloud() {
     }
   }
 
-  // Clear localStorage after successful migration
-  if (migrated > 0) {
+  // Only clear localStorage if ALL saves migrated successfully
+  if (migrated === localIndex.length) {
     for (const entry of localIndex) {
       localStorage.removeItem('draco_adventure_' + entry.id);
     }
     localStorage.removeItem('draco_adventures');
+  } else if (migrated > 0) {
+    console.warn(`Partial migration: ${migrated}/${localIndex.length} — localStorage preserved`);
   }
 
   return migrated;
@@ -577,9 +581,11 @@ async function compressHistory(state) {
     return `${role}: ${cleanNarrativeText(text).slice(0, 200)}`;
   }).join('\n');
 
-  state.narrativeSummary = state.narrativeSummary
+  const combined = state.narrativeSummary
     ? state.narrativeSummary + '\n\n--- Earlier events ---\n' + fallbackText.slice(0, 2000)
     : fallbackText.slice(0, 2000);
+  // Cap at 8000 chars to prevent unbounded system prompt growth
+  state.narrativeSummary = combined.length > 8000 ? combined.slice(-8000) : combined;
   state.conversationHistory = toKeep;
 }
 
@@ -635,14 +641,18 @@ function applyStateUpdates(state, updates) {
             if (du.itemsLost) dragon.items = dragon.items.filter(i => !du.itemsLost.includes(i));
             if (du.customElement) dragon.customElement = du.customElement;
           }
-          // Handle new dragon tamed
-          if (!dragon && du.newDragon) {
-            player.dragons.push({
-              name: du.name,
-              element: du.newDragon.element || 'unknown',
-              customElement: du.newDragon.customElement || null,
-              items: du.newDragon.items || [],
-            });
+          // Handle new dragon tamed — accept both { newDragon: { element } }
+          // and flat { element } format (AI sometimes omits the wrapper)
+          if (!dragon) {
+            const nd = du.newDragon || (du.element ? du : null);
+            if (nd) {
+              player.dragons.push({
+                name: du.name,
+                element: nd.element || 'unknown',
+                customElement: nd.customElement || null,
+                items: nd.items || [],
+              });
+            }
           }
         }
       }
@@ -895,7 +905,7 @@ const app = {
     }
   },
 
-  // ── Text-to-Speech (ElevenLabs + browser fallback) ──
+  // ── Text-to-Speech (OpenAI TTS + browser fallback) ──
   ttsEnabled: false,
   ttsAudio: null,
   ttsSpeaking: false,
@@ -1155,7 +1165,7 @@ const app = {
     document.getElementById('discoveries-panel').classList.remove('hidden');
     const list = document.getElementById('discoveries-list');
     list.innerHTML = this.state.discoveries.map(d =>
-      `<div class="discovery-item"><strong>${d.name}</strong> (${d.type}): ${d.description}</div>`
+      `<div class="discovery-item"><strong>${escapeHtml(d.name)}</strong> (${escapeHtml(d.type)}): ${escapeHtml(d.description)}</div>`
     ).join('');
   },
 
@@ -1229,6 +1239,12 @@ const app = {
 
   // Start adventure from state
   startAdventure(state) {
+    // Defensive init for saves created before these fields existed
+    state.discoveries = state.discoveries || [];
+    state.flags = state.flags || {};
+    state.narrativeSummary = state.narrativeSummary || '';
+    state.turnCount = state.turnCount || 0;
+
     this.state = state;
     // Push adventure ID into URL
     history.replaceState(null, '', '/game/' + state.id);
@@ -1480,8 +1496,8 @@ const app = {
     // Save button
     document.getElementById('btn-save').addEventListener('click', async () => {
       if (this.state) {
-        await saveAdventure(this.state);
-        this.addSystemMessage('Adventure saved.');
+        const ok = await saveAdventure(this.state);
+        this.addSystemMessage(ok ? 'Adventure saved.' : 'Save failed — try again');
       }
     });
 

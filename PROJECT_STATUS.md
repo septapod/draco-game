@@ -5,9 +5,17 @@
 
 **Last updated**: 2026-02-08
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS pipeline fully repaired with 3-layer fallback. Multi-dragon bonding + active dragon selection implemented.
+**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS switched from ElevenLabs to OpenAI (pay-per-use, no quota). Six bugs fixed. Ready to deploy.
 
-**Last session** (2026-02-08 — Multi-Dragon Bonding & Active Dragon Selection):
+**Last session** (2026-02-08 — TTS Switch + Bug Fixes):
+- **Fix: TTS switched from ElevenLabs to OpenAI** — ElevenLabs API key exhausted its character quota (401 errors). Rewrote `api/speak.js` to use OpenAI TTS (`tts-1` model, `nova` voice, mp3 format). Uses existing `OPENAI_API_KEY` env var. Pay-per-use (~$0.003/response) with no monthly quota ceiling. `ELEVENLABS_API_KEY` env var no longer needed.
+- **Fix: Migration data loss** — `migrateToCloud()` was clearing ALL localStorage if any saves migrated. Now only clears if ALL migrated successfully (`migrated === localIndex.length`). Partial migration preserves localStorage and logs a warning.
+- **Fix: Old saves crash** — saves created before the discoveries feature had no `discoveries` property, causing `TypeError` on `push()`. Added defensive initialization in `startAdventure()` for `discoveries`, `flags`, `narrativeSummary`, and `turnCount`.
+- **Fix: XSS in discoveries panel** — AI-provided `d.name`, `d.type`, `d.description` were injected via `innerHTML` without escaping. Now wrapped in `escapeHtml()`.
+- **Fix: Silent save failure** — manual save button showed "Adventure saved." even on POST failure. `saveAdventure()` now returns a boolean; button handler shows "Save failed — try again" on failure.
+- **Fix: Unbounded narrativeSummary** — fallback compression appended ~2000 chars each cycle with no cap. Now capped at 8000 characters (truncates to last 8000 on overflow).
+
+**Previous session** (2026-02-08 — Multi-Dragon Bonding & Active Dragon Selection):
 - **Feature: Multi-dragon UI** — status bar now shows each dragon as a clickable colored pill. Active dragon pill is filled with element color + glow; inactive dragons show border only. Clicking a pill sets that dragon as active. HP bar color follows the active dragon's element.
 - **Feature: Active dragon tracking** — new `activeDragonIndex` field on player state (defaults to 0 for backward compat with existing saves). `setActiveDragon()` method updates index, re-renders status bar, and auto-saves.
 - **Feature: AI dragon encounter instructions** — system prompt now tells the narrator about multi-dragon bonding mechanics (Breed Berries, finding eggs, earning trust). Active dragon marked with ★ in player summary. `newDragon` field documented in JSON example so the AI knows the format.
