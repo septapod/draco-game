@@ -5,9 +5,28 @@
 
 **Last updated**: 2026-02-09
 
-**Status**: Mobile UI overhaul complete. All 7 changes implemented — collapsible status bar, bottom sheet toolbar, voice icon in input row, discoveries drawer, enhanced recording state, auto-hide on scroll, viewport meta. Desktop unchanged. Ready to deploy + test on mobile.
+**Status**: v1.5 lore update — 11 new discoveries added to Codex, Game Bible, and image generation script. Starlight element unlocked, 3 new creatures, Marcus backstory, 5 new items. Images need generation (`OPENAI_API_KEY=... node codex/generate-images.js`), then GIF animation (`python codex/animate-images.py`).
 
-**Last session** (2026-02-09 — Mobile-Optimized Game UI):
+**Last session** (2026-02-09 — v1.5 Lore Update: 11 New Discoveries):
+- **Starlight element unlocked** — changed from "Advanced / Locked" to "Advanced / Unlocked", updated color from silver to deep blue/violet (#1a0a3d), added full powers (starlight beams, illumination, blinding, truth through light, crystalline wind-chime spines)
+- **5 new items** — Speed Berry, Forest Crystal, Forest Essence, Wooden Whistle, Magic Acorn added to Items chapter with icon images
+- **3 new creatures** — Rainbow Tortoise (adventure enemy, guards Power crystals), Forest Bear (ally, house-sized), Forest Stag (ally, living-branch antlers, telepathic)
+- **Marcus backstory** — The Finisher renamed to "Marcus (The Finisher)" with full backstory
+- **Starlight in matchup chart** — new button and matchup data in script.js
+- **Starlight Dragon** added to Named Dragons section
+- **10 new glossary entries** — Forest Bear, Forest Crystal, Forest Essence, Forest Stag, Magic Acorn, Marcus, Rainbow Tortoise, Speed Berry, Starlight Dragon, Wooden Whistle
+- **Updated open questions** — removed answered questions (Starlight, The Finisher), added new mysteries (Forest Crystal purpose, Wooden Whistle destination)
+- **9 new image prompts** in generate-images.js + updated starlight-dragon prompt
+- **Game Bible v1.5** — all new lore synced
+- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/generate-images.js`, `DRACO_Game_Bible.md`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-09 — Fix: Saved Games Won't Load on Mobile):
+- **Root cause**: Vercel CLI deploy cached old `game.html` while deploying updated CSS/JS. The JS code from mobile UI work referenced 5 new DOM elements (`status-collapsed`, `bottom-sheet`, `btn-voice-icon`, `btn-more`, `discoveries-overlay`, `status-wrapper`) without null checks. When these elements were missing from the stale HTML, `init()` crashed silently via TypeError, preventing saved adventures from loading.
+- **Fix Part 1: Null guards** — Added defensive null checks to 8 locations in `game.js`: `renderStatusBar()` collapsed element (2 spots), `status-collapsed` click handler, `btn-voice-icon` UI update + click handler, bottom sheet setup (all child elements), `btn-more` handler, `discoveries-overlay` handler, `status-wrapper` scroll handler. These prevent `init()` from crashing even during partial deploys or cache misses.
+- **Fix Part 2: Force deploy** — Deployed with `npx vercel --prod --force --yes` to bypass Vercel's build cache. Verified via curl that all 5 new HTML elements and all null guards are present in the deployed files.
+- **Commit**: `c5d797c` — `fix(game): add null guards for mobile DOM elements in init()`
+
+**Previous session** (2026-02-09 — Mobile-Optimized Game UI):
 - **Change 1: Collapsible status bar** — Mobile shows a compact 32px collapsed bar per player (name, dragon, HP inline). Chevron toggles expansion to full status details. Frosted glass background. Desktop unchanged (collapsed bar hidden).
 - **Change 2: Toolbar → bottom sheet** — Mobile toolbar replaced with "⋯" more button in input row. Opens a slide-up bottom sheet with Save, New, Test Voice, Model selector, Back to Codex. Desktop toolbar unchanged.
 - **Change 3: Voice toggle in input row** — Speaker icon button added between mic and send buttons. Toggles TTS on/off with gold color when active, sound waves fade when off. Mobile-only; desktop keeps text "Voice: On/Off" in toolbar.
@@ -118,7 +137,8 @@
 - 2 racing rule cards got images
 
 **Next up**:
-- Deploy and test mobile UI on iPhone Safari (verification checklist in plan)
+- Test on mobile: tap Continue → tap a saved adventure → verify it loads
+- Test on mobile: new adventure flow still works
 - Test 2-player mode — collapsed status bar shows both players inline
 - Test desktop — confirm zero visual changes from before
 - Verify that GitHub-triggered deploys include static files
@@ -139,8 +159,8 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 ## Current Status
 - **GitHub Repo**: [septapod/draco-game](https://github.com/septapod/draco-game) (private)
 - **Google Doc**: Fully formatted v1.3 — [View Doc](https://docs.google.com/document/d/1U43DoqDfHp86OGgNRhY5iRNt3Rluk5UmFo8U6oimE8E/edit?usp=drivesdk) (needs v1.4 update)
-- **Markdown**: `DRACO_Game_Bible.md` — complete local copy (v1.4)
-- **The Draco Codex**: Interactive 8-bit web experience at `codex/index.html` — v1.4 with 39 DALL-E 3 image prompts (28 existing + 11 new/replaced), 3 new elements (Universe, Cosmic, Egg), 2 locked elements (Wood, Starlight), breed dragons, Jack O'Rabbit enemy, 3 new story moments, 18 new glossary terms
+- **Markdown**: `DRACO_Game_Bible.md` — complete local copy (v1.5)
+- **The Draco Codex**: Interactive 8-bit web experience at `codex/index.html` — v1.5 with 48 DALL-E 3 image prompts, Starlight unlocked, 3 new creatures (Rainbow Tortoise, Forest Bear, Forest Stag), Marcus backstory, 5 new items, 10 new glossary terms
 
 ## What's Done
 - [x] Initial doc created from transcript (v1.0)
@@ -296,3 +316,4 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 | 1.2 | 2026-02-05 | Removed Spirit Rangers references; amulet origin left mysterious |
 | 1.3 | 2026-02-05 | Aza review session: 29 changes — boss named Draco, Spirit/Ghost merged, Dragon Eye Amulet rename, crystal wing taming mechanic, Aloha robot consolidation, Evil Groundhog enemy, Draco's evil shell lore, Tow Road dimension, elemental cycle, speed/berry/race corrections |
 | 1.4 | 2026-02-07 | Aza lore session: 3 new elements (Universe, Cosmic, Egg), 2 locked (Wood, Starlight), breed dragons, Jack O'Rabbit enemy, Snake Friend/Finisher allies, 4 new items, racing/combat mechanics, 3 new stories, appearance corrections (Wonky Donkers, Aloha), 11 new images |
+| 1.5 | 2026-02-09 | Gameplay session discoveries: Starlight unlocked (full powers), 3 new creatures (Rainbow Tortoise, Forest Bear, Forest Stag), Marcus backstory revealed, 5 new items, Starlight Dragon named, 9 new image prompts, 10 new glossary entries |

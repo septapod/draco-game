@@ -2,7 +2,7 @@
 
 **Created by: Aza Dixon**
 **Documented by: Brent Dixon**
-**Version: 1.4 — February 2026**
+**Version: 1.5 — February 2026**
 
 ---
 
@@ -78,7 +78,7 @@ Universe — The dragon's body bears a microscopic map of the entire universe, s
 Cosmic — The dragon looks like "a map of space." Powers are similar to Universe. Visually distinct: Cosmic = space map appearance; Universe = compass with microscopic star map. Locked.
 Egg — The dragon always moves with an egg balanced on top. Egg-based powers can force other dragons back inside their eggs — resetting all their training and taming. "They'll forget that they were even trained." Locked.
 Wood — Listed among the elements but no details yet. Locked.
-Starlight — Listed among the elements but no details yet. Locked.
+Starlight — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents, reveals hidden truths through light (similar to Spirit's truth-sensing but light-based). Crystalline spines create wind-chime sounds when moving. Unlocked.
 
 ### Locked Elements
 
@@ -108,6 +108,7 @@ Thunder Cloud — Unknown until unlocked
 Universe — Microscopic star map and compass pattern across the body; cosmic dark tones
 Cosmic — Space map pattern: nebulae, constellations, deep space visuals across the body
 Egg — Warm cream and gold tones; always has an ornate egg balanced on top
+Starlight — Deep blue to violet with silver star patterns; crystalline spines
 Custom — Varies (player-defined)
 
 All dragons breathe colored fire that matches their element color (e.g., a Spirit dragon breathes purple fire).
@@ -163,6 +164,10 @@ Similar powers to Universe. The dragon appears as "a map of space" — nebulae, 
 ### Egg
 
 The dragon always carries an ornate egg balanced on top. Its power forces other dragons back inside their eggs — a complete reset. Any dragon hit by this power forgets all training and taming. "They'll forget that they were even trained... if they were even tamed in the first place." This is one of the most disruptive powers in the game.
+
+### Starlight
+
+Creates concentrated starlight beams that can illuminate darkness, temporarily blind opponents, and reveal hidden truths through light (similar to Spirit's truth-sensing but light-based). The dragon has deep blue to violet scales covered in silver star patterns, with crystalline spines along its back that create wind-chime sounds when moving. The light-based truth revelation is distinct from Spirit's sensing — Starlight dragons reveal truth through illumination rather than spiritual detection.
 
 ### Silver Moonlight (Special Ability)
 
@@ -272,6 +277,16 @@ Keeper Transformation represents the ultimate expression of the bond between a h
 **Turtle Meat** — Dropped when the Tow Road is defeated. Dragons love it. Acts as a consumable power boost (not a permanent power-up, but nourishment).
 
 **Badges** — Earned by winning races. 10 are required to challenge Draco. Different races award different types of trophies (e.g., the Supersonic Pink Trophy).
+
+**Speed Berry** — Golden shimmering berry. Grants a temporary speed boost for a single race.
+
+**Forest Crystal** — Deep green crystal pulsing with nature energy. Purpose unknown — may bond with nature creatures or unlock forest secrets.
+
+**Forest Essence** — Small vial of green liquid. One drop on dragon scales grants better stamina for three races.
+
+**Wooden Whistle** — Carved whistle from a grateful Forest Bear. May summon forest creatures or call for help in the woods.
+
+**Magic Acorn** — Glowing acorn that grows into a magic oak in one day. The oak produces rare berries forever.
 
 **Dragon Eye Amulet** — A glowstone artifact that contains the eye of a dragon. It always glows, and the Keeper can summon any bonded dragon to their side at any time. With a deep enough bond, it enables the Keeper to physically transform into one of their dragons.
 
@@ -437,9 +452,21 @@ Weaknesses: Speed Atmosphere (launches into space). During daytime, removing it 
 
 Drops: Rabbit meat, a dragon skill, and a rabbit skull (which summons a skeleton Dragon so you can tame it).
 
-### The Finisher
+### Rainbow Tortoise
 
-Role: Ally / Team Member. A person (not a dragon) who joins the player's racing team. Male. Named character who races alongside the player.
+Role: Adventure enemy. Description: Massive turtle-like creature with a dragon-scale-energy shell that shimmers in rainbow colors. Guards Power crystals in Rainbow Valley caves. Weakness: Fire (2 hits to defeat; non-fire attacks deal ~1% damage, requiring ~100 hits). Drops: Power crystals.
+
+### Forest Bear
+
+Role: Ally / Creature. Description: House-sized bear with moss-covered brown fur and glowing green eyes. Has massive claws and is incredibly strong. Despite its fearsome appearance, can be gentle if treated with kindness. Gave the keepers a Wooden Whistle as a gift.
+
+### Forest Stag
+
+Role: Ally / Creature. Description: Majestic stag with antlers made of living branches that sprout fresh leaves. Amber eyes, can communicate telepathically with forest helpers. Leader of forest creatures, ancient and wise.
+
+### Marcus (The Finisher)
+
+Role: Ally / Team Member. Real name: Marcus. A person (not a dragon) who joins the player's racing team. Formerly a middle-tier racer who found his true purpose when he helped an injured dragon during a race. He renamed himself "The Finisher" after discovering his talent for strong race conclusions — not the fastest start, but an unbeatable close. Values fairness, perseverance, and heart over raw talent. A loyal teammate who respects strategic racing.
 
 ### Snake Friend
 
@@ -596,7 +623,7 @@ These are areas that need further development as the Draco universe expands.
 
 ### Elements & Powers
 
-What are the full powers for Water, Fire, and Grass beyond basics? What are the full powers of Universe, Cosmic, and Egg elements beyond what's described? What are the details for Wood and Starlight elements? How does the custom element creation work mechanically (for the tabletop/video game)? What custom elements have other players invented? What are the unknown time-restricted powers unlocked with the Thunder Cloud element? What other breed combinations exist beyond Spirit-Grass?
+What are the full powers for Water, Fire, and Grass beyond basics? What are the full powers of Universe, Cosmic, and Egg elements beyond what's described? What are the details for the Wood element? How does the custom element creation work mechanically (for the tabletop/video game)? What custom elements have other players invented? What are the unknown time-restricted powers unlocked with the Thunder Cloud element? What other breed combinations exist beyond Spirit-Grass?
 
 ### World Building
 
@@ -616,7 +643,7 @@ Can keepers trade dragons? Are there keeper-vs-keeper battles (outside of races)
 
 ### Characters
 
-What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots? What is the Snake Friend's backstory? What is The Finisher's backstory — how did they join the team?
+What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots? What is the Snake Friend's backstory? What is the Forest Crystal's true purpose? Where does the Wooden Whistle lead?
 
 ### Keeper Transformation
 
@@ -636,6 +663,7 @@ Spirit Dragon (unnamed) — Spirit element — Keeper: Brent — A dragon who lo
 Psychic Dragon (unnamed) — Psychic element — Keeper: Brent — Brent's first dragon, chosen at the First Choice Stable.
 Flash Dragon — Element unknown (likely Speed-related) — Keeper: Aza — Sleek racing dragon, used in competitive races.
 Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with a Breed Berry. Has "Grass Spirit Army" attack (10% drain). Strong against Thunder Cloud.
+Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales with silver star patterns. Crystalline spines create wind-chime sounds. Creates starlight beams and reveals hidden truths through light.
 
 ---
 
@@ -679,11 +707,23 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Flash Dragon** — Aza's named racing dragon. Sleek and fast, used in competitive races.
 
+**Forest Bear** — House-sized bear with moss-covered brown fur and glowing green eyes. Despite fearsome appearance, gentle if treated with kindness. Gave the keepers a Wooden Whistle.
+
+**Forest Crystal** — Deep green crystal pulsing with nature energy. Purpose unknown — may bond with nature creatures or unlock forest secrets.
+
+**Forest Essence** — Small vial of green liquid. One drop on dragon scales grants better stamina for three races.
+
+**Forest Stag** — Majestic stag with living-branch antlers. Amber eyes, telepathic communication with forest helpers. Leader of forest creatures, ancient and wise.
+
 **First Choice Stable** — The location where new keepers choose their first dragon. The only place where berries are found resting on eggs.
 
 **Jack O'Rabbit** — Giant fuzzy rabbit enemy with a skull for a head. The skull acts as a shield. Creates clones when attacked; clones grow via Earth's magnetism. Drops rabbit meat, a dragon skill, and a rabbit skull.
 
 **Keeper Transformation** — The ability for a Keeper to physically become one of their dragons. The Keeper retains their mind and control. Requires a Dragon Eye Amulet and a deep bond.
+
+**Magic Acorn** — Glowing acorn that grows into a magic oak in one day. The oak produces rare berries forever.
+
+**Marcus (The Finisher)** — Formerly a middle-tier racer who found purpose helping an injured dragon. Values fairness, perseverance, and heart. Loyal teammate who respects strategic racing.
 
 **Poisonous Powers** — Special toxic abilities obtained via snake snacks. Usable in combat but banned from races.
 
@@ -693,11 +733,15 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Race Drone** — A drone that announces races, manages countdowns, and can change color for special occasions.
 
+**Rainbow Tortoise** — Massive turtle-like creature with iridescent rainbow dragon-scale shell. Guards Power crystals in Rainbow Valley caves. Vulnerable to fire (2 hits) or 100 regular hits.
+
 **Silver Moonlight** — The only *known* power that only works at nighttime. Other time-restricted powers exist but are unlocked with the Thunder Cloud element.
 
 **Snake Friend** — Ally encounter. A friendly snake who gives players snake snacks, granting poisonous powers.
 
 **Snake Snacks** — Items from the snake friend encounter. Grant poisonous powers to dragons. Banned from races.
+
+**Speed Berry** — Golden shimmering berry that grants a temporary speed boost for a single race.
 
 **Special Berries** — Rare berries found in the Tow Road's dimension that make dragons slightly faster.
 
@@ -707,17 +751,21 @@ Spirit-Grass Breed — Spirit/Grass hybrid — Keeper: Aza/Brent — Tamed with 
 
 **Spirit-Grass Breed** — A hybrid dragon combining Spirit and Grass elements. Strong against Thunder Cloud. Has Grass Spirit Army attack.
 
+**Starlight Dragon** — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Crystalline spines create wind-chime sounds.
+
 **Supersonic Pink Trophy** — A named race trophy. Different races award different trophy types.
 
 **The Crystal** — An artifact that reveals a dragon's powers when looked through directly at the dragon.
 
-**The Finisher** — Ally character (person, not dragon) who joins the player's racing team.
+**The Finisher** — See Marcus (The Finisher).
 
 **Tow Road** — A giant evil flying turtle enemy. Shell made of dragon scale energy. Has its own dimension where special berries can be found.
 
 **Thunder Cloud Dragon** — A dragon of the Thunder Cloud element. Draco is the most powerful of these, but others exist. Not all Thunder Cloud dragons have shells.
 
 **Universe Dragon** — Dragon bearing a microscopic map of the entire universe with a tiny compass. Can crush shelled creatures in one hit.
+
+**Wooden Whistle** — Carved whistle from a grateful Forest Bear. May summon forest creatures or call for help in the woods.
 
 **Wonky Donkers** — Bumbling recurring villain who disguises banned dragons with cardboard. Skinny, huge cheeks, tiny eyebrows, black hair, tan skin.
 

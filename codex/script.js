@@ -417,6 +417,11 @@ function initMatchupChart() {
       weak: ["Fire"],
       notes: "Spirit-Grass breed. Combines Spirit truth-sensing with Grass powers. Has 'Grass Spirit Army' attack (drains 10%). Tamed with a Breed Berry.",
     },
+    starlight: {
+      strong: ["Darkness-based enemies"],
+      weak: [],
+      notes: "Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Reveals hidden truths through light. Crystalline spines produce wind-chime sounds.",
+    },
   };
 
   buttons.forEach((btn) => {

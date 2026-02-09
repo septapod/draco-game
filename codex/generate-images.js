@@ -163,7 +163,7 @@ const images = [
   },
   {
     filename: "starlight-dragon.png",
-    prompt: `${STYLE_PREFIX} radiant silver and white dragon glowing with pure starlight, its body shimmering like captured moonbeams, tiny pinpricks of light across its scales like stars in a night sky, crystalline translucent wings refracting light into prismatic beams, ethereal silver aura, floating above a mountaintop under a brilliant starry sky`,
+    prompt: `${STYLE_PREFIX} majestic dragon with deep blue to violet scales covered in silver star patterns, crystalline spines along its back that look like they would chime in the wind, concentrated starlight beams emanating from its body, illuminating the darkness around it, prismatic light refractions, floating above a mountaintop under a brilliant starry sky`,
   },
   {
     filename: "spirit-grass-breed.png",
@@ -188,6 +188,44 @@ const images = [
   {
     filename: "spirit-grass-breed-encounter.png",
     prompt: `${STYLE_PREFIX} a rare hybrid dragon with purple ghostly body and green vine patterns being discovered in a meadow, a small glowing berry being offered to it, sense of wonder and discovery, forest edge setting, magical particles in the air`,
+  },
+  // ── New creatures (Session 2026-02-09) ──
+  {
+    filename: "rainbow-tortoise.png",
+    prompt: `${STYLE_PREFIX} massive turtle-like creature with an iridescent rainbow dragon-scale shell, guarding glowing Power crystals inside a dark cave, the shell shimmers with every color of the rainbow, intimidating stance, glowing eyes, boss enemy appearance`,
+  },
+  {
+    filename: "forest-bear.png",
+    prompt: `${STYLE_PREFIX} house-sized bear with moss-covered brown fur, glowing green eyes, massive claws, standing in an ancient forest clearing, patches of moss and small ferns growing on its back and shoulders, gentle but powerful presence, dappled sunlight through canopy`,
+  },
+  {
+    filename: "forest-stag.png",
+    prompt: `${STYLE_PREFIX} majestic stag with antlers made of living branches sprouting fresh green leaves, glowing amber eyes, radiating forest magic energy, standing proudly in an enchanted forest glade, ancient and wise presence, golden-green magical aura`,
+  },
+  {
+    filename: "marcus-the-finisher.png",
+    prompt: `${STYLE_PREFIX} determined young male human racer in dragon riding gear, standing next to a dragon, confident expression, racing goggles on forehead, practical but worn racing outfit, kind eyes showing perseverance and heart, stadium background`,
+  },
+  // ── New item icons (Session 2026-02-09) ──
+  {
+    filename: "icon-speed-berry.png",
+    prompt: `${STYLE_PREFIX} single golden shimmering berry glowing with magical energy, transparent background, pixel art icon style, simple centered composition, no other objects`,
+  },
+  {
+    filename: "icon-forest-crystal.png",
+    prompt: `${STYLE_PREFIX} deep green crystal pulsing with nature energy, transparent background, pixel art icon style, simple centered composition, emerald glow`,
+  },
+  {
+    filename: "icon-forest-essence.png",
+    prompt: `${STYLE_PREFIX} small glass vial filled with glowing green liquid, cork stopper, transparent background, pixel art icon style, simple centered composition, nature magic glow`,
+  },
+  {
+    filename: "icon-wooden-whistle.png",
+    prompt: `${STYLE_PREFIX} small carved wooden whistle with rustic bark texture, transparent background, pixel art icon style, simple centered composition, warm brown tones`,
+  },
+  {
+    filename: "icon-magic-acorn.png",
+    prompt: `${STYLE_PREFIX} glowing golden acorn with magical aura, tiny sparkles emanating from it, transparent background, pixel art icon style, simple centered composition`,
   },
 ];
 
