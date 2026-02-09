@@ -17,8 +17,8 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // Default to Rachel — warm female narrator voice
-    const voiceId = voice_id || "21m00Tcm4TlvDq8ikWAM";
+    // George — warm British male storyteller, great for fantasy narration
+    const voiceId = voice_id || "JBFqnCBsd6RMkjVDRZzb";
 
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
@@ -30,10 +30,11 @@ module.exports = async function handler(req, res) {
         },
         body: JSON.stringify({
           text,
-          model_id: "eleven_flash_v2_5",
+          model_id: "eleven_multilingual_v2",
           voice_settings: {
-            stability: 0.6,
-            similarity_boost: 0.75,
+            stability: 0.5,
+            similarity_boost: 0.8,
+            style: 0.4,
           },
         }),
       }

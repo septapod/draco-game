@@ -264,68 +264,6 @@ These are canonical story moments from actual gameplay sessions that can be refe
 - **Spirit-Grass Breed** — Spirit/Grass hybrid — Keeper: Aza/Brent — Grass Spirit Army attack.`;
 
 
-// ── Image Catalog ──
-// The AI can reference these in narration using <scene_image> tags.
-// The client renders them inline in the narrative.
-
-const IMAGE_CATALOG = {
-  // Dragons
-  'fire-dragon': { file: 'fire-dragon.gif', alt: 'Fire Dragon', context: 'Fire element dragon' },
-  'water-dragon': { file: 'water-dragon.gif', alt: 'Water Dragon', context: 'Water element dragon' },
-  'grass-dragon': { file: 'grass-dragon.gif', alt: 'Grass Dragon', context: 'Grass element dragon' },
-  'electric-dragon': { file: 'electric-dragon.gif', alt: 'Electric Dragon', context: 'Electric element dragon' },
-  'psychic-dragon': { file: 'psychic-dragon.gif', alt: 'Psychic Dragon', context: 'Psychic element dragon' },
-  'spirit-dragon': { file: 'spirit-dragon.gif', alt: 'Spirit Dragon', context: 'Spirit element dragon' },
-  'speed-dragon': { file: 'speed-dragon.gif', alt: 'Speed Dragon', context: 'Speed element dragon' },
-  'power-dragon': { file: 'power-dragon.gif', alt: 'Power Dragon', context: 'Power element rainbow dragon' },
-  'thunder-cloud-dragon': { file: 'thunder-cloud-dragon.gif', alt: 'Thunder Cloud Dragon', context: 'Thunder Cloud dragon / Draco' },
-  'universe-dragon': { file: 'universe-dragon.gif', alt: 'Universe Dragon', context: 'Universe element dragon' },
-  'cosmic-dragon': { file: 'cosmic-dragon.gif', alt: 'Cosmic Dragon', context: 'Cosmic element dragon' },
-  'egg-dragon': { file: 'egg-dragon.gif', alt: 'Egg Dragon', context: 'Egg element dragon' },
-  'wood-dragon': { file: 'wood-dragon.gif', alt: 'Wood Dragon', context: 'Wood element dragon' },
-  'starlight-dragon': { file: 'starlight-dragon.gif', alt: 'Starlight Dragon', context: 'Starlight element dragon' },
-  'flash-dragon': { file: 'flash-dragon.gif', alt: 'Flash Dragon', context: "Aza's racing dragon" },
-  'spirit-grass-breed': { file: 'spirit-grass-breed.gif', alt: 'Spirit-Grass Breed', context: 'Spirit/Grass hybrid dragon' },
-  // Scenes
-  'first-choice-stable': { file: 'first-choice-stable.gif', alt: 'First Choice Stable', context: 'The stable where keepers choose their first egg' },
-  'dragon-eggs-closeup': { file: 'dragon-eggs-closeup.gif', alt: 'Dragon Eggs', context: 'Close-up of dragon eggs with berries on top' },
-  'racing-stadium': { file: 'racing-stadium.gif', alt: 'Racing Stadium', context: 'A dragon racing stadium' },
-  'racing-trophy': { file: 'racing-trophy.gif', alt: 'Racing Trophy', context: 'The flashing trophy at the finish' },
-  'battle-scene': { file: 'battle-scene.gif', alt: 'Battle Scene', context: 'Dragons in combat' },
-  'world-landscape': { file: 'world-landscape.gif', alt: 'World Landscape', context: 'The Draco world landscape' },
-  'berry-plant': { file: 'berry-plant.gif', alt: 'Berry Plant', context: 'Berry plant with ancient markings' },
-  'night-scene': { file: 'night-scene.gif', alt: 'Night Scene', context: 'Nighttime in the Draco world' },
-  'force-field': { file: 'force-field.gif', alt: 'Force Field', context: 'Dragon force field active' },
-  'elemental-clash': { file: 'elemental-clash.gif', alt: 'Elemental Clash', context: 'Elemental powers clashing' },
-  'spirit-grass-breed-encounter': { file: 'spirit-grass-breed-encounter.gif', alt: 'Breed Encounter', context: 'Encountering a Spirit-Grass breed dragon' },
-  'jack-o-rabbit-battle': { file: 'jack-o-rabbit-battle.gif', alt: 'Jack O\'Rabbit Battle', context: 'Fighting Jack O\'Rabbit' },
-  // Characters
-  'aloha': { file: 'aloha.gif', alt: 'Aloha', context: 'Aloha the robot' },
-  'wonky-donkers': { file: 'wonky-donkers.gif', alt: 'Wonky Donkers', context: 'Wonky Donkers the villain' },
-  'snake-friend': { file: 'snake-friend.gif', alt: 'Snake Friend', context: 'The friendly snake' },
-  'jack-o-rabbit': { file: 'jack-o-rabbit.gif', alt: 'Jack O\'Rabbit', context: 'Jack O\'Rabbit enemy' },
-  // Items & artifacts
-  'dragon-eye-amulet': { file: 'dragon-eye-amulet.gif', alt: 'Dragon Eye Amulet', context: 'The transformation amulet' },
-  'the-crystal': { file: 'the-crystal.gif', alt: 'The Crystal', context: 'The Crystal that reveals dragon powers' },
-  'draco-evil-shell': { file: 'draco-evil-shell.gif', alt: 'Evil Shell', context: "Draco's evil shell" },
-  'keeper-transformation': { file: 'keeper-transformation.gif', alt: 'Keeper Transformation', context: 'A keeper transforming into their dragon' },
-  'tow-road': { file: 'tow-road.gif', alt: 'The Tow Road', context: 'The Tow Road — giant evil turtle' },
-  'evil-groundhog': { file: 'evil-groundhog.gif', alt: 'Evil Groundhog', context: 'The Evil Groundhog' },
-  'race-drone-pink': { file: 'race-drone-pink.gif', alt: 'Race Drone', context: 'The Race Drone (pink special event)' },
-};
-
-function buildImageCatalogPrompt() {
-  const entries = Object.entries(IMAGE_CATALOG).map(([id, img]) =>
-    `- ${id}: ${img.context}`
-  ).join('\n');
-  return `## Available Scene Images
-You can include images in your narration using: <scene_image id="image-id"/>
-Use them sparingly — only at dramatic moments, new locations, when a character/enemy first appears, or when showing an item for the first time. Don't use them every turn.
-Available images:
-${entries}`;
-}
-
-
 // ── Hidden Lore & Secrets ──
 // Progressive revelation: the AI knows hints about mysteries that it can
 // weave into the narrative when contextually appropriate.
@@ -386,8 +324,6 @@ You have COMPLETE knowledge of the Draco universe. You remember everything that 
 ${GAME_BIBLE}
 
 ${HIDDEN_LORE}
-
-${buildImageCatalogPrompt()}
 
 ## Current Game State
 Players:
@@ -671,19 +607,8 @@ function cleanNarrativeText(text) {
   return text
     .replace(/<game_state>[\s\S]*?<\/game_state>/g, '')
     .replace(/<new_content[^>]*>[\s\S]*?<\/new_content>/g, '')
-    .replace(/<scene_image[^/]*\/>/g, '') // Strip image tags from text (rendered separately)
+    .replace(/<scene_image[^/]*\/>/g, '')
     .trim();
-}
-
-function parseSceneImages(text) {
-  const images = [];
-  const re = /<scene_image\s+id="([^"]+)"\s*\/>/g;
-  let m;
-  while ((m = re.exec(text)) !== null) {
-    const img = IMAGE_CATALOG[m[1]];
-    if (img) images.push(img);
-  }
-  return images;
 }
 
 function applyStateUpdates(state, updates) {
@@ -744,6 +669,19 @@ let mediaRecorder = null;
 let audioChunks = [];
 let isRecording = false;
 let recordingMimeType = '';
+let recordingStartTime = 0;
+
+// Whisper hallucinates these phrases on short/silent audio
+const WHISPER_HALLUCINATIONS = [
+  'thank you', 'thanks for watching', 'thanks for listening',
+  'subscribe', 'like and subscribe', 'see you next time',
+  'bye', 'goodbye', 'you', 'the end', 'hmm',
+];
+
+function isWhisperHallucination(text) {
+  const lower = text.toLowerCase().trim().replace(/[.!?,]/g, '');
+  return WHISPER_HALLUCINATIONS.includes(lower) || lower.length < 3;
+}
 
 async function startRecording() {
   try {
@@ -759,6 +697,7 @@ async function startRecording() {
 
     mediaRecorder.start();
     isRecording = true;
+    recordingStartTime = Date.now();
     return true;
   } catch (err) {
     console.error('Mic access denied:', err);
@@ -929,24 +868,11 @@ const app = {
     narrative.scrollTop = narrative.scrollHeight;
   },
 
-  // Render a completed narrator response: clean text + inline images + optional TTS
+  // Render a completed narrator response: clean text + optional TTS
   renderNarratorFinal(msgEl, fullText) {
     const narrative = document.getElementById('narrative');
     const cleaned = cleanNarrativeText(fullText);
     msgEl.textContent = cleaned;
-
-    // Render inline scene images
-    const images = parseSceneImages(fullText);
-    for (const img of images) {
-      const imgEl = document.createElement('img');
-      imgEl.src = '/codex/images/' + img.file;
-      imgEl.alt = img.alt;
-      imgEl.className = 'narrative-image';
-      imgEl.loading = 'lazy';
-      // Insert after the narrator text
-      msgEl.parentNode.insertBefore(imgEl, msgEl.nextSibling);
-    }
-
     narrative.scrollTop = narrative.scrollHeight;
 
     // Auto-speak if TTS is enabled
@@ -1527,8 +1453,11 @@ const app = {
       if (!isRecording) return;
       isRecording = false; // clear immediately to prevent double-fire
       micBtn.classList.remove('recording');
+      const duration = Date.now() - recordingStartTime;
       const blob = await stopRecording();
-      if (!blob || blob.size < 1000) {
+
+      // Need at least 1 second of recording and a reasonable blob size
+      if (!blob || blob.size < 2000 || duration < 1000) {
         flashPlaceholder('Hold longer to record');
         return;
       }
@@ -1538,10 +1467,12 @@ const app = {
 
       try {
         const text = await transcribeAudio(blob);
-        if (text) {
-          input.value = text;
-          input.focus();
+        if (!text || isWhisperHallucination(text)) {
+          flashPlaceholder("Didn't catch that — try again");
+          return;
         }
+        input.value = text;
+        input.focus();
         input.placeholder = 'What do you do?';
       } catch (err) {
         console.error('Transcription error:', err);

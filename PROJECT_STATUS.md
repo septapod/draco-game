@@ -5,14 +5,16 @@
 
 **Last updated**: 2026-02-08
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS working with fallback.
+**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS working with George voice + fallback.
 
-**Last session** (2026-02-08 — TTS Autoplay Fix + Narrator Brevity v2):
-- **Fix: TTS not playing** — browser autoplay policy was silently blocking `audio.play()` because the user gesture expired during streaming. Fixed by creating an AudioContext on init and resuming it on every user gesture (send, Enter, mic, TTS toggle). Added proper `await` on `play()` with error handling.
-- **Fix: TTS fallback** — if ElevenLabs fails or autoplay is still blocked, falls back to browser-native `speechSynthesis`.
-- **Fix: Narrator still too verbose** — rewrote brevity instructions to be more emphatic: "2-4 sentences MAX", includes good/bad examples, explicitly says "this is a spoken game played by kids." Reduced max_tokens from 1024 to 500.
-- **Cleanup: Deleted duplicate "draco-game" Vercel project** — only "draco" remains, mapped to draco-codex.vercel.app.
-- All env vars confirmed on Vercel: ANTHROPIC_API_KEY, OPENAI_API_KEY, ELEVENLABS_API_KEY, DATABASE_URL + Neon vars.
+**Last session** (2026-02-08 — Voice upgrade, image removal, transcription fixes):
+- **Fix: TTS voice quality** — switched from Rachel (generic neutral female, flash model) to George (warm British storyteller, `eleven_multilingual_v2` model). Much better for fantasy narration. Style parameter added for expressiveness.
+- **Fix: Transcription broken** — `formidable` v3 changed its export (object not function), causing "formidable is not a function." Replaced with zero-dependency multipart parser. Removed formidable from dependencies entirely.
+- **Fix: Whisper hallucinations** — short/silent recordings caused Whisper to output "thank you", "thanks for watching", etc. Added hallucination filter (blocklist + min-length check), increased min blob size to 2KB, added 1-second minimum recording duration.
+- **Removed: All game images** — stripped IMAGE_CATALOG, buildImageCatalogPrompt, parseSceneImages, and image rendering from renderNarratorFinal. The game is pure text — imagery happens in the imagination.
+- **Fix: TTS autoplay** — browser autoplay policy was silently blocking `audio.play()`. Fixed by creating AudioContext on init and resuming on user gestures. Added browser-native speechSynthesis fallback.
+- **Fix: Narrator brevity** — rewrote system prompt: "2-4 sentences MAX", explicit good/bad examples, "this is a spoken game played by kids." Reduced max_tokens from 1024 to 500.
+- **Cleanup**: Deleted duplicate "draco-game" Vercel project. All env vars confirmed.
 
 **Previous session** (2026-02-08 — Cloud Persistence + Image Fix):
 - **Feature: Cloud persistence** — replaced localStorage save/load with Neon Postgres via new `api/adventures.js` serverless endpoint (JSONB state column, upsert via ON CONFLICT). All 6 save/load functions now async + fetch-based. Adventures sync across devices. Table auto-creates on first request.
