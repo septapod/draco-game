@@ -17,8 +17,8 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // George — warm British male storyteller, great for fantasy narration
-    const voiceId = voice_id || "JBFqnCBsd6RMkjVDRZzb";
+    // Rachel — warm female narrator, perfect for storytelling
+    const voiceId = voice_id || "21m00Tcm4TlvDq8ikWAM";
 
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
