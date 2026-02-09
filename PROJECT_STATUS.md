@@ -5,9 +5,16 @@
 
 **Last updated**: 2026-02-09
 
-**Status**: v1.5 lore update — 11 new discoveries added to Codex, Game Bible, and image generation script. Starlight element unlocked, 3 new creatures, Marcus backstory, 5 new items. Images need generation (`OPENAI_API_KEY=... node codex/generate-images.js`), then GIF animation (`python codex/animate-images.py`).
+**Status**: Navigation UX improved — "PLAY THE GAME" button on title screen navigates to game.html with brief flash, scroll hint added below, welcome screen has "Back to Codex" link, Play nav tab visually distinct. Images still need generation from v1.5 (`OPENAI_API_KEY=... node codex/generate-images.js`), then GIF animation (`python codex/animate-images.py`).
 
-**Last session** (2026-02-09 — v1.5 Lore Update: 11 New Discoveries):
+**Last session** (2026-02-09 — Improve Codex ↔ Game Navigation):
+- **"PLAY THE GAME" button** — renamed from "PRESS START", now navigates to `game.html` with brief 0.4s flash animation instead of scrolling to Chapter I. Title screen no longer permanently disappears (removed `title-screen--departing` logic).
+- **Scroll hint** — subtle "↓ Scroll to explore the Codex ↓" with bounce animation below the button, Space Mono font, faded text. Signals that scrolling reveals the Codex content.
+- **Play nav tab** — added faint gold border + pill shape to make it stand out as a navigation destination vs. section anchors.
+- **Welcome screen Codex link** — "← Back to Codex" text link below New Adventure / Continue buttons on `game.html` welcome screen. Subtle, secondary to game actions.
+- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/style.css`, `codex/game.html`, `codex/game.css`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-09 — v1.5 Lore Update: 11 New Discoveries):
 - **Starlight element unlocked** — changed from "Advanced / Locked" to "Advanced / Unlocked", updated color from silver to deep blue/violet (#1a0a3d), added full powers (starlight beams, illumination, blinding, truth through light, crystalline wind-chime spines)
 - **5 new items** — Speed Berry, Forest Crystal, Forest Essence, Wooden Whistle, Magic Acorn added to Items chapter with icon images
 - **3 new creatures** — Rainbow Tortoise (adventure enemy, guards Power crystals), Forest Bear (ally, house-sized), Forest Stag (ally, living-branch antlers, telepathic)

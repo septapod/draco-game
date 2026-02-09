@@ -388,6 +388,21 @@ img {
   50% { opacity: 0; }
 }
 
+/* Scroll hint below Play button */
+.scroll-hint {
+  margin-top: 2rem;
+  font-family: var(--font-body);
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+  color: rgba(255, 255, 255, 0.35);
+  animation: scroll-bounce 2s ease-in-out infinite;
+  letter-spacing: 1px;
+}
+
+@keyframes scroll-bounce {
+  0%, 100% { transform: translateY(0); opacity: 0.35; }
+  50% { transform: translateY(8px); opacity: 0.6; }
+}
+
 @keyframes gentle-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -470,6 +485,14 @@ img {
 .nav-play {
   color: var(--accent-gold);
   margin-left: auto;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+}
+
+.nav-play:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: var(--accent-gold);
 }
 
 /* ═══════════════════════════════════════════

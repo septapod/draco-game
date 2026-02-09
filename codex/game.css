@@ -73,6 +73,17 @@ body {
   flex-direction: column;
   gap: 0.75rem;
 }
+.btn-link-codex {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  text-decoration: none;
+  margin-top: 0.5rem;
+  transition: color 0.2s;
+}
+.btn-link-codex:hover {
+  color: var(--text);
+}
 
 /* ── Buttons ── */
 .btn-primary {

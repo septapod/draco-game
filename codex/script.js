@@ -66,27 +66,15 @@ function initPressStart() {
       starsEl.classList.add("stars--burst");
     }
 
-    // 3. Create a bright flash overlay
+    // 3. Create a brief flash overlay
     const flash = document.createElement("div");
     flash.className = "screen-flash";
     document.body.appendChild(flash);
 
-    // 4. After flash peaks, zoom the title screen away
+    // 4. Navigate to game after the flash
     setTimeout(() => {
-      const titleScreen = document.getElementById("title-screen");
-      if (titleScreen) {
-        titleScreen.classList.add("title-screen--departing");
-      }
+      window.location.href = "game.html";
     }, 400);
-
-    // 5. Scroll to Chapter I after the drama
-    setTimeout(() => {
-      flash.remove();
-      const target = document.getElementById("world");
-      if (target) {
-        target.scrollIntoView({ behavior: "smooth" });
-      }
-    }, 900);
   });
 }
 
