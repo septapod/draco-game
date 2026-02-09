@@ -12,7 +12,10 @@
 - **Scroll hint** — subtle "↓ Scroll to explore the Codex ↓" with bounce animation below the button, Space Mono font, faded text. Signals that scrolling reveals the Codex content.
 - **Play nav tab** — added faint gold border + pill shape to make it stand out as a navigation destination vs. section anchors.
 - **Welcome screen Codex link** — "← Back to Codex" text link below New Adventure / Continue buttons on `game.html` welcome screen. Subtle, secondary to game actions.
-- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/style.css`, `codex/game.html`, `codex/game.css`, `PROJECT_STATUS.md`
+- **Scroll hint visibility fix** — bumped from faded white Space Mono to gold pixel font (`var(--accent-gold)`) with `text-shadow` glow, larger size (`clamp(0.65rem, 2vw, 0.85rem)`), and stronger bounce animation (opacity 0.7→1.0). Now clearly visible on dark background.
+- **Removed Named Dragons section** — the list grows with gameplay and isn't needed to understand the world. Removed all 7 named dragon entries from Characters chapter.
+- **Generated v1.5 images** — 10 new PNGs via DALL-E 3 (starlight-dragon, rainbow-tortoise, forest-bear, forest-stag, marcus-the-finisher, 5 item icons), plus GIF animations for all new images.
+- **Files changed**: `codex/index.html`, `codex/script.js`, `codex/style.css`, `codex/game.html`, `codex/game.css`, `codex/images/` (21 new files), `PROJECT_STATUS.md`
 
 **Previous session** (2026-02-09 — v1.5 Lore Update: 11 New Discoveries):
 - **Starlight element unlocked** — changed from "Advanced / Locked" to "Advanced / Unlocked", updated color from silver to deep blue/violet (#1a0a3d), added full powers (starlight beams, illumination, blinding, truth through light, crystalline wind-chime spines)
