@@ -343,6 +343,34 @@ body {
   color: rgba(255, 255, 255, 0.4);
   margin-top: 0.15rem;
 }
+
+/* Dragon pills — clickable dragon selector */
+.dragon-pills {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.15rem;
+}
+.dragon-pill {
+  font-family: var(--font-pixel);
+  font-size: 0.45rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 1rem;
+  border: 1px solid var(--dragon-color);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dragon-pill.active {
+  background: var(--dragon-color);
+  color: #fff;
+  box-shadow: 0 0 6px var(--dragon-color);
+}
+.dragon-pill:hover:not(.active) {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
 .status-location {
   font-family: var(--font-pixel);
   font-size: 0.4rem;
@@ -609,6 +637,15 @@ body {
   .status-detail { font-size: 0.6rem; }
   .status-items { font-size: 0.6rem; }
   .status-location { font-size: 0.45rem; }
+
+  /* Dragon pills — bigger touch targets on mobile */
+  .dragon-pill {
+    font-size: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+  }
 
   /* Narrative — iOS momentum scrolling, more padding */
   .narrative {

@@ -5,9 +5,17 @@
 
 **Last updated**: 2026-02-08
 
-**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS pipeline fully repaired with 3-layer fallback.
+**Status**: Deployed and live at draco-codex.vercel.app. Cloud persistence working. TTS pipeline fully repaired with 3-layer fallback. Multi-dragon bonding + active dragon selection implemented.
 
-**Last session** (2026-02-08 — TTS comprehensive pipeline repair):
+**Last session** (2026-02-08 — Multi-Dragon Bonding & Active Dragon Selection):
+- **Feature: Multi-dragon UI** — status bar now shows each dragon as a clickable colored pill. Active dragon pill is filled with element color + glow; inactive dragons show border only. Clicking a pill sets that dragon as active. HP bar color follows the active dragon's element.
+- **Feature: Active dragon tracking** — new `activeDragonIndex` field on player state (defaults to 0 for backward compat with existing saves). `setActiveDragon()` method updates index, re-renders status bar, and auto-saves.
+- **Feature: AI dragon encounter instructions** — system prompt now tells the narrator about multi-dragon bonding mechanics (Breed Berries, finding eggs, earning trust). Active dragon marked with ★ in player summary. `newDragon` field documented in JSON example so the AI knows the format.
+- **Fix: Player message color** — now uses `activeDragonIndex` instead of hardcoded `dragons[0]`.
+- **Feature: Test Voice button** — toolbar button that speaks a sample phrase so voice mode can be verified without playing a round.
+- **CSS: Dragon pill styles** — `.dragon-pills` flex container, `.dragon-pill` with `--dragon-color` CSS variable for element-specific coloring, active/hover states, mobile touch target sizing.
+
+**Previous session** (2026-02-08 — TTS comprehensive pipeline repair):
 - **Fix: AudioContext re-suspends on Safari** — `unlockAudio()` now plays a silent buffer through the AudioContext during the user gesture. This is the standard iOS/Safari workaround — without it, Safari re-suspends the context between the click and when `speak()` runs after streaming completes.
 - **Fix: Zero fallbacks after commit `aea19c2`** — previous commit removed both HTMLAudioElement and speechSynthesis fallback, leaving AudioContext as the only path. If decoding failed for any reason, total silence. Now has 3-layer fallback: AudioContext → HTMLAudioElement (blob URL) → browser speechSynthesis.
 - **Fix: Null guard on audioContext** — `speak()` now creates AudioContext as safety net if somehow missing, preventing TypeError on `this.audioContext.state`.

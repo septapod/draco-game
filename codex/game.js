@@ -300,8 +300,9 @@ IMPORTANT: These are narrative seeds, not scripts. Adapt them naturally to what 
 function buildSystemPrompt(state) {
   const playerSummary = state.players.map(p => {
     const hp = p.hp != null ? p.hp : 100;
-    const dragons = p.dragons.map(d =>
-      `${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'})`
+    const activeIdx = p.activeDragonIndex || 0;
+    const dragons = p.dragons.map((d, i) =>
+      `${i === activeIdx ? '★ ' : ''}${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'})`
     ).join('; ');
     return `- ${p.name}: HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
   }).join('\n');
@@ -320,6 +321,8 @@ BREVITY IS CRITICAL — THIS IS A SPOKEN GAME PLAYED BY KIDS:
 Enforce all game rules faithfully. When players attempt something that contradicts the rules, gently redirect them. Track items gained/lost, badges earned, location changes, and story progress.
 
 You have COMPLETE knowledge of the Draco universe. You remember everything that has happened in this adventure — every item found, every dragon tamed, every battle fought, every NPC encountered. Use this knowledge to create continuity: reference past events, have NPCs remember the players, let consequences of earlier choices ripple forward.
+
+MULTIPLE DRAGONS: Players can bond with more than one dragon during the adventure. The ★ marks the active dragon used for battle and racing. Ways to bond new dragons: find eggs in the wild, earn trust from wild dragons (crystal slots + berries), use Breed Berries for hybrid dragons, encounter lost dragons that want a home. When a new dragon bonds with a player, include a "newDragon" field in the dragonUpdates for that dragon. Naturally introduce dragon encounters every few turns — don't force it, but create opportunities for players to discover eggs, encounter wild dragons, or find breeding opportunities.
 
 ${GAME_BIBLE}
 
@@ -353,7 +356,8 @@ After your narrative response, output a JSON block wrapped in <game_state> tags 
       "itemsGained": [],
       "itemsLost": [],
       "dragonUpdates": [
-        { "name": "DragonName", "itemsGained": [], "itemsLost": [], "customElement": null }
+        { "name": "DragonName", "itemsGained": [], "itemsLost": [], "customElement": null },
+        { "name": "NewDragonName", "newDragon": { "element": "water", "items": [] } }
       ]
     }
   ]
@@ -792,47 +796,54 @@ const app = {
     document.getElementById(id).classList.add('active');
   },
 
-  // Status bar — rich player info panel
+  // Status bar — rich player info panel with clickable dragon pills
   renderStatusBar() {
     const bar = document.getElementById('status-bar');
     if (!this.state) { bar.innerHTML = ''; return; }
 
-    const playerCards = this.state.players.map(p => {
-      const dragon = p.dragons[0];
-      const elColor = dragon ? (ELEMENT_COLORS[dragon.element] || '#888') : '#888';
+    const playerCards = this.state.players.map((p, pIdx) => {
+      const activeIdx = p.activeDragonIndex || 0;
+      const activeDragon = p.dragons[activeIdx] || p.dragons[0];
+      const elColor = activeDragon ? (ELEMENT_COLORS[activeDragon.element] || '#888') : '#888';
       const hp = p.hp != null ? p.hp : 100;
       const hpClass = hp <= 25 ? 'low' : hp <= 50 ? 'mid' : '';
 
-      // Dragon info
-      let dragonInfo = 'No dragon';
-      if (dragon) {
-        const elLabel = dragon.element.charAt(0).toUpperCase() + dragon.element.slice(1);
-        const customEl = dragon.customElement ? ` + ${dragon.customElement}` : '';
-        dragonInfo = `${dragon.name} (${elLabel}${customEl})`;
-      }
+      // Dragon pills — each dragon as a clickable pill
+      const dragonPills = p.dragons.map((d, dIdx) => {
+        const dColor = ELEMENT_COLORS[d.element] || '#888';
+        const isActive = dIdx === activeIdx;
+        return `<button class="dragon-pill${isActive ? ' active' : ''}" style="--dragon-color:${dColor}" data-player="${pIdx}" data-dragon="${dIdx}">${escapeHtml(d.name)}</button>`;
+      }).join('');
+      const pillsHtml = p.dragons.length > 0
+        ? `<div class="dragon-pills">${dragonPills}</div>`
+        : '<div class="status-dragon">No dragon</div>';
 
-      // Combine all items (player + dragon)
+      // Combine all items (player + active dragon)
       const allItems = [...(p.items || [])];
-      if (dragon) allItems.push(...(dragon.items || []).filter(i => i !== 'berry'));
+      if (activeDragon) allItems.push(...(activeDragon.items || []).filter(i => i !== 'berry'));
       const itemsStr = allItems.length > 0 ? allItems.join(', ') : 'none';
-
-      // Additional dragons beyond the first
-      const extraDragons = p.dragons.slice(1).map(d => {
-        const el = d.element.charAt(0).toUpperCase() + d.element.slice(1);
-        return `${d.name} (${el})`;
-      }).join(', ');
 
       return `<div class="status-player">
         <div class="status-player-name" style="color:${elColor}">${escapeHtml(p.name)} · ${p.badges}/10 badges</div>
-        <div class="status-dragon">${escapeHtml(dragonInfo)}</div>
-        <div class="status-hp-bar"><div class="status-hp-fill ${hpClass}" style="width:${hp}%"></div></div>
-        <div class="status-detail">HP ${hp}%${extraDragons ? ' · Also: ' + escapeHtml(extraDragons) : ''}</div>
+        ${pillsHtml}
+        <div class="status-hp-bar"><div class="status-hp-fill ${hpClass}" style="width:${hp}%; background:${elColor}"></div></div>
+        <div class="status-detail">HP ${hp}%</div>
         <div class="status-items">Items: ${escapeHtml(itemsStr)}</div>
       </div>`;
     }).join('');
 
     const location = this.state.location ? this.state.location.replace(/-/g, ' ') : 'unknown';
     bar.innerHTML = playerCards + `<div class="status-location">Location: ${escapeHtml(location)} · Turn ${this.state.turnCount}</div>`;
+  },
+
+  // Set active dragon for a player
+  async setActiveDragon(playerIdx, dragonIdx) {
+    if (!this.state) return;
+    const player = this.state.players[playerIdx];
+    if (!player || dragonIdx < 0 || dragonIdx >= player.dragons.length) return;
+    player.activeDragonIndex = dragonIdx;
+    this.renderStatusBar();
+    await saveAdventure(this.state);
   },
 
   // Narrative
@@ -851,7 +862,10 @@ const app = {
     div.className = 'msg msg-player';
     const color = this.state ? (() => {
       const p = this.state.players.find(pl => pl.name === playerName);
-      if (p && p.dragons[0]) return ELEMENT_COLORS[p.dragons[0].element] || '#888';
+      if (p) {
+        const d = p.dragons[p.activeDragonIndex || 0] || p.dragons[0];
+        if (d) return ELEMENT_COLORS[d.element] || '#888';
+      }
       return '#888';
     })() : '#888';
     div.innerHTML = `<div class="player-label" style="color:${color}">${playerName}</div>${escapeHtml(text)}`;
@@ -1364,6 +1378,7 @@ const app = {
         badges: 0,
         items: [],
         customElement: null,
+        activeDragonIndex: 0,
       }));
       this.onboardingState.currentPlayerIndex = 0;
       this.showEggPicker();
@@ -1437,6 +1452,15 @@ const app = {
       const count = await migrateToCloud();
       btn.textContent = count > 0 ? `Migrated ${count} adventure${count > 1 ? 's' : ''}!` : 'Nothing to migrate';
       await this.renderLoadScreen();
+    });
+
+    // Dragon pill clicks (event delegation on status bar)
+    document.getElementById('status-bar').addEventListener('click', (e) => {
+      const pill = e.target.closest('.dragon-pill');
+      if (!pill) return;
+      const playerIdx = parseInt(pill.dataset.player);
+      const dragonIdx = parseInt(pill.dataset.dragon);
+      this.setActiveDragon(playerIdx, dragonIdx);
     });
 
     // Adventure screen controls
@@ -1537,6 +1561,12 @@ const app = {
       this.ttsEnabled = !this.ttsEnabled;
       document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
       if (!this.ttsEnabled) this.stopSpeaking();
+    });
+
+    // Test Voice button
+    document.getElementById('btn-test-voice').addEventListener('click', () => {
+      this.unlockAudio();
+      this.speak('The adventure begins. A full-sized dragonette emerges from the egg, scales shimmering in the light.');
     });
 
     // Discoveries toggle
