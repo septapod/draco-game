@@ -368,7 +368,9 @@ function buildSystemPrompt(state) {
     return `- ${p.name}: HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
   }).join('\n');
 
-  let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name. Keep responses to 2-4 short paragraphs. Always end by prompting the player(s) for their next action.
+  let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name.
+
+KEEP IT SHORT: 1-2 short paragraphs MAX. Think dialogue, not novel. Describe just enough to set the scene, then ask what the player does next. The game should feel like a back-and-forth conversation, not a wall of text. Less is more — leave room for the players' imagination.
 
 Enforce all game rules faithfully. When players attempt something that contradicts the rules, gently redirect them. Track items gained/lost, badges earned, location changes, and story progress.
 
@@ -455,52 +457,109 @@ function createAdventure(players, model) {
   };
 }
 
-function saveAdventure(state) {
+async function saveAdventure(state) {
   state.lastPlayedAt = new Date().toISOString();
-  localStorage.setItem('draco_adventure_' + state.id, JSON.stringify(state));
-
-  // Update index
-  const index = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
-  const existing = index.findIndex(e => e.id === state.id);
-  const entry = { id: state.id, name: state.name, lastPlayedAt: state.lastPlayedAt, playerNames: state.players.map(p => p.name), badges: state.players.reduce((s, p) => s + p.badges, 0) };
-  if (existing >= 0) index[existing] = entry;
-  else index.push(entry);
-  localStorage.setItem('draco_adventures', JSON.stringify(index));
-}
-
-function loadAdventure(id) {
-  const data = localStorage.getItem('draco_adventure_' + id);
-  return data ? JSON.parse(data) : null;
-}
-
-function archiveAdventure(id) {
-  const index = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
-  const entry = index.find(e => e.id === id);
-  if (entry) {
-    entry.archived = true;
-    localStorage.setItem('draco_adventures', JSON.stringify(index));
+  try {
+    await fetch('/api/adventures', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(state),
+    });
+  } catch (err) {
+    console.error('Save failed:', err);
   }
 }
 
-function unarchiveAdventure(id) {
-  const index = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
-  const entry = index.find(e => e.id === id);
-  if (entry) {
-    entry.archived = false;
-    localStorage.setItem('draco_adventures', JSON.stringify(index));
+async function loadAdventure(id) {
+  try {
+    const resp = await fetch('/api/adventures?id=' + encodeURIComponent(id));
+    if (!resp.ok) return null;
+    return await resp.json();
+  } catch (err) {
+    console.error('Load failed:', err);
+    return null;
   }
 }
 
-function getSavedAdventures() {
-  return JSON.parse(localStorage.getItem('draco_adventures') || '[]')
-    .filter(e => !e.archived)
-    .sort((a, b) => new Date(b.lastPlayedAt) - new Date(a.lastPlayedAt));
+async function archiveAdventure(id) {
+  try {
+    await fetch('/api/adventures?id=' + encodeURIComponent(id), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ archived: true }),
+    });
+  } catch (err) {
+    console.error('Archive failed:', err);
+  }
 }
 
-function getArchivedAdventures() {
-  return JSON.parse(localStorage.getItem('draco_adventures') || '[]')
-    .filter(e => e.archived)
-    .sort((a, b) => new Date(b.lastPlayedAt) - new Date(a.lastPlayedAt));
+async function unarchiveAdventure(id) {
+  try {
+    await fetch('/api/adventures?id=' + encodeURIComponent(id), {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ archived: false }),
+    });
+  } catch (err) {
+    console.error('Unarchive failed:', err);
+  }
+}
+
+async function getSavedAdventures() {
+  try {
+    const resp = await fetch('/api/adventures');
+    if (!resp.ok) return [];
+    const index = await resp.json();
+    return index
+      .filter(e => !e.archived)
+      .sort((a, b) => new Date(b.lastPlayedAt) - new Date(a.lastPlayedAt));
+  } catch (err) {
+    console.error('List failed:', err);
+    return [];
+  }
+}
+
+async function getArchivedAdventures() {
+  try {
+    const resp = await fetch('/api/adventures');
+    if (!resp.ok) return [];
+    const index = await resp.json();
+    return index
+      .filter(e => e.archived)
+      .sort((a, b) => new Date(b.lastPlayedAt) - new Date(a.lastPlayedAt));
+  } catch (err) {
+    console.error('Archived list failed:', err);
+    return [];
+  }
+}
+
+// Migrate localStorage adventures to cloud (one-time)
+async function migrateToCloud() {
+  const localIndex = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
+  if (localIndex.length === 0) return 0;
+
+  let migrated = 0;
+  for (const entry of localIndex) {
+    const raw = localStorage.getItem('draco_adventure_' + entry.id);
+    if (!raw) continue;
+    try {
+      const state = JSON.parse(raw);
+      await saveAdventure(state);
+      migrated++;
+    } catch (err) {
+      console.error('Migration failed for', entry.id, err);
+    }
+  }
+
+  // Clear localStorage after successful migration
+  if (migrated > 0) {
+    for (const entry of localIndex) {
+      localStorage.removeItem('draco_adventure_' + entry.id);
+    }
+    localStorage.removeItem('draco_adventures');
+  }
+
+  return migrated;
 }
 
 
@@ -873,7 +932,7 @@ const app = {
     const images = parseSceneImages(fullText);
     for (const img of images) {
       const imgEl = document.createElement('img');
-      imgEl.src = 'images/' + img.file;
+      imgEl.src = '/codex/images/' + img.file;
       imgEl.alt = img.alt;
       imgEl.className = 'narrative-image';
       imgEl.loading = 'lazy';
@@ -1044,7 +1103,7 @@ const app = {
       this.renderNarratorFinal(msgEl, fullText);
 
       this.renderStatusBar();
-      saveAdventure(this.state);
+      await saveAdventure(this.state);
     } catch (err) {
       msgEl.textContent = '[Error: ' + err.message + ']';
     }
@@ -1075,9 +1134,20 @@ const app = {
   },
 
   // Load screen
-  renderLoadScreen() {
-    const saves = getSavedAdventures();
+  async renderLoadScreen() {
     const list = document.getElementById('save-list');
+    list.innerHTML = '<div class="no-saves">Loading...</div>';
+
+    // Check for localStorage data that needs migration
+    const localIndex = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
+    const migrateBtnContainer = document.getElementById('migrate-section');
+    if (localIndex.length > 0 && migrateBtnContainer) {
+      migrateBtnContainer.classList.remove('hidden');
+    } else if (migrateBtnContainer) {
+      migrateBtnContainer.classList.add('hidden');
+    }
+
+    const saves = await getSavedAdventures();
     if (saves.length === 0) {
       list.innerHTML = '<div class="no-saves">No saved adventures</div>';
     } else {
@@ -1094,7 +1164,7 @@ const app = {
     }
 
     // Archived adventures
-    const archived = getArchivedAdventures();
+    const archived = await getArchivedAdventures();
     const archivedSection = document.getElementById('archived-section');
     const archivedList = document.getElementById('archived-list');
     if (archived.length === 0) {
@@ -1215,7 +1285,7 @@ const app = {
       // Final render: clean text + images + TTS (once, after stream completes)
       this.renderNarratorFinal(msgEl, fullText);
       this.renderStatusBar();
-      saveAdventure(this.state);
+      await saveAdventure(this.state);
     } catch (err) {
       msgEl.textContent = '[Error: ' + err.message + ']';
     }
@@ -1223,19 +1293,15 @@ const app = {
     this.isSending = false;
   },
 
-  init() {
+  async init() {
     // Check URL for adventure ID (e.g. /game/abc12345)
     const pathMatch = window.location.pathname.match(/\/game\/([a-z0-9]+)/);
     if (pathMatch) {
-      // Try to find this adventure in localStorage
-      const allAdventures = JSON.parse(localStorage.getItem('draco_adventures') || '[]');
-      const entry = allAdventures.find(e => e.id === pathMatch[1]);
-      if (entry) {
-        const state = loadAdventure(entry.id);
-        if (state) {
-          this.startAdventure(state);
-          // Still attach all event listeners below
-        }
+      // Try to load this adventure from cloud
+      const state = await loadAdventure(pathMatch[1]);
+      if (state) {
+        this.startAdventure(state);
+        // Still attach all event listeners below
       }
     }
 
@@ -1245,9 +1311,9 @@ const app = {
       this.showScreen('screen-players');
     });
 
-    document.getElementById('btn-load-adventure').addEventListener('click', () => {
-      this.renderLoadScreen();
+    document.getElementById('btn-load-adventure').addEventListener('click', async () => {
       this.showScreen('screen-load');
+      await this.renderLoadScreen();
     });
 
     // Player count
@@ -1315,40 +1381,50 @@ const app = {
     });
 
     // Load screen
-    document.getElementById('save-list').addEventListener('click', (e) => {
+    document.getElementById('save-list').addEventListener('click', async (e) => {
       const archiveBtn = e.target.closest('.save-archive');
       if (archiveBtn) {
         e.stopPropagation();
-        archiveAdventure(archiveBtn.dataset.id);
-        this.renderLoadScreen();
+        await archiveAdventure(archiveBtn.dataset.id);
+        await this.renderLoadScreen();
         return;
       }
       const entry = e.target.closest('.save-entry');
       if (entry) {
-        const state = loadAdventure(entry.dataset.id);
+        const state = await loadAdventure(entry.dataset.id);
         if (state) this.startAdventure(state);
       }
     });
 
     // Archived list — restore
-    document.getElementById('archived-list').addEventListener('click', (e) => {
+    document.getElementById('archived-list').addEventListener('click', async (e) => {
       const unarchiveBtn = e.target.closest('.save-unarchive');
       if (unarchiveBtn) {
         e.stopPropagation();
-        unarchiveAdventure(unarchiveBtn.dataset.id);
-        this.renderLoadScreen();
+        await unarchiveAdventure(unarchiveBtn.dataset.id);
+        await this.renderLoadScreen();
         return;
       }
       // Allow clicking archived entries to load them too
       const entry = e.target.closest('.save-entry');
       if (entry) {
-        const state = loadAdventure(entry.dataset.id);
+        const state = await loadAdventure(entry.dataset.id);
         if (state) this.startAdventure(state);
       }
     });
 
     document.getElementById('btn-back-welcome').addEventListener('click', () => {
       this.showScreen('screen-welcome');
+    });
+
+    // Migrate localStorage to cloud
+    document.getElementById('btn-migrate').addEventListener('click', async () => {
+      const btn = document.getElementById('btn-migrate');
+      btn.textContent = 'Migrating...';
+      btn.disabled = true;
+      const count = await migrateToCloud();
+      btn.textContent = count > 0 ? `Migrated ${count} adventure${count > 1 ? 's' : ''}!` : 'Nothing to migrate';
+      await this.renderLoadScreen();
     });
 
     // Adventure screen controls
@@ -1358,24 +1434,24 @@ const app = {
     });
 
     // Model selector
-    document.getElementById('select-model').addEventListener('change', (e) => {
+    document.getElementById('select-model').addEventListener('change', async (e) => {
       if (this.state) {
         this.state.model = e.target.value;
-        saveAdventure(this.state);
+        await saveAdventure(this.state);
       }
     });
 
     // Save button
-    document.getElementById('btn-save').addEventListener('click', () => {
+    document.getElementById('btn-save').addEventListener('click', async () => {
       if (this.state) {
-        saveAdventure(this.state);
+        await saveAdventure(this.state);
         this.addSystemMessage('Adventure saved.');
       }
     });
 
     // New adventure from game screen
-    document.getElementById('btn-new').addEventListener('click', () => {
-      if (this.state) saveAdventure(this.state);
+    document.getElementById('btn-new').addEventListener('click', async () => {
+      if (this.state) await saveAdventure(this.state);
       this.state = null;
       history.replaceState(null, '', '/game.html');
       this.showScreen('screen-welcome');
@@ -1481,7 +1557,7 @@ const app = {
     this.showScreen('screen-eggs');
   },
 
-  finishDragonNaming() {
+  async finishDragonNaming() {
     const name = document.getElementById('input-dragon-name').value.trim();
     if (!name) {
       document.getElementById('input-dragon-name').style.borderBottomColor = '#FF4136';
@@ -1506,7 +1582,7 @@ const app = {
       // All players ready — create adventure
       const model = 'claude-sonnet-4-5-20250929';
       const state = createAdventure(this.onboardingState.players, model);
-      saveAdventure(state);
+      await saveAdventure(state);
       this.startAdventure(state);
     }
   },

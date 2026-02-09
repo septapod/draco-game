@@ -5,9 +5,16 @@
 
 **Last updated**: 2026-02-08
 
-**In progress**: Commit and deploy — all code changes complete.
+**In progress**: Cloud persistence + image fix + narrator brevity. Needs Upstash Redis credentials before deploy.
 
-**Last session** (2026-02-08 — Transcription Fix + TTS Fix + Unique URLs):
+**Last session** (2026-02-08 — Cloud Persistence + Image Fix + Narrator Brevity):
+- **Feature: Cloud persistence** — replaced localStorage save/load with Neon Postgres via new `api/adventures.js` serverless endpoint (JSONB state column, upsert via ON CONFLICT). All 6 save/load functions now async + fetch-based. Adventures sync across devices. Table auto-creates on first request.
+- **Feature: Migration UI** — "Migrate to Cloud" button on load screen detects localStorage data and offers one-click upload. Clears localStorage after successful migration.
+- **Fix: Broken scene images** — changed `imgEl.src = 'images/' + img.file` to `imgEl.src = '/codex/images/' + img.file` in `renderNarratorFinal()`. Images broke because `/game/{id}` URL rewrite caused relative paths to resolve to `/game/images/` instead of `/codex/images/`.
+- **Fix: Narrator too verbose** — changed system prompt from "2-4 short paragraphs" to "1-2 short paragraphs MAX" with explicit guidance to keep it conversational/dialogue-like.
+- **Needs**: `DATABASE_URL` env var in Vercel (Neon Postgres connection string). If Neon is already integrated via Vercel, may already be set. Table auto-creates on first API call.
+
+**Previous session** (2026-02-08 — Transcription Fix + TTS Fix + Unique URLs):
 - **Fix: Transcription endpoint** — rewrote `api/transcribe.js` to use Node 18 built-in `File` + `FormData` (from `node:buffer`) instead of manual multipart boundary construction. The manual approach was fragile and breaking on Vercel. Still uses `formidable` for parsing the incoming upload.
 - **Fix: ElevenLabs TTS** — fixed `api/speak.js`: removed unsupported `style` parameter from `voice_settings` (Flash v2.5 may reject it), switched from `/stream` endpoint to non-streaming `/text-to-speech` endpoint, replaced `response.body.getReader()` streaming with `response.arrayBuffer()` collection (more reliable in serverless), added `Content-Length` header and error logging.
 - **Feature: Unique adventure URLs** — already implemented in previous session (game.js: `generateId()`, `history.replaceState('/game/{id}')`, URL-based auto-load in `init()`; vercel.json: `/game/:id` rewrite). Ready to deploy.
@@ -66,7 +73,7 @@
 - Minimal UI design — the game should encourage real-world play, not screen addiction
 - Condensed Game Bible in system prompt (not RAG) — source is only ~12-15K tokens, no reason for retrieval complexity
 - Whisper API for transcription (OpenAI key in Vercel env) rather than browser-only Web Speech API
-- No database — localStorage sufficient for personal/family game
+- Neon Postgres for cloud persistence — `@neondatabase/serverless` driver, JSONB state column, auto-creates table
 - Context blowouts were happening during iterative image work — see CLAUDE.md "Session Management" section for rules
 
 ---
@@ -221,6 +228,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 | `codex/game.css` | Game page styles (minimal dark theme) |
 | `codex/game.js` | Game logic: chat, state, audio, onboarding, discoveries |
 | `api/chat.js` | Vercel serverless — Anthropic Messages API streaming proxy |
+| `api/adventures.js` | Vercel serverless — Neon Postgres CRUD for adventures |
 | `api/transcribe.js` | Vercel serverless — OpenAI Whisper transcription proxy |
 | `codex/generate-images.js` | DALL-E 3 image generation script (39 prompts) |
 | `codex/generate-icons.js` | gpt-image-1 icon generator (7 transparent icons) |
