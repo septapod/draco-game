@@ -303,9 +303,6 @@ body {
   flex-wrap: wrap;
   flex-shrink: 0;
   line-height: 1.5;
-  max-width: 680px;
-  margin: 0 auto;
-  width: 100%;
 }
 .status-player {
   flex: 1;
@@ -401,6 +398,9 @@ body {
 .msg-narrator {
   color: var(--text);
   white-space: pre-wrap;
+  background: rgba(255, 215, 0, 0.03);
+  padding: 0.5rem 0.6rem;
+  border-radius: 4px;
 }
 .msg-player {
   color: var(--text-dim);
@@ -588,6 +588,124 @@ body {
   100% { opacity: 0; }
 }
 
+/* ── Status wrapper ── */
+.status-wrapper {
+  flex-shrink: 0;
+  max-width: 680px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Collapsed status bar — hidden on desktop, shown on mobile */
+.status-collapsed {
+  display: none;
+}
+
+/* ── Voice icon button (mobile input row) — hidden on desktop ── */
+.btn-voice {
+  display: none;
+}
+.btn-voice.voice-on {
+  color: var(--gold);
+  border-color: var(--gold-dim);
+}
+.btn-voice .voice-on-wave {
+  transition: opacity 0.2s;
+}
+.btn-voice:not(.voice-on) .voice-on-wave {
+  opacity: 0;
+}
+
+/* ── More button (mobile) — hidden on desktop ── */
+.btn-more {
+  display: none;
+}
+
+/* ── Recording state glow on input row ── */
+.input-row.recording-active {
+  box-shadow: 0 0 8px rgba(255, 65, 54, 0.4);
+  border-radius: 4px;
+}
+
+/* ── Bottom sheet ── */
+.bottom-sheet-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 50;
+}
+.bottom-sheet-overlay.open { display: block; }
+
+.bottom-sheet {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--bg-surface);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px 12px 0 0;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+  z-index: 51;
+  padding: 0.5rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  display: none;
+}
+.bottom-sheet.open {
+  transform: translateY(0);
+}
+.bottom-sheet-handle {
+  width: 36px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin: 0 auto 0.75rem;
+}
+.bottom-sheet-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.bottom-sheet-btn {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--text);
+  border: none;
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.15s;
+  text-decoration: none;
+  display: block;
+}
+.bottom-sheet-btn:hover, .bottom-sheet-btn:active {
+  background: rgba(255, 255, 255, 0.06);
+}
+.bottom-sheet-model {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bottom-sheet-model .select-model {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  padding: 0.3rem 0.5rem;
+}
+.bottom-sheet-link {
+  color: var(--text-dim);
+}
+
+/* ── Discoveries overlay (mobile drawer) ── */
+.discoveries-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 40;
+}
+.discoveries-overlay.open { display: block; }
+
 /* ── Utilities ── */
 .hidden { display: none !important; }
 
@@ -636,14 +754,101 @@ body {
     font-size: 1rem;
   }
 
-  /* Status bar — horizontal scroll on mobile to prevent space theft */
+  /* ── Status wrapper: collapsible on mobile ── */
+  .status-wrapper {
+    position: relative;
+    z-index: 20;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .status-wrapper.status-hidden {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Collapsed status bar — visible on mobile */
+  .status-collapsed {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.6rem;
+    padding: 0.35rem 0.6rem;
+    background: rgba(22, 22, 42, 0.85);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    align-items: center;
+    min-height: 32px;
+  }
+  .status-collapsed-player {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    flex: 1;
+    min-width: 0;
+  }
+  .status-collapsed-name {
+    font-family: var(--font-pixel);
+    font-size: 0.4rem;
+    white-space: nowrap;
+  }
+  .status-collapsed-dragon {
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .status-collapsed-hp {
+    width: 40px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .status-collapsed-hp-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  .status-collapsed-hp-pct {
+    font-size: 0.55rem;
+    color: rgba(255, 255, 255, 0.4);
+    min-width: 24px;
+  }
+  .btn-status-toggle {
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    padding: 0.2rem;
+    font-size: 0.8rem;
+    line-height: 1;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .btn-status-toggle.expanded {
+    transform: rotate(180deg);
+  }
+
+  /* Expandable detail status bar on mobile */
   .status-bar {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
     font-size: 0.7rem;
-    padding: 0.4rem 0.6rem;
+    padding: 0;
+    border-bottom: none;
     gap: 0.5rem;
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  .status-bar.expanded {
+    max-height: 300px;
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   }
   .status-player { min-width: 160px; flex-shrink: 0; }
   .status-player-name { font-size: 0.5rem; }
@@ -696,36 +901,71 @@ body {
     min-height: 44px;
   }
 
-  /* Toolbar — wrap, bigger touch targets */
+  /* Toolbar — hidden on mobile (moved to bottom sheet) */
   .toolbar {
-    flex-wrap: wrap;
-    gap: 0.3rem;
+    display: none;
   }
-  .btn-sm {
-    font-size: 0.5rem;
+
+  /* Voice icon button — visible on mobile */
+  .btn-voice {
+    display: flex;
+  }
+
+  /* More button — visible on mobile */
+  .btn-more {
+    display: flex;
+  }
+
+  /* Bottom sheet — visible on mobile */
+  .bottom-sheet {
+    display: block;
+  }
+
+  /* Discoveries panel — slide-out drawer on mobile */
+  .discoveries-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: 280px;
+    max-width: 80vw;
+    background: var(--bg-surface);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    z-index: 41;
+    padding: 1rem 0.6rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .discoveries-panel.hidden {
+    display: flex !important;
+    transform: translateX(100%);
+  }
+  .discoveries-panel.drawer-open {
+    transform: translateX(0);
+  }
+  .discoveries-panel .btn-sm {
+    font-size: 0.6rem;
     padding: 0.5rem 0.6rem;
     min-height: 36px;
     display: flex;
     align-items: center;
-  }
-  .select-model {
-    font-size: 0.5rem;
-    padding: 0.4rem;
-    min-height: 36px;
-  }
-  .link-codex { margin-left: auto; }
-
-  /* Discoveries panel — below toolbar on mobile */
-  .discoveries-panel {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 0.3rem 0.6rem;
+    justify-content: space-between;
+    width: 100%;
   }
   .discoveries-list {
-    font-size: 0.7rem;
-    max-height: 35vh;
+    font-size: 0.75rem;
+    max-height: none;
+    flex: 1;
+    overflow-y: auto;
+    display: block !important;
+    border: none;
+    padding: 0;
+    margin-top: 0.5rem;
+    min-width: 0;
   }
 
   /* Save list entries — bigger touch targets */
