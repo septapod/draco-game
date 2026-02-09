@@ -1,5 +1,47 @@
-const formidable = require("formidable");
-const { readFileSync } = require("fs");
+// Parse multipart form data from raw request body (no dependency needed)
+function parseMultipart(buf, boundary) {
+  const parts = [];
+  const boundaryBuf = Buffer.from('--' + boundary);
+  let start = buf.indexOf(boundaryBuf) + boundaryBuf.length;
+
+  while (start < buf.length) {
+    // Skip CRLF after boundary
+    if (buf[start] === 0x0d) start += 2;
+    else if (buf[start] === 0x0a) start += 1;
+
+    // Check for closing boundary
+    if (buf[start] === 0x2d && buf[start + 1] === 0x2d) break;
+
+    // Find end of headers (double CRLF)
+    const headerEnd = buf.indexOf('\r\n\r\n', start);
+    if (headerEnd === -1) break;
+    const headers = buf.slice(start, headerEnd).toString();
+
+    // Find next boundary
+    const bodyStart = headerEnd + 4;
+    const nextBoundary = buf.indexOf(boundaryBuf, bodyStart);
+    if (nextBoundary === -1) break;
+
+    // Body is everything up to CRLF before boundary
+    const bodyEnd = nextBoundary - 2;
+    const body = buf.slice(bodyStart, bodyEnd);
+
+    // Parse headers for name, filename, content-type
+    const nameMatch = headers.match(/name="([^"]+)"/);
+    const filenameMatch = headers.match(/filename="([^"]+)"/);
+    const ctMatch = headers.match(/Content-Type:\s*(.+)/i);
+
+    parts.push({
+      name: nameMatch ? nameMatch[1] : '',
+      filename: filenameMatch ? filenameMatch[1] : null,
+      contentType: ctMatch ? ctMatch[1].trim() : null,
+      data: body,
+    });
+
+    start = nextBoundary + boundaryBuf.length;
+  }
+  return parts;
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -14,33 +56,41 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Parse multipart upload with formidable
-    const form = formidable({ maxFileSize: 25 * 1024 * 1024 });
-    const [fields, files] = await form.parse(req);
+    // Read raw body
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    const buf = Buffer.concat(chunks);
 
-    const file = files.file?.[0];
-    if (!file) {
+    // Extract boundary from content-type header
+    const ct = req.headers["content-type"] || "";
+    const boundaryMatch = ct.match(/boundary=(.+)/);
+    if (!boundaryMatch) {
+      res.status(400).json({ error: "Missing multipart boundary" });
+      return;
+    }
+
+    const parts = parseMultipart(buf, boundaryMatch[1]);
+    const filePart = parts.find(p => p.name === "file");
+    if (!filePart || !filePart.data.length) {
       res.status(400).json({ error: "No audio file provided" });
       return;
     }
 
-    const fileBuffer = readFileSync(file.filepath);
-    const filename = file.originalFilename || "recording.webm";
-    const mimetype = file.mimetype || "audio/webm";
-    const model = fields.model?.[0] || "whisper-1";
+    const modelPart = parts.find(p => p.name === "model");
+    const model = modelPart ? modelPart.data.toString() : "whisper-1";
+    const filename = filePart.filename || "recording.webm";
+    const mimetype = filePart.contentType || "audio/webm";
 
-    // Use Node 18 built-in File + FormData (from undici, bundled in Vercel runtime)
+    // Build FormData for OpenAI using Node 18+ built-in globals
     const { File } = require("node:buffer");
-    const audioFile = new File([fileBuffer], filename, { type: mimetype });
+    const audioFile = new File([filePart.data], filename, { type: mimetype });
     const formData = new FormData();
     formData.append("file", audioFile);
     formData.append("model", model);
 
     const response = await fetch("https://api.openai.com/v1/audio/transcriptions", {
       method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers: { Authorization: `Bearer ${apiKey}` },
       body: formData,
     });
 
