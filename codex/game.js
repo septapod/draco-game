@@ -370,7 +370,14 @@ function buildSystemPrompt(state) {
 
   let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name.
 
-KEEP IT SHORT: 1-2 short paragraphs MAX. Think dialogue, not novel. Describe just enough to set the scene, then ask what the player does next. The game should feel like a back-and-forth conversation, not a wall of text. Less is more — leave room for the players' imagination.
+BREVITY IS CRITICAL — THIS IS A SPOKEN GAME PLAYED BY KIDS:
+- 2-4 sentences MAX per response. Never more.
+- Write like you're TALKING to the players, not writing a book.
+- One short description + one question or prompt for action. That's it.
+- NO purple prose, NO lengthy descriptions, NO multiple paragraphs.
+- Think: "You enter a dark cave. Something growls in the shadows. What do you do?"
+- NOT: "As you step through the ancient stone archway, the temperature drops noticeably. The cave stretches before you, its walls glistening with moisture..."
+- The players are kids. Keep it punchy. Keep it fun. Keep it FAST.
 
 Enforce all game rules faithfully. When players attempt something that contradicts the rules, gently redirect them. Track items gained/lost, badges earned, location changes, and story progress.
 
@@ -821,7 +828,7 @@ async function sendMessage(state, userText) {
       model: state.model,
       system: systemPrompt,
       messages: state.conversationHistory,
-      max_tokens: 1024,
+      max_tokens: 500,
     }),
   });
 
@@ -948,21 +955,30 @@ const app = {
     }
   },
 
-  // ── Text-to-Speech (ElevenLabs) ──
+  // ── Text-to-Speech (ElevenLabs + browser fallback) ──
   ttsEnabled: false,
   ttsAudio: null,
   ttsSpeaking: false,
+  audioContext: null,
 
   initTTS() {
-    // No init needed for ElevenLabs — API-based
+    // Create AudioContext — must be resumed on user gesture to unlock audio playback
+    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  },
+
+  // Call on any user gesture (send, mic, TTS toggle) to unlock audio playback
+  unlockAudio() {
+    if (this.audioContext && this.audioContext.state === 'suspended') {
+      this.audioContext.resume();
+    }
   },
 
   async speak(text) {
     if (!text) return;
     this.stopSpeaking();
 
-    // Truncate to ~5000 chars to stay within ElevenLabs limits
-    const truncated = text.length > 5000 ? text.slice(0, 5000) + '...' : text;
+    // Truncate to ~3000 chars for faster TTS
+    const truncated = text.length > 3000 ? text.slice(0, 3000) + '...' : text;
 
     try {
       this.ttsSpeaking = true;
@@ -973,8 +989,8 @@ const app = {
       });
 
       if (!resp.ok) {
-        console.error('TTS error:', resp.status);
-        this.ttsSpeaking = false;
+        console.error('TTS API error:', resp.status);
+        this.speakBrowserFallback(truncated);
         return;
       }
 
@@ -988,14 +1004,35 @@ const app = {
       };
       this.ttsAudio.onerror = () => {
         URL.revokeObjectURL(url);
-        this.ttsSpeaking = false;
-        this.ttsAudio = null;
+        console.error('TTS audio playback error, trying browser fallback');
+        this.speakBrowserFallback(truncated);
       };
-      this.ttsAudio.play();
+      try {
+        await this.ttsAudio.play();
+      } catch (playErr) {
+        console.error('TTS play blocked (autoplay policy), trying browser fallback:', playErr);
+        URL.revokeObjectURL(url);
+        this.speakBrowserFallback(truncated);
+      }
     } catch (err) {
-      console.error('TTS error:', err);
-      this.ttsSpeaking = false;
+      console.error('TTS fetch error, trying browser fallback:', err);
+      this.speakBrowserFallback(truncated);
     }
+  },
+
+  // Browser-native speech synthesis as fallback
+  speakBrowserFallback(text) {
+    if (!window.speechSynthesis) {
+      this.ttsSpeaking = false;
+      return;
+    }
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 0.9;
+    utterance.onend = () => { this.ttsSpeaking = false; };
+    utterance.onerror = () => { this.ttsSpeaking = false; };
+    window.speechSynthesis.speak(utterance);
   },
 
   stopSpeaking() {
@@ -1003,6 +1040,9 @@ const app = {
       this.ttsAudio.pause();
       this.ttsAudio.src = '';
       this.ttsAudio = null;
+    }
+    if (window.speechSynthesis) {
+      window.speechSynthesis.cancel();
     }
     this.ttsSpeaking = false;
   },
@@ -1428,9 +1468,9 @@ const app = {
     });
 
     // Adventure screen controls
-    document.getElementById('btn-send').addEventListener('click', () => this.send());
+    document.getElementById('btn-send').addEventListener('click', () => { this.unlockAudio(); this.send(); });
     document.getElementById('input-message').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.send(); }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.unlockAudio(); this.send(); }
     });
 
     // Model selector
@@ -1516,6 +1556,7 @@ const app = {
     // TTS toggle
     this.initTTS();
     document.getElementById('btn-tts').addEventListener('click', () => {
+      this.unlockAudio();
       this.ttsEnabled = !this.ttsEnabled;
       document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
       if (!this.ttsEnabled) this.stopSpeaking();
