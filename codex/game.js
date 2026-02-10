@@ -1131,6 +1131,9 @@ const app = {
     if (!text) return;
 
     input.value = '';
+    // Reset keyboard state on mobile, then refocus to keep keyboard open
+    input.blur();
+    setTimeout(() => input.focus(), 50);
     this.isSending = true;
 
     // Use selected player (from dropdown) or default to first player
@@ -1799,6 +1802,7 @@ const app = {
         const adventureScreen = document.getElementById('screen-adventure');
         if (!adventureScreen.classList.contains('active')) return;
         adventureScreen.style.height = window.visualViewport.height + 'px';
+        adventureScreen.style.top = window.visualViewport.offsetTop + 'px';
         // Scroll narrative to bottom when keyboard opens
         const narrative = document.getElementById('narrative');
         narrative.scrollTop = narrative.scrollHeight;

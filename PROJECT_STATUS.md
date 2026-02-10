@@ -5,9 +5,16 @@
 
 **Last updated**: 2026-02-09
 
-**Status**: Performance optimization complete. Page image payload reduced from 124MB (32MB GIFs + 92MB PNGs at 1024x1024) down to ~36MB (all images at 512px, only 6 animated GIFs kept). Item icons regenerated with proper transparency via gpt-image-1. Aloha character inconsistency across images is a known limitation — flagged in memory.
+**Status**: Mobile text input fix deployed. Virtual keyboard now properly reveals the input field on mobile browsers.
 
-**Last session** (2026-02-09 — Improve Codex ↔ Game Navigation):
+**Last session** (2026-02-09 — Fix Mobile Text Input):
+- **Root cause**: `.screen` used `position: fixed` with `overflow: hidden`, so when the mobile virtual keyboard opened it covered the input area at the bottom. The existing `visualViewport` resize handler didn't account for viewport scroll offset.
+- **Fix 1: `dvh` units** — Added `#screen-adventure.active { position: relative; height: 100dvh; }` in the mobile media query. The `dvh` (dynamic viewport height) unit automatically shrinks when the virtual keyboard opens on modern mobile browsers.
+- **Fix 2: Improved viewport handler** — Added `adventureScreen.style.top = window.visualViewport.offsetTop + 'px'` as a fallback for browsers where `dvh` alone isn't sufficient.
+- **Fix 3: Focus management after send** — After clearing input, blur then refocus with 50ms delay to keep mobile keyboard open and ready for next message.
+- **Files changed**: `codex/game.css`, `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-09 — Improve Codex ↔ Game Navigation):
 - **"PLAY THE GAME" button** — renamed from "PRESS START", now navigates to `game.html` with brief 0.4s flash animation instead of scrolling to Chapter I. Title screen no longer permanently disappears (removed `title-screen--departing` logic).
 - **Scroll hint** — subtle "↓ Scroll to explore the Codex ↓" with bounce animation below the button, Space Mono font, faded text. Signals that scrolling reveals the Codex content.
 - **Play nav tab** — added faint gold border + pill shape to make it stand out as a navigation destination vs. section anchors.

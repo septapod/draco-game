@@ -746,6 +746,12 @@ body {
     padding-right: env(safe-area-inset-right);
   }
 
+  /* Use dynamic viewport height so keyboard shrinks the container */
+  #screen-adventure.active {
+    position: relative;
+    height: 100dvh;
+  }
+
   .game-title { font-size: 1.2rem; }
   .onboard-title { font-size: 0.7rem; }
   .onboard-hint { font-size: 0.8rem; }
