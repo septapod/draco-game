@@ -777,14 +777,24 @@ async function sendMessage(state, userText) {
 
   const systemPrompt = buildSystemPrompt(state);
 
+  // Truncate assistant messages so the model sees short responses as the pattern
+  const trimmedMessages = state.conversationHistory.map(msg => {
+    if (msg.role !== 'assistant') return msg;
+    // Strip game_state block, then keep first ~60 words of narrative
+    const narrative = msg.content.replace(/<game_state>[\s\S]*?<\/game_state>/g, '').trim();
+    const words = narrative.split(/\s+/);
+    const short = words.length > 60 ? words.slice(0, 60).join(' ') + '...' : narrative;
+    return { role: 'assistant', content: short };
+  });
+
   const resp = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: state.model,
       system: systemPrompt,
-      messages: state.conversationHistory,
-      max_tokens: 200,
+      messages: trimmedMessages,
+      max_tokens: 400,
     }),
   });
 
