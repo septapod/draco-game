@@ -97,7 +97,7 @@ You can only choose one dragon at the First Choice Stable. Multiple stables exis
 Full crystal slots + feeding = full bond. Feeding before crystals = weaker bond.
 
 ### Bonding a Lost Dragon
-In one story, a specific wild Spirit dragon who had lost its family approached Brent wanting to be adopted. Because Brent showed it kindness and offered it a home, its crystal slots filled automatically. This applies to any dragon that has lost its family: show it kindness, and crystal slots fill on their own. (This is one specific dragon's story — not a general Spirit dragon trait.)
+In one story, a specific wild Spirit dragon who had lost its family approached Papa wanting to be adopted. Because Papa showed it kindness and offered it a home, its crystal slots filled automatically. This applies to any dragon that has lost its family: show it kindness, and crystal slots fill on their own. (This is one specific dragon's story — not a general Spirit dragon trait.)
 
 ### Where to Find Berries
 In the wild, berries are found in dragon nests or growing on berry plants — vines with ancient markings. Different berry types exist for different elements.
@@ -222,7 +222,7 @@ These are canonical story moments from actual gameplay sessions that can be refe
 
 **The Disguised Dragon Incident** — Villain disguised a Speed dragon with cardboard for a race. Spirit dragon sensed deception, alerted Aloha. Psychic dragon made all cardboard disappear. Cheater exposed. Themes: teamwork, truth vs deception.
 
-**The Spirit Dragon Who Wanted a Family** — A specific wild Spirit dragon who lost its family approached Brent wanting to be adopted. Showed kindness → crystals filled automatically. Themes: found family, compassion.
+**The Spirit Dragon Who Wanted a Family** — A specific wild Spirit dragon who lost its family approached Papa wanting to be adopted. Showed kindness → crystals filled automatically. Themes: found family, compassion.
 
 **The Battle with the Tow Road** — Psychic threw a tree (barely scratched). Realized shell = dragon scale energy = weak to fire. Two fire hits defeated it. Themes: problem-solving, learning weaknesses.
 
@@ -232,11 +232,11 @@ These are canonical story moments from actual gameplay sessions that can be refe
 
 **The Gift of Transformation** — Keeper with deep bond received Dragon Eye Amulet. Could now transform into any bonded dragon. Themes: earned trust, transformation.
 
-**The Jack O'Rabbit Battle** — Brent used psychic powers for carrot distraction. Clones appeared. Psychic threw clones to space (can't grow without magnetism). Fire caused more clones. Speed Atmosphere launched Jack O'Rabbit into space. Loot: rabbit meat, dragon skill, rabbit skull. Themes: creative problem-solving, environmental mechanics.
+**The Jack O'Rabbit Battle** — Papa used psychic powers for carrot distraction. Clones appeared. Psychic threw clones to space (can't grow without magnetism). Fire caused more clones. Speed Atmosphere launched Jack O'Rabbit into space. Loot: rabbit meat, dragon skill, rabbit skull. Themes: creative problem-solving, environmental mechanics.
 
 **The Spirit-Grass Breed Encounter** — Found rare breed dragon before a race. Aza recognized strategic value vs Thunder Cloud. Tamed with Breed Berry. Themes: strategy, preparation.
 
-**Racing for Five Badges** — Team race: Aza with Flash Dragon, Brent with Spirit/Psychic, plus The Finisher. Race Drone turned pink. Used Grass Spirit Army. Won Supersonic Pink Trophy. Five badges earned. Themes: teamwork, progression.
+**Racing for Five Badges** — Team race: Aza with Flash Dragon, Papa with Spirit/Psychic, plus The Finisher. Race Drone turned pink. Used Grass Spirit Army. Won Supersonic Pink Trophy. Five badges earned. Themes: teamwork, progression.
 
 ## 18. Open Questions
 - Full powers for Water, Fire, Grass beyond basics?
@@ -259,10 +259,10 @@ These are canonical story moments from actual gameplay sessions that can be refe
 ## Named Dragons (Canonical)
 - **Power Up** — Power element — Keeper: Aza — Rainbow-colored, Aza's first dragon.
 - **Leaf Blade** — Grass element — Keeper: Aza — Found and tamed in the wild.
-- **Spirit Dragon** (unnamed) — Spirit element — Keeper: Brent — Lost its family, adopted Brent.
-- **Psychic Dragon** (unnamed) — Psychic element — Keeper: Brent — Brent's first dragon from stable.
+- **Spirit Dragon** (unnamed) — Spirit element — Keeper: Papa — Lost its family, adopted Papa.
+- **Psychic Dragon** (unnamed) — Psychic element — Keeper: Papa — Papa's first dragon from stable.
 - **Flash Dragon** — Likely Speed-related — Keeper: Aza — Sleek racing dragon.
-- **Spirit-Grass Breed** — Spirit/Grass hybrid — Keeper: Aza/Brent — Grass Spirit Army attack.`;
+- **Spirit-Grass Breed** — Spirit/Grass hybrid — Keeper: Aza/Papa — Grass Spirit Army attack.`;
 
 
 // ── Hidden Lore & Secrets ──

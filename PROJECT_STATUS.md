@@ -3,11 +3,17 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-09
+**Last updated**: 2026-02-10
 
-**Status**: Full Story transcript feature implemented. Players can now read the complete story of their adventure, including messages lost to conversation compression.
+**Status**: Replaced all "Brent" / "Brent Dixon" references with "Papa" in Codex and game AI system prompt. Aza calls Brent "Papa" — the game should reflect that.
 
-**Last session** (2026-02-09 — Full Story Transcript):
+**Last session** (2026-02-10 — Replace "Brent" with "Papa"):
+- Replaced "Brent Dixon" → "Papa" in codex footer (1 occurrence)
+- Replaced "Brent" → "Papa" everywhere else in `codex/index.html` (6 occurrences) and `codex/game.js` GAME_BIBLE constant (10 occurrences)
+- Verified: `grep -r "Brent" codex/` returns zero matches
+- **Files changed**: `codex/index.html`, `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-09 — Full Story Transcript):
 - **Feature: Adventure transcript** — new `transcript` array on adventure state accumulates every player message and cleaned narrator response as they happen. Unlike `conversationHistory` (compressed after 30 messages), the transcript is permanent and grows for the entire adventure.
 - **Backward compat** — old saves without `transcript` field get it initialized to `[]` in `startAdventure()`. On first load, transcript is seeded from existing `conversationHistory` entries so old adventures aren't completely empty.
 - **Full Story screen** — new `screen-transcript` with sticky header (← Back + "Full Story" title) and scrollable content area. Player messages show name in element color; narrator messages have the same gold-tinted background as in-game narrator bubbles.
