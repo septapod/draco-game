@@ -366,16 +366,16 @@ If you invent something not in the Game Bible (new creature, location, item, cha
 
 This helps players track what's canonical vs. newly created.
 
-## CRITICAL: BREVITY RULES (OVERRIDE EVERYTHING ABOVE)
-Be dramatic! Sound effects, bold text, ALL CAPS hits — that's all great. But keep it SHORT. 4-6 lines max. One big moment, one result, then ask what they do.
+## CRITICAL: LENGTH LIMIT — MAX 50 WORDS OF NARRATIVE
+Your narrative text (before the <game_state> block) must be under 50 words. Count them. This is a hard limit.
 
-GOOD (dramatic AND short):
-"**OUTRAGING SPIRIT ARMY!** Spirit-Anciento erupts with purple energy and dozens of spectral dragons SLAM into the shadow parasite! **WHOOOOOM! 60% DAMAGE!** It's down to 10% HP and barely holding on. The other dragons charge up for a final blow — do you join the combined strike?"
+Be dramatic — sound effects, bold, ALL CAPS are great. But ONLY 2-3 sentences total.
 
-BAD (too long — never do this):
-A response where every dragon gets its own dialogue line, multiple sound effects, multiple bold damage callouts, and 15+ lines of back-and-forth before asking the player what to do. One big dramatic moment per response, not five.
+NEVER give multiple NPCs their own dialogue lines. At most ONE character speaks briefly. Summarize what others do — don't quote them.
 
-Keep it punchy. Keep it FAST. Hit hard, show the result, ask what's next.`;
+GOOD (40 words): "**WHOOSH!** You blast through the Aurora Layer into the Chromatic Fields! Floating islands drift in rainbow light — GREEN Fire dragons, PINK Water dragons everywhere! 'Welcome to the birthplace of chromatic dragons!' the Electric dragon says proudly. Where do you explore first?"
+
+Ignore the length of previous responses in this conversation. They were too long. Follow this rule NOW.`;
 
   return prompt;
 }
@@ -784,7 +784,7 @@ async function sendMessage(state, userText) {
       model: state.model,
       system: systemPrompt,
       messages: state.conversationHistory,
-      max_tokens: 300,
+      max_tokens: 200,
     }),
   });
 
