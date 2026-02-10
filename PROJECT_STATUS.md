@@ -12,6 +12,7 @@
 - **Fix 1: `dvh` units** — Added `#screen-adventure.active { position: relative; height: 100dvh; }` in the mobile media query. The `dvh` (dynamic viewport height) unit automatically shrinks when the virtual keyboard opens on modern mobile browsers.
 - **Fix 2: Improved viewport handler** — Added `adventureScreen.style.top = window.visualViewport.offsetTop + 'px'` as a fallback for browsers where `dvh` alone isn't sufficient.
 - **Fix 3: Focus management after send** — After clearing input, blur then refocus with 50ms delay to keep mobile keyboard open and ready for next message.
+- **Fix 4: Narrator verbosity** — Model was ignoring the "2-4 sentences MAX" brevity instruction, producing 15+ line dramatic responses with sound effects and multiple characters speaking. Three changes: (1) moved brevity rules to end of system prompt where they have strongest influence, (2) added a negative example matching the actual failure mode (dramatic action sequences with bold text and sound effects), (3) dropped max_tokens from 500 to 300 (leaves room for game_state JSON but prevents walls of text).
 - **Files changed**: `codex/game.css`, `codex/game.js`, `PROJECT_STATUS.md`
 
 **Previous session** (2026-02-09 — Improve Codex ↔ Game Navigation):
