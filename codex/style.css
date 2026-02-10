@@ -20,6 +20,7 @@
   --universe: #0D1B2A;
   --cosmic: #1B0A3C;
   --egg: #D4A574;
+  --shadow: #3D1A5E;
   --power-start: #FF4136;
   --power-end: #0074D9;
   --pixel-border-color: #FFD700;
@@ -963,6 +964,11 @@ img {
 .spirit-glow {
   border-color: var(--spirit);
   box-shadow: 0 0 20px rgba(74, 0, 114, 0.3);
+}
+
+.shadow-glow {
+  border-color: var(--shadow);
+  box-shadow: 0 0 20px rgba(61, 26, 94, 0.3);
 }
 
 /* ═══════════════════════════════════════════

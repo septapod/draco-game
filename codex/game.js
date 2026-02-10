@@ -42,7 +42,10 @@ Every dragonette belongs to an elemental type that determines its powers, appear
 - Cosmic — The dragon looks like "a map of space." Powers similar to Universe. Visually distinct: Cosmic = space map; Universe = compass with microscopic star map. Locked.
 - Egg — The dragon always moves with an egg balanced on top. Egg-based powers can force other dragons back inside their eggs — resetting all training and taming. "They'll forget that they were even trained." Locked.
 - Wood — Listed among elements but no details yet. Locked.
-- Starlight — Listed among elements but no details yet. Locked.
+- Starlight — Deep blue to violet scales with silver star patterns. Creates starlight beams, illuminates darkness, blinds opponents, reveals hidden truths through light. Crystalline spines create wind-chime sounds. Unlocked.
+
+### Enemy Elements
+- Shadow — Dark body with glowing purple veins, purple-black energy. Enemy-only element serving the Voice Below. Cannot be bonded by keepers. Weak to Cosmic, Starlight, and Spirit.
 
 ### Locked Elements
 There are "like 1000 elements" in the Draco universe — roughly 1000 different types of dragons. Most remain locked and undiscovered. These are intentionally mysterious: "locked elements that I'm not supposed to tell you about, their secret." The element system is open-ended, with new elements continuously discoverable.
@@ -52,7 +55,7 @@ Every player MUST invent their own unique element for at least one of their drag
 Example: Aza created "Power Breathing" — an ability that degrades the attack power of every opposing dragon by 10 points.
 
 ## 3. Dragon Appearance & Color Guide
-Fire — Red and orange tones. Water — Blue tones. Grass — Green tones. Electric — Yellow. Psychic — Mostly purple with pink stripes along the seam where the top of the body meets the sides. Spirit — Dark purple, with a gem on the forehead; spectral, translucent qualities. Power — Rainbow — all colors swirling together. Speed — Golden. Thunder Cloud — Unknown until unlocked. Universe — Microscopic star map and compass pattern; cosmic dark tones. Cosmic — Space map pattern: nebulae, constellations, deep space visuals. Egg — Warm cream and gold tones; always has an ornate egg balanced on top.
+Fire — Red and orange tones. Water — Blue tones. Grass — Green tones. Electric — Yellow. Psychic — Mostly purple with pink stripes along the seam where the top of the body meets the sides. Spirit — Dark purple, with a gem on the forehead; spectral, translucent qualities. Power — Rainbow — all colors swirling together. Speed — Golden. Thunder Cloud — Unknown until unlocked. Universe — Microscopic star map and compass pattern; cosmic dark tones. Cosmic — Space map pattern: nebulae, constellations, deep space visuals. Egg — Warm cream and gold tones; always has an ornate egg balanced on top. Starlight — Deep blue to violet with silver star patterns; crystalline spines. Shadow — Dark body with glowing purple veins; purple-black energy (enemy-only).
 All dragons breathe colored fire that matches their element color.
 
 ## 4. Dragon Powers by Element
@@ -67,7 +70,7 @@ Electrical attacks. Similar in nature to Thunder Cloud.
 ### Psychic
 Telekinesis: picking up and throwing objects with the mind. Making things disappear. Unlocking doors without a key. Psychokinetic beam. Note: Psychic dragons do NOT read minds.
 ### Spirit
-Create spooky illusions. Absorb and sense the truth. Sense anything within a certain range. Purple electrical beam fired from the gem on its forehead — the beam shares knowledge: whoever it hits gains the Spirit dragon's absorbed knowledge. Ghost and "Halloween" powers. Powers work day and night, except "Silver Moonlight" which only works at night.
+Create spooky illusions. Absorb and sense the truth. Sense anything within a certain range. Purple electrical beam fired from the gem on its forehead — the beam shares knowledge: whoever it hits gains the Spirit dragon's absorbed knowledge. Ghost and "Halloween" powers. Powers work day and night, except "Silver Moonlight" which only works at night. Outraging Spirit Army: Dragonette Master unlock, summons a spectral swarm dealing 60 damage. Portal Closer: beam from forehead gem closes dimensional portals. Derealize: party becomes intangible, attacks pass through. Strong against Shadow.
 ### Power
 Access to ALL element abilities. Each individual ability is weaker than a specialist's version. Exception: Speed is equal to a true Speed dragon (270 mph). Weak to Thunder Cloud and Electricity.
 ### Speed
@@ -75,15 +78,19 @@ Extreme top speed: 270 mph. "As fast as a peregrine falcon." Can fly slower when
 ### Thunder Cloud
 Lightning feathers — lightly glowing feathers that release charged particles. When particles combine, they generate actual thunder and lightning. Extraordinarily powerful and dangerous.
 ### Universe
-One-hit shell crush: can destroy shelled creatures in a single hit, bypassing the usual 100-hit requirement.
+One-hit shell crush: can destroy shelled creatures in a single hit, bypassing the usual 100-hit requirement. Universal Camouflage: bends light for full invisibility.
 ### Cosmic
-Similar powers to Universe. Space map appearance. Combat capabilities essentially the same.
+Similar powers to Universe. Space map appearance. Combat capabilities essentially the same. Multistar: launches hundreds of star-projectiles, 10% cost per use. Strong against Shadow.
 ### Egg
 Forces other dragons back inside their eggs — a complete reset. Any dragon hit forgets all training and taming. One of the most disruptive powers in the game.
+### Starlight
+Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents, reveals hidden truths through light. Diamonds in the Sky: thousands of crystalline star-points rocket forward. Strong against Shadow.
+### Shadow (Enemy-Only)
+Shadow Drain: dark tendrils drain energy from targets. Shadow Merge: 3 Shadow dragons combine into 1 giant with 6 purple eyes. Weak to Cosmic, Starlight, Spirit.
 ### Silver Moonlight (Special Ability)
 Only works at nighttime. Associated with Spirit-type dragons. Additional unknown time-restricted powers exist — including daytime-only powers — unlocked with the Thunder Cloud element.
 ### Core Elemental Cycle
-Grass is weak to Fire. Fire is weak to Water. Water is weak to Grass.
+Grass is weak to Fire. Fire is weak to Water. Water is weak to Grass. Shadow is weak to Cosmic, Starlight, and Spirit.
 
 ## 5. Getting Your First Dragon
 The adventure begins at the First Choice Stable — a location filled with dragon eggs, each topped with a berry. (Berries are only found on eggs at the First Choice Stable — not on eggs elsewhere.)
@@ -109,6 +116,9 @@ If you have a Power dragon, you can cycle through all element types. Using a spe
 Dragons of different elements can breed, producing hybrid dragonettes with combined powers.
 **Spirit-Grass Breed** — Combines Spirit truth-sensing with Grass powers. Thunder Cloud is weak to it. Has "Grass Spirit Army" attack that drains opponents by 10%. Valuable for the Draco boss fight.
 To tame a breed dragon, you need a **Breed Berry** — standard berries don't work for hybrids.
+
+### Chromatic Dragons
+Dragons born in the Chromatic Fields keep their elemental powers but have "wrong" colors — a green Fire dragon, blue Electric, pink Water. Element unchanged; only appearance differs. Rare and prized because their misleading colors confuse opponents.
 
 ### Keeper Transformation
 A Keeper with a Dragon Eye Amulet and deep bond can physically transform into one of their dragons. The Keeper remains fully in control, gaining all dragon abilities while retaining their own mind. Thunder Cloud transformation grants lightning feathers.
@@ -181,7 +191,7 @@ Named dragon. Owner: Aza. Used for racing. Sleek competition dragon.
 
 ## 13. Enemies & Villains
 ### Draco (The Thunder Cloud Dragon)
-Final boss / raid boss. The game's namesake. NOT inherently evil — controlled by an evil shell connected to a mysterious voice. Shell is pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, can be tamed. Like a "raid boss in Pokémon Go." Weakness: Grass. Requires 10 badges to challenge. Upon defeat: Thunder Cloud element unlocked, Draco joins your team.
+Final boss / raid boss. The game's namesake. NOT inherently evil — controlled by an evil shell connected to the Voice Below. Shell is pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, can be tamed. Like a "raid boss in Pokémon Go." Weakness: Grass. Requires 10 badges to challenge. Upon defeat: Thunder Cloud element unlocked, Draco joins your team.
 
 ### The Tow Road
 Giant evil flying turtle with dragon-scale-energy shell. Weakness: Fire (2 hits). Has its own dimension where it's more powerful. Drops: dragon scale, turtle meat, and (in its dimension) special berries.
@@ -192,6 +202,18 @@ Very long evil groundhog with shell and wings. Dragon scale energy shell.
 ### Jack O'Rabbit
 Giant fuzzy rabbit with skull for a head (skull = shield, NOT a shell on body). Uses "they" pronouns. Clone mechanic: clones start tiny, grow to adult size in ~2 seconds via Earth's magnetism. Counter: launch to space. Fire works but causes more cloning. Drops: rabbit meat, dragon skill, rabbit skull.
 
+### The Voice Below
+Greater villain / ultimate antagonist. Commands Shadow dragons, Star Parasites, and Surveillance Drones from obsidian fortresses in the Shadowpeak Mountains. Goal: consume starlight from stars. Controls Draco through the evil shell, but Draco is merely one piece of a larger campaign. True origin unknown.
+
+### Star Guardians
+Fire and Electric dragon allies who guard star systems from shadow threats. First line of defense against Star Parasites and the Voice Below's forces.
+
+### Star Parasites
+Gigantic shadow creatures that wrap around stars and drain their light. Dozens of purple eyes and mouths. Commanded by the Voice Below.
+
+### Surveillance Drones
+Mechanical drones disguised as dragons. Single glowing purple eye. Used by the Voice Below for spying. Not powerful in combat but dangerous for intelligence gathering.
+
 ## 14. World Rules & Lore
 - Dragonettes hatch from eggs at full adult size. Crystal slots on wings, missing scale spot.
 - Fire dragons most common. Dragons breathe colored fire matching their element.
@@ -200,6 +222,11 @@ Giant fuzzy rabbit with skull for a head (skull = shield, NOT a shell on body). 
 - Day/night cycle affects gameplay. Silver Moonlight only at night. More time-restricted powers unlocked with Thunder Cloud.
 - Normal dragon speed: ~50 mph. Power/Speed: ~270 mph.
 - Technology: holograms, advanced robotics. World blends fantasy with technology.
+
+### Key Locations
+- **Aurora Layer** — Shimmering light in upper atmosphere. Gateway to Chromatic Fields.
+- **Chromatic Fields** — Dimensional intersection with floating islands. Dragons born here have "wrong" colors.
+- **Shadowpeak Mountains** — Dark range under perpetual storms. Voice Below's obsidian fortresses with purple veins. Shadow dragons patrol the skies.
 
 ## 15. Progression
 1. First Choice Stable → bond first dragon
@@ -247,14 +274,16 @@ These are canonical story moments from actual gameplay sessions that can be refe
 - What other breed combinations exist?
 - Geography of the Draco world? Regions, towns, biomes?
 - How many stables exist?
-- What is "the voice" that controls the evil shell?
+- What is the Voice Below's true origin?
 - Can badges be lost? Can one race award multiple badges?
 - Can keepers trade dragons or items?
 - What is Aloha's backstory?
 - Other recurring villains besides Wonky Donkers?
 - When does transformation become available? Limits on duration?
 - Origin of dragons? Origin of The Crystal? Why do dragons hatch at full size?
-- Deeper story behind Draco and the evil voice?
+- Deeper story behind Draco and the Voice Below?
+- Can Shadow dragons be freed from the Voice Below's control?
+- What are Star Parasites truly — are they Shadow dragons or something older?
 
 ## Named Dragons (Canonical)
 - **Power Up** — Power element — Keeper: Aza — Rainbow-colored, Aza's first dragon.
@@ -272,8 +301,8 @@ These are canonical story moments from actual gameplay sessions that can be refe
 const HIDDEN_LORE = `## Narrator Secrets (Progressive Revelation)
 You know things the players don't yet. Weave these into the narrative GRADUALLY — through environmental clues, NPC dialogue, mysterious encounters, and dreams. Never dump lore. Let players discover.
 
-### The Evil Voice
-The voice controlling Draco's shell is ancient — older than the dragons themselves. Some NPCs may whisper about "the voice from below" or "the sound that corrupts." Its origin is unknown, but The Crystal glows differently near sources of its influence. This is a mystery for players to slowly uncover — don't reveal it directly.
+### The Voice Below
+The voice controlling Draco's shell is ancient — older than the dragons themselves. It is called "the Voice Below" and commands Shadow dragons from obsidian fortresses in the Shadowpeak Mountains. Its goal is to consume starlight from stars. NPCs may whisper about it in hushed tones. The Crystal glows differently near sources of its influence. Shadow dragons patrol on its behalf — dark bodies with glowing purple veins. Surveillance Drones disguised as dragons (single purple eye) spy for it. Star Parasites — gigantic shadow creatures that drain stars — serve it. This is a slow-burn mystery. Let players encounter evidence piece by piece: a drone with an oddly purple eye, a star that seems dimmer, a mountain range that "feels wrong."
 
 ### The Tow Road's Dimension
 The Tow Road's dimension is more than just a place to find special berries. There are hints of other dimensions — pocket worlds created by powerful, ancient forces. Each shelled enemy may have its own dimension. What connects them?
@@ -287,8 +316,11 @@ Aloha was built by someone — or something. She's been running the races "since
 ### The Dragon Eye Amulet's Origin
 Where did the first Dragon Eye Amulet come from? It contains a real dragon's eye. Whose? When players find or earn one, they might notice it pulses in certain locations, or reacts to certain dragons. It has a history.
 
+### The Chromatic Fields
+Through the Aurora Layer — a shimmering gateway in the upper atmosphere — lies the Chromatic Fields, a dimensional intersection with floating islands. Dragons born there keep their element but have "wrong" colors. This place is strange and beautiful. If players find it, describe it with wonder. Star Guardians (Fire and Electric dragons) patrol nearby, guarding against shadow threats.
+
 ### After Draco
-Defeating Draco doesn't end the story. The evil voice may find other hosts. The shell fragments might still be dangerous. And there are rumors of something beyond the Thunder Cloud element — something the locked elements hint at.
+Defeating Draco doesn't end the story. The Voice Below may find other hosts. The shell fragments might still be dangerous. Shadow dragons still serve the Voice. The Shadowpeak Mountains remain dangerous. Star Parasites still drain stars. And there are rumors of something beyond the Thunder Cloud element — something the locked elements hint at.
 
 ### Custom Element Significance
 When a player creates a custom element, treat it as genuinely significant to the world. The "1000 elements" includes their creation. NPCs should react with surprise or fascination. Other keepers in the world might want to learn about it.
@@ -676,6 +708,7 @@ const ELEMENT_COLORS = {
   speed: '#FFB800',
   power: '#FF6B6B',
   'thunder cloud': '#6C63FF',
+  shadow: '#3D1A5E',
 };
 
 

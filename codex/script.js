@@ -366,9 +366,9 @@ function initMatchupChart() {
       notes: "Telekinesis, making things vanish, unlocking doors. Does NOT read minds.",
     },
     spirit: {
-      strong: [],
+      strong: ["Shadow"],
       weak: [],
-      notes: "Sense truth, create illusions, knowledge-sharing beam. Silver Moonlight works only at night. NOT banned from races.",
+      notes: "Sense truth, create illusions, knowledge-sharing beam. Silver Moonlight works only at night. NOT banned from races. New: Outraging Spirit Army (60 dmg, Master unlock), Portal Closer, Derealize (party goes intangible).",
     },
     speed: {
       strong: [],
@@ -388,12 +388,12 @@ function initMatchupChart() {
     universe: {
       strong: ["Shelled Enemies (one-hit crush)"],
       weak: [],
-      notes: "Body bears a microscopic universe map with a tiny compass. Can crush shelled creatures in a single hit — unique among all elements.",
+      notes: "Body bears a microscopic universe map with a tiny compass. Can crush shelled creatures in a single hit — unique among all elements. Universal Camouflage: bends light for full invisibility.",
     },
     cosmic: {
-      strong: ["Shelled Enemies (one-hit crush)"],
+      strong: ["Shelled Enemies (one-hit crush)", "Shadow"],
       weak: [],
-      notes: "Looks like a map of space. Powers similar to Universe. Visually distinct: Cosmic = space map, Universe = compass.",
+      notes: "Looks like a map of space. Powers similar to Universe. Visually distinct: Cosmic = space map, Universe = compass. Multistar: hundreds of star-projectiles, 10% cost per use.",
     },
     egg: {
       strong: ["All dragons (forces reset to egg)"],
@@ -406,9 +406,14 @@ function initMatchupChart() {
       notes: "Spirit-Grass breed. Combines Spirit truth-sensing with Grass powers. Has 'Grass Spirit Army' attack (drains 10%). Tamed with a Breed Berry.",
     },
     starlight: {
-      strong: ["Darkness-based enemies"],
+      strong: ["Darkness-based enemies", "Shadow"],
       weak: [],
-      notes: "Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Reveals hidden truths through light. Crystalline spines produce wind-chime sounds.",
+      notes: "Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Reveals hidden truths through light. Crystalline spines produce wind-chime sounds. Diamonds in the Sky: thousands of crystalline star-points rocket forward.",
+    },
+    shadow: {
+      strong: [],
+      weak: ["Cosmic", "Starlight", "Spirit"],
+      notes: "Enemy-only element serving the Voice Below. Cannot be bonded by keepers. Shadow Drain: dark tendrils drain energy. Shadow Merge: 3 Shadow dragons combine into 1 giant with 6 purple eyes.",
     },
   };
 

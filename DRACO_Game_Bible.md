@@ -2,7 +2,7 @@
 
 **Created by: Aza Dixon**
 **Documented by: Brent Dixon**
-**Version: 1.5 — February 2026**
+**Version: 1.6 — February 2026**
 
 ---
 
@@ -80,6 +80,10 @@ Egg — The dragon always moves with an egg balanced on top. Egg-based powers ca
 Wood — Listed among the elements but no details yet. Locked.
 Starlight — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents, reveals hidden truths through light (similar to Spirit's truth-sensing but light-based). Crystalline spines create wind-chime sounds when moving. Unlocked.
 
+### Enemy Elements
+
+Shadow — Dark body with glowing purple veins, purple-black energy. An enemy-only element that serves the Voice Below. Shadow dragons cannot be bonded by keepers (at least not by any known method). They command dark tendrils that drain energy and can merge together into massive combined forms. Weak to Cosmic, Starlight, and Spirit.
+
 ### Locked Elements
 
 There are "like 1000 elements" in the Draco universe — meaning roughly 1000 different types of dragons. Most elements remain locked and undiscovered. These are intentionally mysterious: "locked elements that I'm not supposed to tell you about, their secret." The element system is designed to be open-ended, with new elements continuously discoverable.
@@ -109,6 +113,7 @@ Universe — Microscopic star map and compass pattern across the body; cosmic da
 Cosmic — Space map pattern: nebulae, constellations, deep space visuals across the body
 Egg — Warm cream and gold tones; always has an ornate egg balanced on top
 Starlight — Deep blue to violet with silver star patterns; crystalline spines
+Shadow — Dark body with glowing purple veins; purple-black energy (enemy-only)
 Custom — Varies (player-defined)
 
 All dragons breathe colored fire that matches their element color (e.g., a Spirit dragon breathes purple fire).
@@ -139,7 +144,7 @@ Telekinesis: picking up and throwing objects with the mind. Making things disapp
 
 ### Spirit
 
-Encompasses both spirit and ghost abilities. Create spooky illusions. Absorb and sense the truth (truth detection). Sense anything within a certain range. Purple electrical beam fired from the gem on its forehead. The beam shares knowledge: whoever it hits gains the knowledge the Spirit dragon has absorbed. Ghost and "Halloween" powers (spooky-themed abilities, details to be expanded). Powers work day and night, except "Silver Moonlight" which only works at night.
+Encompasses both spirit and ghost abilities. Create spooky illusions. Absorb and sense the truth (truth detection). Sense anything within a certain range. Purple electrical beam fired from the gem on its forehead. The beam shares knowledge: whoever it hits gains the knowledge the Spirit dragon has absorbed. Ghost and "Halloween" powers (spooky-themed abilities, details to be expanded). Powers work day and night, except "Silver Moonlight" which only works at night. **Outraging Spirit Army**: A Dragonette Master unlock — summons a spectral swarm that deals 60 damage. One of the most powerful Spirit attacks. **Portal Closer**: A beam fired from the forehead gem that can close dimensional portals. **Derealize**: The party becomes intangible — attacks pass harmlessly through them. A defensive ability unique to Spirit dragons. Strong against Shadow.
 
 ### Power
 
@@ -155,11 +160,11 @@ Lightning feathers — when a Thunder Cloud dragon (or a Keeper transformed into
 
 ### Universe
 
-The dragon's body displays a microscopic map of the entire universe — individual stars are only visible under a microscope. A tiny compass sits on the map. The Universe element's signature ability is one-hit shell crush: it can destroy shelled creatures in a single hit, bypassing the usual 100-hit requirement for non-fire attacks. This makes it extraordinarily effective against shelled enemies.
+The dragon's body displays a microscopic map of the entire universe — individual stars are only visible under a microscope. A tiny compass sits on the map. The Universe element's signature ability is one-hit shell crush: it can destroy shelled creatures in a single hit, bypassing the usual 100-hit requirement for non-fire attacks. This makes it extraordinarily effective against shelled enemies. **Universal Camouflage**: Bends light around the dragon to achieve full invisibility. An advanced stealth ability unique to the Universe element.
 
 ### Cosmic
 
-Similar powers to Universe. The dragon appears as "a map of space" — nebulae, constellations, and deep space visuals across its body. Visually distinct from Universe (space map vs. microscopic compass), but combat capabilities are essentially the same.
+Similar powers to Universe. The dragon appears as "a map of space" — nebulae, constellations, and deep space visuals across its body. Visually distinct from Universe (space map vs. microscopic compass), but combat capabilities are essentially the same. **Multistar**: Launches hundreds of star-shaped projectiles at once, each costing 10% attack power. A devastating area attack that can overwhelm groups of enemies. Strong against Shadow.
 
 ### Egg
 
@@ -167,7 +172,11 @@ The dragon always carries an ornate egg balanced on top. Its power forces other 
 
 ### Starlight
 
-Creates concentrated starlight beams that can illuminate darkness, temporarily blind opponents, and reveal hidden truths through light (similar to Spirit's truth-sensing but light-based). The dragon has deep blue to violet scales covered in silver star patterns, with crystalline spines along its back that create wind-chime sounds when moving. The light-based truth revelation is distinct from Spirit's sensing — Starlight dragons reveal truth through illumination rather than spiritual detection.
+Creates concentrated starlight beams that can illuminate darkness, temporarily blind opponents, and reveal hidden truths through light (similar to Spirit's truth-sensing but light-based). The dragon has deep blue to violet scales covered in silver star patterns, with crystalline spines along its back that create wind-chime sounds when moving. The light-based truth revelation is distinct from Spirit's sensing — Starlight dragons reveal truth through illumination rather than spiritual detection. **Diamonds in the Sky**: Launches thousands of crystalline star-points that rocket forward in a blinding barrage. Strong against Shadow.
+
+### Shadow (Enemy-Only)
+
+Shadow dragons serve the Voice Below and cannot be bonded by keepers. **Shadow Drain**: Dark tendrils extend from the dragon's body, latching onto targets and draining their energy. **Shadow Merge**: Three Shadow dragons combine into a single giant form with six glowing purple eyes — dramatically more powerful than the individuals. Weak to Cosmic, Starlight, and Spirit.
 
 ### Silver Moonlight (Special Ability)
 
@@ -229,6 +238,10 @@ Dragons of different elements can breed, producing hybrid dragonettes with combi
 **Spirit-Grass Breed** — Combines Spirit element truth-sensing with Grass element powers. Thunder Cloud is weak to it (Grass beats Thunder Cloud) and it can sense truth (Spirit ability). Has a unique attack called "Grass Spirit Army" that drains opponents by 10%. Particularly valuable for the Draco boss fight.
 
 To tame a breed dragon, you need a **Breed Berry** — a special berry specifically for bonding with hybrid dragonettes. Standard berries do not work for breed dragons.
+
+### Chromatic Dragons
+
+Dragons born in the Chromatic Fields — a dimensional intersection accessible through the Aurora Layer — keep their elemental powers but have "wrong" colors. A Fire dragon might be green, an Electric dragon blue, a Water dragon pink. Their element remains unchanged; only their appearance differs. Chromatic Dragons are rare and highly prized because their misleading colors create natural confusion in battle — opponents misjudge their element and use the wrong counter-strategy.
 
 ### Keeper Transformation
 
@@ -375,6 +388,7 @@ The core elemental cycle: **Grass → Fire → Water → Grass** (Grass is weak 
 Power is weak to Thunder Cloud and Electric. Broadly capable but not dominant.
 Dragon Scale (armor) is weak to Fire. Strong against most other attacks.
 Thunder Cloud is weak to Grass. Strong against Power.
+Shadow is weak to Cosmic, Starlight, and Spirit. An enemy-only element.
 
 ---
 
@@ -418,7 +432,7 @@ Significance: Both the public face of organized dragon racing AND the infrastruc
 
 Role: Final boss / raid boss. The game's namesake. Element: Thunder Cloud. Draco is a Thunder Cloud Dragon — but NOT the only one; other Thunder Cloud element dragons exist in the world.
 
-Lore: Draco is not inherently evil. It is being controlled by an evil shell connected to a mysterious voice that corrupts it. The shell is made of pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, and it can be tamed.
+Lore: Draco is not inherently evil. It is being controlled by an evil shell connected to the Voice Below — a mysterious entity that commands Shadow dragons from obsidian fortresses in the Shadowpeak Mountains. The shell is made of pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, and it can be tamed.
 
 Comparison: Like a "raid boss in Pokémon Go" or a "mega Rayquaza in a Pokémon boss stadium."
 
@@ -476,6 +490,22 @@ Role: Ally encounter. Found during adventure. Gives the player "poisonous powers
 
 Role: Named dragon. Owner: Aza. Used primarily for racing. Likely Speed-related given the name. A sleek dragon built for competition.
 
+### The Voice Below
+
+Role: Greater villain / ultimate antagonist. Previously known only as "the evil voice" or "a mysterious voice." The Voice Below commands an army of Shadow dragons, Star Parasites, and Surveillance Drones from obsidian fortresses in the Shadowpeak Mountains. Its goal is to consume starlight from stars — draining the universe of light itself. The Voice controls Draco through the evil shell, but Draco is merely one piece of a larger campaign. The Voice Below's true origin and nature remain unknown.
+
+### Star Guardians
+
+Role: Allies. Description: Fire and Electric dragons who have taken it upon themselves to guard star systems from shadow threats. They patrol the upper atmosphere and beyond, serving as the first line of defense against Star Parasites and the Voice Below's forces. Powerful and loyal, they may ally with keepers who prove themselves worthy.
+
+### Star Parasites
+
+Role: Enemy creature. Description: Gigantic shadow creatures that wrap around stars and slowly drain their light. They have dozens of glowing purple eyes and mouths spread across their amorphous bodies. Commanded by the Voice Below. Defeating a Star Parasite restores the star it was draining. They are among the most dangerous enemies in the Draco universe due to their sheer size.
+
+### Surveillance Drones
+
+Role: Enemy. Description: Mechanical drones disguised as dragons. Each has a single glowing purple eye that gives away its true nature to observant keepers. Used by the Voice Below for spying and intelligence gathering across the world. Not very powerful in combat, but dangerous because they report keeper movements back to the Shadowpeak Mountains.
+
 ### Thunder Cloud Dragon — Shell Note
 
 Not all Thunder Cloud dragons have shells. Shells are NOT a universal trait of the Thunder Cloud element — some may have them, but it varies.
@@ -503,6 +533,14 @@ The world has a day/night cycle that affects gameplay. Most abilities work at al
 ### Dragon Speed
 
 Normal dragons have a top speed of ~50 mph. Power and Speed dragons have a top speed of ~270 mph ("as fast as a peregrine falcon"). Dragons can fly slower when they choose — 270 mph is their maximum, their best move. This speed difference is why Power and Speed dragons are banned from standard races.
+
+### Key Locations
+
+**Aurora Layer** — A shimmering band of light in the Earth's upper atmosphere. Serves as a gateway to the Chromatic Fields. Visible from the ground on clear nights, but only reachable by flying dragons.
+
+**Chromatic Fields** — A dimensional intersection accessible through the Aurora Layer. Floating islands drift through prismatic skies, and vegetation grows in impossible colors. Dragons born here have "wrong" colors — their element stays the same, but their appearance shifts (green Fire dragons, blue Electric dragons, pink Water dragons). A mysterious and beautiful place.
+
+**Shadowpeak Mountains** — A dark mountain range under perpetual storms. Location of the Voice Below's obsidian fortresses — jagged black structures veined with purple energy. Shadow dragons patrol the skies, and Surveillance Drones disguised as dragons circle the peaks. A dangerous, foreboding region.
 
 ### Technology in the World
 
@@ -627,7 +665,7 @@ What are the full powers for Water, Fire, and Grass beyond basics? What are the 
 
 ### World Building
 
-What is the geography of the Draco world? Are there regions, towns, or biomes? How many First Choice Stables exist? Can you visit others later? What other shelled enemies exist beyond the Tow Road and Evil Groundhog? Are there other trainers/keepers with their own stories? What is the history of Draco? What is "the voice" that controls the evil shell?
+What is the geography of the Draco world? Are there regions, towns, or biomes? How many First Choice Stables exist? Can you visit others later? What other shelled enemies exist beyond the Tow Road and Evil Groundhog? Are there other trainers/keepers with their own stories? What is the history of Draco? What is the Voice Below's true origin and nature? What lies beneath the Shadowpeak Mountains? How many obsidian fortresses does the Voice command? How far do the Chromatic Fields extend? Are there other dimensional intersections beyond the Aurora Layer?
 
 ### Racing
 
@@ -643,7 +681,7 @@ Can keepers trade dragons? Are there keeper-vs-keeper battles (outside of races)
 
 ### Characters
 
-What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots? What is the Snake Friend's backstory? What is the Forest Crystal's true purpose? Where does the Wooden Whistle lead?
+What is Aloha's backstory? Are there other recurring villains besides Wonky Donkers? Who else lives in this world? Are there other robots? What is the Snake Friend's backstory? What is the Forest Crystal's true purpose? Where does the Wooden Whistle lead? Can Shadow dragons ever be freed from the Voice Below's control? Can a keeper bond with a Shadow dragon? How many Star Guardians exist?
 
 ### Keeper Transformation
 
@@ -651,7 +689,7 @@ When in the game progression does transformation become available? Are there lim
 
 ### Lore
 
-How did dragons come to exist in this world? What is the origin of The Crystal? Why do dragons hatch at full size? What is the deeper story behind Draco and the evil voice that controls it? What is the Tow Road's dimension — and are there other enemy dimensions?
+How did dragons come to exist in this world? What is the origin of The Crystal? Why do dragons hatch at full size? What is the deeper story behind Draco and the Voice Below? What is the Tow Road's dimension — and are there other enemy dimensions? What are Star Parasites truly — are they Shadow dragons or something older? What is the Chromatic Fields' relationship to the rest of the dragon world?
 
 ---
 
@@ -671,6 +709,8 @@ Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales 
 
 **Aloha** — Female humanoid robot who serves as race announcer, host, enforcer, engineer, and stadium builder. Looks like "Squeakers' Sister" from Hot Wheels — gray, with upside-down laundry basket head, long neck, orange eyes, expandable mouth. Communicates via hologram iPhone.
 
+**Aurora Layer** — Shimmering band of light in the upper atmosphere. Gateway to the Chromatic Fields. Reachable only by flying dragons.
+
 **Badge** — Award earned by winning a race; 10 required to challenge Draco.
 
 **Berry Plants** — Vines with ancient markings where berries grow in the wild.
@@ -679,11 +719,19 @@ Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales 
 
 **Breed Dragon** — A hybrid dragonette produced by breeding two different element types. Example: Spirit-Grass Breed. Requires a Breed Berry to tame.
 
+**Chromatic Dragon** — A dragon born in the Chromatic Fields that has "wrong" colors for its element. A green Fire dragon or blue Electric dragon, for example. Element powers are unchanged; only appearance differs.
+
+**Chromatic Fields** — Dimensional intersection accessible through the Aurora Layer. Floating islands, prismatic skies, impossibly colored vegetation. Dragons born here become Chromatic Dragons.
+
 **Clone Mechanic** — Some enemies (like Jack O'Rabbit) create clones when attacked. Clones grow via Earth's magnetism and can be countered by launching them into space.
 
-**Cosmic Dragon** — Dragon covered in a space map pattern (nebulae, constellations). Powers similar to Universe element.
+**Cosmic Dragon** — Dragon covered in a space map pattern (nebulae, constellations). Powers similar to Universe element. Has the Multistar attack.
 
-**Draco** — The Thunder Cloud Dragon who serves as the final boss. Not inherently evil — controlled by a corrupt shell connected to a mysterious evil voice. The game's namesake.
+**Derealize** — Spirit dragon ability. Makes the party intangible so attacks pass through them. Defensive power.
+
+**Diamonds in the Sky** — Starlight dragon attack. Thousands of crystalline star-points rocket forward in a blinding barrage.
+
+**Draco** — The Thunder Cloud Dragon who serves as the final boss. Not inherently evil — controlled by a corrupt shell connected to the Voice Below. The game's namesake.
 
 **Dragon Eye Amulet** — A glowstone containing the eye of a dragon. Always glows. Allows keepers to summon dragons at any time and, with a deep bond, transform into them.
 
@@ -723,9 +771,15 @@ Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales 
 
 **Magic Acorn** — Glowing acorn that grows into a magic oak in one day. The oak produces rare berries forever.
 
-**Marcus (The Finisher)** — Formerly a middle-tier racer who found purpose helping an injured dragon. Values fairness, perseverance, and heart. Loyal teammate who respects strategic racing.
+**Marcus (The Finisher)** — Formerly a middle-tier racer who found purpose helping an injured dragon.
+
+**Multistar** — Cosmic dragon attack. Hundreds of star-shaped projectiles launched simultaneously, each costing 10% attack power. Values fairness, perseverance, and heart. Loyal teammate who respects strategic racing.
+
+**Outraging Spirit Army** — Spirit dragon attack unlocked at Dragonette Master rank. Summons a spectral swarm that deals 60 damage.
 
 **Poisonous Powers** — Special toxic abilities obtained via snake snacks. Usable in combat but banned from races.
+
+**Portal Closer** — Spirit dragon ability. A beam from the forehead gem that closes dimensional portals.
 
 **Power Breathing** — Aza's custom ability that degrades opponent attack power by 10 points.
 
@@ -733,11 +787,27 @@ Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales 
 
 **Race Drone** — A drone that announces races, manages countdowns, and can change color for special occasions.
 
-**Rainbow Tortoise** — Massive turtle-like creature with iridescent rainbow dragon-scale shell. Guards Power crystals in Rainbow Valley caves. Vulnerable to fire (2 hits) or 100 regular hits.
+**Rainbow Tortoise** — Massive turtle-like creature with iridescent rainbow dragon-scale shell.
+
+**Shadow Dragon** — Enemy-only element. Dark body with glowing purple veins, purple-black energy. Serves the Voice Below. Cannot be bonded by keepers. Weak to Cosmic, Starlight, and Spirit.
+
+**Shadow Drain** — Shadow dragon attack. Dark tendrils latch onto targets and drain their energy.
+
+**Shadow Merge** — Shadow dragon ability. Three Shadow dragons combine into a single giant form with six glowing purple eyes.
+
+**Shadowpeak Mountains** — Dark mountain range under perpetual storms. Location of the Voice Below's obsidian fortresses veined with purple energy. Guards Power crystals in Rainbow Valley caves. Vulnerable to fire (2 hits) or 100 regular hits.
 
 **Silver Moonlight** — The only *known* power that only works at nighttime. Other time-restricted powers exist but are unlocked with the Thunder Cloud element.
 
 **Snake Friend** — Ally encounter. A friendly snake who gives players snake snacks, granting poisonous powers.
+
+**Star Guardian** — Fire and Electric dragons who guard star systems from shadow threats. Allies who patrol the upper atmosphere against Star Parasites and the Voice Below.
+
+**Star Parasite** — Gigantic shadow creature that wraps around stars and drains their light. Dozens of purple eyes and mouths. Commanded by the Voice Below.
+
+**Starlight Dragon** — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Crystalline spines create wind-chime sounds. Has the Diamonds in the Sky attack.
+
+**Surveillance Drone** — Mechanical drone disguised as a dragon. Single glowing purple eye. Used by the Voice Below for spying. Not powerful in combat but dangerous for intelligence gathering.
 
 **Snake Snacks** — Items from the snake friend encounter. Grant poisonous powers to dragons. Banned from races.
 
@@ -751,19 +821,21 @@ Starlight Dragon (unnamed) — Starlight element — Deep blue to violet scales 
 
 **Spirit-Grass Breed** — A hybrid dragon combining Spirit and Grass elements. Strong against Thunder Cloud. Has Grass Spirit Army attack.
 
-**Starlight Dragon** — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Crystalline spines create wind-chime sounds.
-
 **Supersonic Pink Trophy** — A named race trophy. Different races award different trophy types.
 
 **The Crystal** — An artifact that reveals a dragon's powers when looked through directly at the dragon.
 
 **The Finisher** — See Marcus (The Finisher).
 
+**The Voice Below** — The greater villain behind Draco's corruption. Commands Shadow dragons, Star Parasites, and Surveillance Drones from obsidian fortresses in the Shadowpeak Mountains. Goal: consume starlight from stars. True origin unknown.
+
 **Tow Road** — A giant evil flying turtle enemy. Shell made of dragon scale energy. Has its own dimension where special berries can be found.
 
 **Thunder Cloud Dragon** — A dragon of the Thunder Cloud element. Draco is the most powerful of these, but others exist. Not all Thunder Cloud dragons have shells.
 
-**Universe Dragon** — Dragon bearing a microscopic map of the entire universe with a tiny compass. Can crush shelled creatures in one hit.
+**Universal Camouflage** — Universe dragon ability. Bends light for full invisibility. Advanced stealth ability.
+
+**Universe Dragon** — Dragon bearing a microscopic map of the entire universe with a tiny compass. Can crush shelled creatures in one hit. Has the Universal Camouflage ability.
 
 **Wooden Whistle** — Carved whistle from a grateful Forest Bear. May summon forest creatures or call for help in the woods.
 

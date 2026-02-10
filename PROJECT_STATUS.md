@@ -5,9 +5,26 @@
 
 **Last updated**: 2026-02-10
 
-**Status**: Replaced all "Brent" / "Brent Dixon" references with "Papa" in Codex and game AI system prompt. Aza calls Brent "Papa" — the game should reflect that.
+**Status**: Codex v1.6 — Shadow Element, Voice Below, Chromatic Fields & New Lore. All changes complete including 6 new images (generated + resized to 512px).
 
-**Last session** (2026-02-10 — Replace "Brent" with "Papa"):
+**Last session** (2026-02-10 — Codex v1.6 Lore Update):
+- **Shadow Element** (enemy-only) — new dragon card, CSS vars/glow, matchup entry, glossary entries. Dark body with glowing purple veins, serves the Voice Below. Weak to Cosmic/Starlight/Spirit.
+- **6 new attacks** — Multistar (Cosmic), Diamonds in the Sky (Starlight), Outraging Spirit Army (Spirit, Master unlock, 60 dmg), Portal Closer (Spirit), Derealize (Spirit), Universal Camouflage (Universe). Updated card-backs for Cosmic, Starlight, Spirit, Universe.
+- **3 new locations** — Aurora Layer, Chromatic Fields, Shadowpeak Mountains. Added as "Key Locations" pillars in Chapter I.
+- **Chromatic Dragons** — concept added (wrong-colored dragons from Chromatic Fields). Info box in Chapter II.
+- **3 new creatures** — Star Guardians (allies), Star Parasites (enemy), Surveillance Drones (enemy). Character cards in Chapter VII.
+- **The Voice Below** — expanded from "mysterious voice" to named villain with army, fortresses, and goal. Updated Draco card, added secret card, updated questions.
+- **Matchup chart** — Shadow button, Shadow entry (weak to Cosmic/Starlight/Spirit), updated strong arrays and notes for Cosmic/Starlight/Spirit.
+- **17 new glossary entries** — Aurora Layer, Chromatic Dragon, Chromatic Fields, Derealize, Diamonds in the Sky, Multistar, Outraging Spirit Army, Portal Closer, Shadow Dragon, Shadow Drain, Shadow Merge, Shadowpeak Mountains, Star Guardian, Star Parasite, Surveillance Drone, The Voice Below, Universal Camouflage.
+- **3 new open questions** — Can Shadow be freed? How far do Chromatic Fields extend? What are Star Parasites?
+- **Game Bible v1.6** — all new lore added to DRACO_Game_Bible.md
+- **AI system prompt** — GAME_BIBLE, HIDDEN_LORE, ELEMENT_COLORS all updated in game.js
+- **6 new image prompts** — shadow-dragon, star-parasite, surveillance-drone, star-guardians, chromatic-fields, shadowpeak-mountains
+- **Footer** — bumped to Game Bible v1.6
+- **6 new images generated** — shadow-dragon, star-parasite, surveillance-drone, star-guardians, chromatic-fields, shadowpeak-mountains. All resized from 1024px to 512px (~550KB each).
+- **Files changed**: `DRACO_Game_Bible.md`, `codex/index.html`, `codex/style.css`, `codex/script.js`, `codex/game.js`, `codex/generate-images.js`, `codex/images/` (6 new PNGs), `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — Replace "Brent" with "Papa"):
 - Replaced "Brent Dixon" → "Papa" in codex footer (1 occurrence)
 - Replaced "Brent" → "Papa" everywhere else in `codex/index.html` (6 occurrences) and `codex/game.js` GAME_BIBLE constant (10 occurrences)
 - Verified: `grep -r "Brent" codex/` returns zero matches

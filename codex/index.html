@@ -121,6 +121,28 @@
               </div>
             </div>
           </div>
+          <!-- Key Locations -->
+          <div class="scroll-reveal fade-up" data-delay="800">
+            <h3 class="sub-heading">Key Locations</h3>
+          </div>
+
+          <div class="three-pillars scroll-reveal fade-up" data-delay="900">
+            <div class="pillar pixel-border">
+              <img src="images/chromatic-fields.png" alt="Aurora Layer" class="box-icon" loading="lazy">
+              <h3>Aurora Layer</h3>
+              <p>A shimmering band of light in the upper atmosphere. Gateway to the Chromatic Fields. Visible from the ground, but only reachable by flying dragons.</p>
+            </div>
+            <div class="pillar pixel-border">
+              <img src="images/chromatic-fields.png" alt="Chromatic Fields" class="box-icon" loading="lazy">
+              <h3>Chromatic Fields</h3>
+              <p>A dimensional intersection with floating islands and prismatic skies. Dragons born here have "wrong" colors — their element stays the same but appearance shifts.</p>
+            </div>
+            <div class="pillar pixel-border">
+              <img src="images/shadowpeak-mountains.png" alt="Shadowpeak Mountains" class="box-icon" loading="lazy">
+              <h3>Shadowpeak Mountains</h3>
+              <p>Dark range under perpetual storms. The Voice Below's obsidian fortresses pulse with purple energy. Shadow dragons patrol the skies.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -236,6 +258,8 @@
                   <h3>Spirit Dragon</h3>
                   <p class="card-color">Dark purple, forehead gem</p>
                   <p class="card-desc">Create illusions, sense truth, fire a beam from forehead gem that shares knowledge. Ghost and "Halloween" powers. Spirit and Ghost are the same element.</p>
+                  <p class="card-desc"><strong>New:</strong> Outraging Spirit Army (60 dmg, Master unlock), Portal Closer (closes portals), Derealize (party becomes intangible).</p>
+                  <p class="card-weak">Strong vs: <strong>Shadow</strong></p>
                   <p class="card-note">Silver Moonlight ability — only works at night.</p>
                 </div>
               </div>
@@ -305,6 +329,7 @@
                   <h3>Universe Dragon</h3>
                   <p class="card-color">Microscopic star map & compass</p>
                   <p class="card-desc">Body bears a microscopic universe map — need a microscope to see individual stars. Tiny compass on the map. Can crush shelled creatures in a single hit.</p>
+                  <p class="card-desc"><strong>Universal Camouflage:</strong> Bends light for full invisibility.</p>
                   <p class="card-note">One of the "1000 elements" — most still locked.</p>
                 </div>
               </div>
@@ -322,6 +347,8 @@
                   <h3>Cosmic Dragon</h3>
                   <p class="card-color">Space map — nebulae & constellations</p>
                   <p class="card-desc">Looks like "a map of space." Powers similar to Universe. Visually distinct: Cosmic = space map, Universe = compass.</p>
+                  <p class="card-desc"><strong>Multistar:</strong> Hundreds of star-projectiles, 10% cost per use.</p>
+                  <p class="card-weak">Strong vs: <strong>Shadow</strong></p>
                   <p class="card-note">One of the "1000 elements" — most still locked.</p>
                 </div>
               </div>
@@ -372,7 +399,27 @@
                   <h3>Starlight Dragon</h3>
                   <p class="card-color">Deep blue to violet with silver star patterns</p>
                   <p class="card-desc">Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents, reveals hidden truths through light (similar to Spirit's truth-sensing but light-based).</p>
+                  <p class="card-desc"><strong>Diamonds in the Sky:</strong> Thousands of crystalline star-points rocket forward.</p>
+                  <p class="card-weak">Strong vs: <strong>Shadow</strong></p>
                   <p class="card-note">Crystalline spines create wind-chime sounds when moving.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shadow (Enemy Element) -->
+            <div class="dragon-card scroll-reveal fade-up shadow-glow" data-element="shadow" data-delay="1400">
+              <div class="card-inner">
+                <div class="card-front pixel-border" style="--element-color: #3D1A5E; --element-text-color: #D0A0FF">
+                  <img src="images/shadow-dragon.png" alt="Shadow Dragon" loading="lazy">
+                  <h3>Shadow</h3>
+                  <span class="element-badge" style="background: #5E2D8E; color: #D0A0FF">Enemy Element</span>
+                </div>
+                <div class="card-back pixel-border" style="--element-color: #3D1A5E; --element-text-color: #D0A0FF">
+                  <h3>Shadow Dragon</h3>
+                  <p class="card-color">Dark body with glowing purple veins</p>
+                  <p class="card-desc">Serves the Voice Below. Cannot be bonded by keepers. Commands dark tendrils that drain energy.</p>
+                  <p class="card-desc"><strong>Shadow Drain:</strong> Dark tendrils drain energy. <strong>Shadow Merge:</strong> 3 dragons combine into 1 giant with 6 purple eyes.</p>
+                  <p class="card-weak">Weak to: <strong>Cosmic, Starlight, Spirit</strong></p>
                 </div>
               </div>
             </div>
@@ -393,6 +440,14 @@
           <div class="info-box pixel-border scroll-reveal fade-up spirit-grass-breed">
             <p>Dragons of different elements can breed, producing hybrid dragonettes with combined powers. To tame a breed dragon, you need a <strong>Breed Berry</strong> — a special berry specifically for bonding with hybrid dragonettes.</p>
             <p>Known breed: <strong>Spirit-Grass</strong> — combines Spirit truth-sensing with Grass powers. Strong against Thunder Cloud. Has "Grass Spirit Army" attack (drains opponents by 10%).</p>
+          </div>
+
+          <!-- Chromatic Dragons -->
+          <div class="info-box pixel-border scroll-reveal fade-up">
+            <img src="images/chromatic-fields.png" alt="Chromatic Fields" class="box-header-img" loading="lazy">
+            <h3>Chromatic Dragons</h3>
+            <p>Dragons born in the <strong>Chromatic Fields</strong> — a dimensional intersection accessible through the Aurora Layer — keep their elemental powers but have "wrong" colors. A Fire dragon might be green, an Electric dragon blue, a Water dragon pink.</p>
+            <p>Their element remains unchanged; only their appearance differs. Rare and highly prized because their misleading colors confuse opponents in battle.</p>
           </div>
 
           <!-- Custom Element -->
@@ -784,6 +839,7 @@
                 <button class="matchup-btn" data-el="egg" style="--el-color: #D4A574">Egg</button>
                 <button class="matchup-btn" data-el="spiritgrass" style="--el-color: #2ECC40">Spirit-Grass</button>
                 <button class="matchup-btn" data-el="starlight" style="--el-color: #1a0a3d; --el-text-color: #E0D0FF">Starlight</button>
+                <button class="matchup-btn" data-el="shadow" style="--el-color: #3D1A5E; --el-text-color: #D0A0FF">Shadow</button>
               </div>
 
               <div class="matchup-result" id="matchup-result">
@@ -856,7 +912,7 @@
               <div class="character-info">
                 <h3>Draco</h3>
                 <span class="character-role villain">Final Boss / Raid Boss</span>
-                <p>Thunder Cloud Dragon. Not inherently evil — controlled by an evil shell connected to a mysterious voice. Once defeated, freed and can be tamed. Like a "mega Rayquaza in a Pok&eacute;mon boss stadium."</p>
+                <p>Thunder Cloud Dragon. Not inherently evil — controlled by an evil shell connected to the Voice Below. Once defeated, freed and can be tamed. Like a "mega Rayquaza in a Pok&eacute;mon boss stadium."</p>
                 <p class="character-quote">Weakness: Grass. Requires 10 badges to challenge.</p>
               </div>
             </div>
@@ -968,6 +1024,42 @@
                 <h3>Marcus (The Finisher)</h3>
                 <span class="character-role ally">Team Member</span>
                 <p>Formerly a middle-tier racer who found his true purpose helping an injured dragon. Renamed himself "The Finisher" after discovering his talent for strong race conclusions. Values fairness, perseverance, and heart over raw talent. A loyal teammate who respects strategic racing.</p>
+              </div>
+            </div>
+
+            <!-- Star Guardians -->
+            <div class="character-card scroll-reveal fade-up" data-delay="2200">
+              <div class="character-portrait pixel-border">
+                <img src="images/star-guardians.png" alt="Star Guardians" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Star Guardians</h3>
+                <span class="character-role ally">Allies</span>
+                <p>Fire and Electric dragons who guard star systems from shadow threats. They patrol the upper atmosphere and beyond, serving as the first line of defense against Star Parasites and the Voice Below's forces.</p>
+              </div>
+            </div>
+
+            <!-- Star Parasites -->
+            <div class="character-card scroll-reveal fade-up" data-delay="2400">
+              <div class="character-portrait pixel-border">
+                <img src="images/star-parasite.png" alt="Star Parasite" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Star Parasites</h3>
+                <span class="character-role enemy">Enemy Creature</span>
+                <p>Gigantic shadow creatures that wrap around stars and drain their light. Dozens of glowing purple eyes and mouths. Commanded by the Voice Below. Defeating one restores the star it was draining.</p>
+              </div>
+            </div>
+
+            <!-- Surveillance Drones -->
+            <div class="character-card scroll-reveal fade-up" data-delay="2600">
+              <div class="character-portrait pixel-border">
+                <img src="images/surveillance-drone.png" alt="Surveillance Drone" loading="lazy">
+              </div>
+              <div class="character-info">
+                <h3>Surveillance Drones</h3>
+                <span class="character-role enemy">Enemy</span>
+                <p>Mechanical drones disguised as dragons. A single glowing purple eye gives away their true nature. Used by the Voice Below for spying — not powerful in combat, but they report keeper movements back to the Shadowpeak Mountains.</p>
               </div>
             </div>
           </div>
@@ -1225,6 +1317,18 @@
               <h3>1000 Elements</h3>
               <p>There are "like 1000 elements" — most are locked and undiscovered. "Locked elements that I'm not supposed to tell you about, their secret." Universe, Cosmic, Egg are just the beginning. Starlight has been unlocked — Wood remains mysterious.</p>
             </div>
+
+            <div class="secret-card pixel-border locked scroll-reveal fade-up shadow-glow" data-delay="1200">
+              <img src="images/shadow-dragon.png" alt="Shadow Dragon" class="box-header-img" loading="lazy">
+              <h3>The Shadow Element</h3>
+              <p>An enemy-only element serving the Voice Below. Shadow dragons have dark bodies with glowing purple veins and command dark energy. They can drain energy with Shadow Drain and merge — three combining into one giant with six purple eyes. Weak to Cosmic, Starlight, and Spirit. No keeper has ever bonded one... yet.</p>
+            </div>
+
+            <div class="secret-card pixel-border locked scroll-reveal fade-up" data-delay="1400">
+              <img src="images/shadowpeak-mountains.png" alt="Shadowpeak Mountains" class="box-header-img" loading="lazy">
+              <h3>The Voice Below</h3>
+              <p>The entity behind Draco's corruption is far more dangerous than anyone knew. Called "the Voice Below," it commands Shadow dragons, Star Parasites, and Surveillance Drones from obsidian fortresses in the Shadowpeak Mountains. Its goal: consume starlight from the stars themselves.</p>
+            </div>
           </div>
 
           <!-- Open Questions -->
@@ -1242,7 +1346,7 @@
               </div>
               <div class="question-card pixel-border scroll-reveal fade-up">
                 <span class="question-icon">?</span>
-                <p>What is "the voice" controlling Draco's evil shell?</p>
+                <p>What is the Voice Below's true origin? What lies beneath the Shadowpeak Mountains?</p>
               </div>
               <div class="question-card pixel-border scroll-reveal fade-up">
                 <span class="question-icon">?</span>
@@ -1280,6 +1384,18 @@
                 <span class="question-icon">?</span>
                 <p>Where does the Wooden Whistle lead?</p>
               </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>Can Shadow dragons ever be freed from the Voice Below?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>How far do the Chromatic Fields extend?</p>
+              </div>
+              <div class="question-card pixel-border scroll-reveal fade-up">
+                <span class="question-icon">?</span>
+                <p>What are Star Parasites — are they Shadow dragons or something older?</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1299,6 +1415,9 @@
       </div>
 
       <div class="glossary-list" id="glossary-list">
+        <div class="glossary-entry pixel-border" data-term="aurora layer">
+          <strong>Aurora Layer</strong> — Shimmering band of light in the upper atmosphere. Gateway to the Chromatic Fields. Reachable only by flying dragons.
+        </div>
         <div class="glossary-entry pixel-border" data-term="aloha">
           <strong>Aloha</strong> — Female humanoid robot, "Squeakers' Sister." Race announcer, host, enforcer, engineer, stadium builder. Gray, upside-down laundry basket head, orange eyes, long neck, expandable mouth.
         </div>
@@ -1317,11 +1436,23 @@
         <div class="glossary-entry pixel-border" data-term="clone mechanic">
           <strong>Clone Mechanic</strong> — Some enemies create clones when attacked. Clones grow via Earth's magnetism; launching into space stops growth.
         </div>
+        <div class="glossary-entry pixel-border" data-term="chromatic dragon">
+          <strong>Chromatic Dragon</strong> — A dragon born in the Chromatic Fields with "wrong" colors for its element. Element powers unchanged; only appearance differs.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="chromatic fields">
+          <strong>Chromatic Fields</strong> — Dimensional intersection accessible through the Aurora Layer. Floating islands, prismatic skies. Dragons born here become Chromatic Dragons.
+        </div>
         <div class="glossary-entry pixel-border" data-term="cosmic dragon">
-          <strong>Cosmic Dragon</strong> — Dragon covered in a space map pattern. Powers similar to Universe element.
+          <strong>Cosmic Dragon</strong> — Dragon covered in a space map pattern. Powers similar to Universe element. Has the Multistar attack.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="derealize">
+          <strong>Derealize</strong> — Spirit dragon ability. Makes the party intangible so attacks pass through. Defensive power.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="diamonds in the sky">
+          <strong>Diamonds in the Sky</strong> — Starlight dragon attack. Thousands of crystalline star-points rocket forward in a blinding barrage.
         </div>
         <div class="glossary-entry pixel-border" data-term="draco">
-          <strong>Draco</strong> — The Thunder Cloud Dragon, final boss. Not inherently evil — controlled by a corrupt shell connected to a mysterious evil voice. The game's namesake.
+          <strong>Draco</strong> — The Thunder Cloud Dragon, final boss. Not inherently evil — controlled by a corrupt shell connected to the Voice Below. The game's namesake.
         </div>
         <div class="glossary-entry pixel-border" data-term="dragon eye amulet">
           <strong>Dragon Eye Amulet</strong> — A glowstone containing the eye of a dragon. Always glows. Summon dragons and, with deep bond, transform into them.
@@ -1383,8 +1514,17 @@
         <div class="glossary-entry pixel-border" data-term="marcus the finisher">
           <strong>Marcus (The Finisher)</strong> — Formerly a middle-tier racer who found purpose helping an injured dragon. Values fairness, perseverance, and heart. Loyal teammate who respects strategic racing.
         </div>
+        <div class="glossary-entry pixel-border" data-term="multistar">
+          <strong>Multistar</strong> — Cosmic dragon attack. Hundreds of star-shaped projectiles launched simultaneously, each costing 10% attack power.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="outraging spirit army">
+          <strong>Outraging Spirit Army</strong> — Spirit dragon attack unlocked at Dragonette Master rank. Summons a spectral swarm that deals 60 damage.
+        </div>
         <div class="glossary-entry pixel-border" data-term="poisonous powers">
           <strong>Poisonous Powers</strong> — Toxic abilities from snake snacks. Usable in combat but banned from races.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="portal closer">
+          <strong>Portal Closer</strong> — Spirit dragon ability. A beam from the forehead gem that closes dimensional portals.
         </div>
         <div class="glossary-entry pixel-border" data-term="power breeding">
           <strong>Power Breathing</strong> — Aza's custom ability. Degrades opponent attack power by 10 points.
@@ -1398,6 +1538,18 @@
         <div class="glossary-entry pixel-border" data-term="rainbow tortoise">
           <strong>Rainbow Tortoise</strong> — Massive turtle-like creature with iridescent rainbow dragon-scale shell. Guards Power crystals in Rainbow Valley caves. Vulnerable to fire (2 hits) or 100 regular hits.
         </div>
+        <div class="glossary-entry pixel-border" data-term="shadow dragon">
+          <strong>Shadow Dragon</strong> — Enemy-only element. Dark body with glowing purple veins, purple-black energy. Serves the Voice Below. Cannot be bonded by keepers. Weak to Cosmic, Starlight, and Spirit.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="shadow drain">
+          <strong>Shadow Drain</strong> — Shadow dragon attack. Dark tendrils latch onto targets and drain their energy.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="shadow merge">
+          <strong>Shadow Merge</strong> — Shadow dragon ability. Three Shadow dragons combine into a single giant form with six glowing purple eyes.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="shadowpeak mountains">
+          <strong>Shadowpeak Mountains</strong> — Dark mountain range under perpetual storms. Location of the Voice Below's obsidian fortresses veined with purple energy.
+        </div>
         <div class="glossary-entry pixel-border" data-term="silver moonlight">
           <strong>Silver Moonlight</strong> — The only known power that only works at nighttime. Others unlock with Thunder Cloud.
         </div>
@@ -1406,6 +1558,12 @@
         </div>
         <div class="glossary-entry pixel-border" data-term="snake snacks">
           <strong>Snake Snacks</strong> — Items from the snake friend. Grant poisonous powers. Banned from races.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="star guardian">
+          <strong>Star Guardian</strong> — Fire and Electric dragons who guard star systems from shadow threats. Allies patrolling the upper atmosphere against the Voice Below.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="star parasite">
+          <strong>Star Parasite</strong> — Gigantic shadow creature that wraps around stars and drains their light. Dozens of purple eyes and mouths. Commanded by the Voice Below.
         </div>
         <div class="glossary-entry pixel-border" data-term="speed berry">
           <strong>Speed Berry</strong> — Golden shimmering berry that grants a temporary speed boost for a single race.
@@ -1423,7 +1581,10 @@
           <strong>Spirit-Grass Breed</strong> — Hybrid dragon combining Spirit truth-sensing with Grass powers. Strong against Thunder Cloud.
         </div>
         <div class="glossary-entry pixel-border" data-term="starlight dragon">
-          <strong>Starlight Dragon</strong> — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Crystalline spines create wind-chime sounds.
+          <strong>Starlight Dragon</strong> — Deep blue to violet scales with silver star patterns. Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents. Crystalline spines create wind-chime sounds. Has the Diamonds in the Sky attack.
+        </div>
+        <div class="glossary-entry pixel-border" data-term="surveillance drone">
+          <strong>Surveillance Drone</strong> — Mechanical drone disguised as a dragon. Single glowing purple eye. Used by the Voice Below for spying. Not powerful in combat but dangerous for intelligence gathering.
         </div>
         <div class="glossary-entry pixel-border" data-term="supersonic pink trophy">
           <strong>Supersonic Pink Trophy</strong> — A named race trophy. Different races award different types.
@@ -1434,14 +1595,20 @@
         <div class="glossary-entry pixel-border" data-term="the finisher marcus">
           <strong>The Finisher</strong> — See <strong>Marcus (The Finisher)</strong>.
         </div>
+        <div class="glossary-entry pixel-border" data-term="the voice below">
+          <strong>The Voice Below</strong> — The greater villain behind Draco's corruption. Commands Shadow dragons, Star Parasites, and Surveillance Drones from obsidian fortresses in the Shadowpeak Mountains. Goal: consume starlight from stars.
+        </div>
         <div class="glossary-entry pixel-border" data-term="tow road">
           <strong>Tow Road</strong> — Giant evil flying turtle. Shell made of dragon scale energy. Has its own dimension.
         </div>
         <div class="glossary-entry pixel-border" data-term="thunder cloud dragon">
           <strong>Thunder Cloud Dragon</strong> — A dragon of the Thunder Cloud element. Draco is the most powerful, but others exist. Not all have shells.
         </div>
+        <div class="glossary-entry pixel-border" data-term="universal camouflage">
+          <strong>Universal Camouflage</strong> — Universe dragon ability. Bends light for full invisibility.
+        </div>
         <div class="glossary-entry pixel-border" data-term="universe dragon">
-          <strong>Universe Dragon</strong> — Bears a microscopic universe map with a tiny compass. Can crush shelled creatures in one hit.
+          <strong>Universe Dragon</strong> — Bears a microscopic universe map with a tiny compass. Can crush shelled creatures in one hit. Has the Universal Camouflage ability.
         </div>
         <div class="glossary-entry pixel-border" data-term="wooden whistle">
           <strong>Wooden Whistle</strong> — Carved whistle from a grateful Forest Bear. May summon forest creatures or call for help in the woods.
@@ -1456,7 +1623,7 @@
     <footer class="codex-footer">
       <div class="pixel-divider"></div>
       <p>The Draco Codex &mdash; Created by <strong>Aza Dixon</strong></p>
-      <p class="footer-sub">Documented by Papa &bull; Game Bible v1.5 &bull; February 2026</p>
+      <p class="footer-sub">Documented by Papa &bull; Game Bible v1.6 &bull; February 2026</p>
     </footer>
 
   </main>

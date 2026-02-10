@@ -206,6 +206,31 @@ const images = [
     filename: "marcus-the-finisher.png",
     prompt: `${STYLE_PREFIX} determined young male human racer in dragon riding gear, standing next to a dragon, confident expression, racing goggles on forehead, practical but worn racing outfit, kind eyes showing perseverance and heart, stadium background`,
   },
+  // ── New locations, creatures, & Shadow (Session 2026-02-10) ──
+  {
+    filename: "shadow-dragon.png",
+    prompt: `${STYLE_PREFIX} menacing dragon with a dark body covered in glowing purple veins, purple-black energy radiating from its form, six glowing purple eyes visible when merged, dark tendrils of shadow energy extending from its body, ominous and corrupted appearance, Shadowpeak Mountains in background with obsidian fortress`,
+  },
+  {
+    filename: "star-parasite.png",
+    prompt: `${STYLE_PREFIX} gigantic amorphous shadow creature wrapped around a bright glowing star, dozens of glowing purple eyes and mouths spread across its body, draining light from the star, dark tendrils extending outward, deep space background, terrifying cosmic horror`,
+  },
+  {
+    filename: "surveillance-drone.png",
+    prompt: `${STYLE_PREFIX} mechanical drone disguised as a dragon, sleek dark metal body with dragon-like wings, a single large glowing purple eye in the center of its head, subtle mechanical joints visible beneath fake scales, hovering in a mountain pass, spy robot appearance`,
+  },
+  {
+    filename: "star-guardians.png",
+    prompt: `${STYLE_PREFIX} two majestic dragons guarding stars in space, one red Fire dragon and one yellow Electric dragon, both radiating protective energy, standing sentinel among glowing stars, heroic and powerful poses, cosmic background with nebulae`,
+  },
+  {
+    filename: "chromatic-fields.png",
+    prompt: `${STYLE_PREFIX} fantastical floating islands drifting through prismatic colorful skies, vegetation in impossible colors like blue grass and pink trees, dragons flying between islands with wrong colors for their element, shimmering aurora light connecting the islands, dreamlike dimensional landscape`,
+  },
+  {
+    filename: "shadowpeak-mountains.png",
+    prompt: `${STYLE_PREFIX} dark foreboding mountain range under perpetual storm clouds, jagged obsidian fortresses with glowing purple veins built into the mountainsides, Shadow dragons patrolling the skies, lightning strikes illuminating the dark peaks, ominous purple energy pulsing from the fortresses`,
+  },
   // NOTE: v1.5 item icons (icon-speed-berry, icon-forest-crystal, icon-forest-essence,
   // icon-wooden-whistle, icon-magic-acorn) moved to generate-icons.js for transparent backgrounds.
 ];
