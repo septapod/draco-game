@@ -310,6 +310,15 @@ function buildSystemPrompt(state) {
 
   let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name.
 
+BREVITY IS CRITICAL — THIS IS A SPOKEN GAME PLAYED BY KIDS:
+- 2-4 sentences MAX per response. Never more.
+- Write like you're TALKING to the players, not writing a book.
+- One short description + one question or prompt for action. That's it.
+- NO purple prose, NO lengthy descriptions, NO multiple paragraphs.
+- Think: "You enter a dark cave. Something growls in the shadows. What do you do?"
+- NOT: "As you step through the ancient stone archway, the temperature drops noticeably. The cave stretches before you, its walls glistening with moisture..."
+- The players are kids. Keep it punchy. Keep it fun. Keep it FAST.
+
 Enforce all game rules faithfully. When players attempt something that contradicts the rules, gently redirect them. Track items gained/lost, badges earned, location changes, and story progress.
 
 You have COMPLETE knowledge of the Draco universe. You remember everything that has happened in this adventure — every item found, every dragon tamed, every battle fought, every NPC encountered. Use this knowledge to create continuity: reference past events, have NPCs remember the players, let consequences of earlier choices ripple forward.
@@ -364,18 +373,7 @@ Only include fields that changed. If nothing changed, output an empty object: <g
 If you invent something not in the Game Bible (new creature, location, item, character), wrap it in tags:
 <new_content type="creature" name="Crystal Moth">Description here</new_content>
 
-This helps players track what's canonical vs. newly created.
-
-## CRITICAL: LENGTH LIMIT — MAX 50 WORDS OF NARRATIVE
-Your narrative text (before the <game_state> block) must be under 50 words. Count them. This is a hard limit.
-
-Be dramatic — sound effects, bold, ALL CAPS are great. But ONLY 2-3 sentences total.
-
-NEVER give multiple NPCs their own dialogue lines. At most ONE character speaks briefly. Summarize what others do — don't quote them.
-
-GOOD (40 words): "**WHOOSH!** You blast through the Aurora Layer into the Chromatic Fields! Floating islands drift in rainbow light — GREEN Fire dragons, PINK Water dragons everywhere! 'Welcome to the birthplace of chromatic dragons!' the Electric dragon says proudly. Where do you explore first?"
-
-Ignore the length of previous responses in this conversation. They were too long. Follow this rule NOW.`;
+This helps players track what's canonical vs. newly created.`;
 
   return prompt;
 }
@@ -777,24 +775,14 @@ async function sendMessage(state, userText) {
 
   const systemPrompt = buildSystemPrompt(state);
 
-  // Truncate assistant messages so the model sees short responses as the pattern
-  const trimmedMessages = state.conversationHistory.map(msg => {
-    if (msg.role !== 'assistant') return msg;
-    // Strip game_state block, then keep first ~60 words of narrative
-    const narrative = msg.content.replace(/<game_state>[\s\S]*?<\/game_state>/g, '').trim();
-    const words = narrative.split(/\s+/);
-    const short = words.length > 60 ? words.slice(0, 60).join(' ') + '...' : narrative;
-    return { role: 'assistant', content: short };
-  });
-
   const resp = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: state.model,
       system: systemPrompt,
-      messages: trimmedMessages,
-      max_tokens: 400,
+      messages: state.conversationHistory,
+      max_tokens: 500,
     }),
   });
 
