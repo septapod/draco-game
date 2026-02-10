@@ -718,6 +718,64 @@ body {
 }
 .discoveries-overlay.open { display: block; }
 
+/* ── Transcript Screen ── */
+.transcript-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.transcript-title {
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  color: var(--gold);
+  margin: 0;
+}
+.transcript-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+.transcript-entry {
+  margin-bottom: 1rem;
+}
+.transcript-entry p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.8;
+}
+.transcript-entry.narrator p {
+  color: var(--text);
+  background: rgba(255, 215, 0, 0.03);
+  padding: 0.5rem 0.6rem;
+  border-radius: 4px;
+}
+.transcript-entry.player p {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+.transcript-player-name {
+  font-family: var(--font-pixel);
+  font-size: 0.5rem;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+.transcript-empty {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 2rem;
+}
+
 /* ── Utilities ── */
 .hidden { display: none !important; }
 
@@ -1044,6 +1102,23 @@ body {
     font-size: 16px; /* Prevents iOS auto-zoom */
     padding: 0.7rem 0.4rem;
   }
+
+  /* Transcript screen mobile */
+  .transcript-header {
+    padding: 0.6rem 0.75rem;
+  }
+  .transcript-header .btn-sm {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  .transcript-content {
+    padding: 0.75rem;
+    -webkit-overflow-scrolling: touch;
+  }
+  .transcript-entry.player p { font-size: 0.8rem; }
+  .transcript-entry.narrator p { font-size: 0.9rem; }
+  .transcript-player-name { font-size: 0.55rem; }
 }
 
 /* ── Reduced motion ── */

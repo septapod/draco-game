@@ -5,9 +5,16 @@
 
 **Last updated**: 2026-02-09
 
-**Status**: Mobile text input fix deployed. Virtual keyboard now properly reveals the input field on mobile browsers.
+**Status**: Full Story transcript feature implemented. Players can now read the complete story of their adventure, including messages lost to conversation compression.
 
-**Last session** (2026-02-09 — Fix Mobile Text Input):
+**Last session** (2026-02-09 — Full Story Transcript):
+- **Feature: Adventure transcript** — new `transcript` array on adventure state accumulates every player message and cleaned narrator response as they happen. Unlike `conversationHistory` (compressed after 30 messages), the transcript is permanent and grows for the entire adventure.
+- **Backward compat** — old saves without `transcript` field get it initialized to `[]` in `startAdventure()`. On first load, transcript is seeded from existing `conversationHistory` entries so old adventures aren't completely empty.
+- **Full Story screen** — new `screen-transcript` with sticky header (← Back + "Full Story" title) and scrollable content area. Player messages show name in element color; narrator messages have the same gold-tinted background as in-game narrator bubbles.
+- **Access points** — "Full Story" button in desktop toolbar + "Full Story" button in mobile bottom sheet (⋯ menu).
+- **Files changed**: `codex/game.js`, `codex/game.html`, `codex/game.css`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-09 — Fix Mobile Text Input):
 - **Root cause**: `.screen` used `position: fixed` with `overflow: hidden`, so when the mobile virtual keyboard opened it covered the input area at the bottom. The existing `visualViewport` resize handler didn't account for viewport scroll offset.
 - **Fix 1: `dvh` units** — Added `#screen-adventure.active { position: relative; height: 100dvh; }` in the mobile media query. The `dvh` (dynamic viewport height) unit automatically shrinks when the virtual keyboard opens on modern mobile browsers.
 - **Fix 2: Improved viewport handler** — Added `adventureScreen.style.top = window.visualViewport.offsetTop + 'px'` as a fallback for browsers where `dvh` alone isn't sufficient.

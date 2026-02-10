@@ -401,7 +401,8 @@ function createAdventure(players, model) {
     conversationHistory: [],
     narrativeSummary: '',
     turnCount: 0,
-    discoveries: []
+    discoveries: [],
+    transcript: []
   };
 }
 
@@ -1143,6 +1144,7 @@ const app = {
       : this.state.players[0].name;
 
     this.addPlayerMessage(playerName, text);
+    this.state.transcript.push({ role: 'player', name: playerName, text });
 
     const msgEl = this.addNarratorMessage('');
     let fullText = '';
@@ -1198,6 +1200,7 @@ const app = {
 
       // Final render: clean text + images + TTS (once, after stream completes)
       this.renderNarratorFinal(msgEl, fullText);
+      this.state.transcript.push({ role: 'narrator', text: cleanNarrativeText(fullText) });
 
       this.renderStatusBar();
       await saveAdventure(this.state);
@@ -1307,6 +1310,22 @@ const app = {
     state.flags = state.flags || {};
     state.narrativeSummary = state.narrativeSummary || '';
     state.turnCount = state.turnCount || 0;
+    state.transcript = state.transcript || [];
+
+    // Seed transcript from existing conversation history for old saves
+    if (state.transcript.length === 0 && state.conversationHistory.length > 0) {
+      for (const msg of state.conversationHistory) {
+        const text = typeof msg.content === 'string' ? msg.content : msg.content.map(c => c.text || '').join('');
+        if (msg.role === 'assistant') {
+          state.transcript.push({ role: 'narrator', text: cleanNarrativeText(text) });
+        } else {
+          const playerMatch = text.match(/^\[([^\]]+)\]:\s*([\s\S]*)/);
+          if (playerMatch) {
+            state.transcript.push({ role: 'player', name: playerMatch[1], text: playerMatch[2] });
+          }
+        }
+      }
+    }
 
     this.state = state;
     // Push adventure ID into URL
@@ -1389,6 +1408,7 @@ const app = {
       applyStateUpdates(this.state, stateUpdates);
       // Final render: clean text + images + TTS (once, after stream completes)
       this.renderNarratorFinal(msgEl, fullText);
+      this.state.transcript.push({ role: 'narrator', text: cleanNarrativeText(fullText) });
       this.renderStatusBar();
       await saveAdventure(this.state);
     } catch (err) {
@@ -1396,6 +1416,30 @@ const app = {
     }
 
     this.isSending = false;
+  },
+
+  // Full Story transcript view
+  showTranscript() {
+    const content = document.getElementById('transcript-content');
+    if (!this.state || this.state.transcript.length === 0) {
+      content.innerHTML = '<div class="transcript-empty">No story yet — start playing!</div>';
+      this.showScreen('screen-transcript');
+      return;
+    }
+    content.innerHTML = this.state.transcript.map(entry => {
+      if (entry.role === 'player') {
+        const player = this.state.players.find(p => p.name === entry.name);
+        let color = '#888';
+        if (player) {
+          const d = player.dragons[player.activeDragonIndex || 0] || player.dragons[0];
+          if (d) color = ELEMENT_COLORS[d.element] || '#888';
+        }
+        return `<div class="transcript-entry player"><span class="transcript-player-name" style="color:${color}">${escapeHtml(entry.name)}</span><p>${escapeHtml(entry.text)}</p></div>`;
+      }
+      return `<div class="transcript-entry narrator"><p>${escapeHtml(entry.text)}</p></div>`;
+    }).join('');
+    this.showScreen('screen-transcript');
+    content.scrollTop = 0;
   },
 
   async init() {
@@ -1733,6 +1777,14 @@ const app = {
         }
       });
     }
+
+    // ── Full Story (transcript) ──
+    const btnTranscript = document.getElementById('btn-transcript');
+    if (btnTranscript) btnTranscript.addEventListener('click', () => this.showTranscript());
+    const bsTranscript = document.getElementById('bs-transcript');
+    if (bsTranscript) bsTranscript.addEventListener('click', () => { closeBottomSheet(); this.showTranscript(); });
+    const btnTranscriptBack = document.getElementById('btn-transcript-back');
+    if (btnTranscriptBack) btnTranscriptBack.addEventListener('click', () => this.showScreen('screen-adventure'));
 
     // ── Discoveries panel — drawer on mobile, dropdown on desktop ──
     const discPanel = document.getElementById('discoveries-panel');
