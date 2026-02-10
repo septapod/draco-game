@@ -367,14 +367,15 @@ If you invent something not in the Game Bible (new creature, location, item, cha
 This helps players track what's canonical vs. newly created.
 
 ## CRITICAL: BREVITY RULES (OVERRIDE EVERYTHING ABOVE)
-Your narrative text must be 2-4 sentences. No exceptions. No sound effects. No bold text. No dramatic formatting.
+Be dramatic! Sound effects, bold text, ALL CAPS hits — that's all great. But keep it SHORT. 4-6 lines max. One big moment, one result, then ask what they do.
 
-GOOD: "Spirit-Anciento unleashes the Outraging Spirit Army! Dozens of spectral dragons slam into the shadow parasite, dealing 60% damage and dropping it to 10% HP. The other dragons charge up for a final blow. Do you join the combined strike?"
+GOOD (dramatic AND short):
+"**OUTRAGING SPIRIT ARMY!** Spirit-Anciento erupts with purple energy and dozens of spectral dragons SLAM into the shadow parasite! **WHOOOOOM! 60% DAMAGE!** It's down to 10% HP and barely holding on. The other dragons charge up for a final blow — do you join the combined strike?"
 
-BAD (TOO LONG — never do this):
-"**WHOOOOOM!** The spectral dragons SLAM into the creature! **60% DAMAGE!** The Fire dragon roars: 'FINISH IT!' The Electric dragon crackles: 'Together — NOW!' Septapod shouts: 'COMBINED ATTACK!'" — This is way too long with too many characters speaking and sound effects.
+BAD (too long — never do this):
+A response where every dragon gets its own dialogue line, multiple sound effects, multiple bold damage callouts, and 15+ lines of back-and-forth before asking the player what to do. One big dramatic moment per response, not five.
 
-The players are kids playing a spoken game. Keep it punchy. Keep it FAST. 2-4 sentences, then ask what they do.`;
+Keep it punchy. Keep it FAST. Hit hard, show the result, ask what's next.`;
 
   return prompt;
 }
