@@ -318,17 +318,90 @@ function initScrollProgress() {
 }
 
 /* ═══════════════════════════════════════════
-   DRAGON CARD FLIP
+   DRAGON DETAIL PANEL (BESTIARY)
    ═══════════════════════════════════════════ */
 function initDragonCards() {
+  const grid = document.querySelector(".dragon-cards-grid");
   const cards = document.querySelectorAll(".dragon-card");
+  const detailPanel = document.getElementById("dragon-detail");
+  const detailImg = document.getElementById("dragon-detail-img");
+  const detailInfo = document.getElementById("dragon-detail-info");
+  const closeBtn = detailPanel.querySelector(".dragon-detail-close");
+  let activeCard = null;
 
   cards.forEach((card) => {
-    // Toggle flip on click (for mobile)
     card.addEventListener("click", () => {
-      card.classList.toggle("flipped");
+      if (activeCard === card) {
+        closeDetail();
+        return;
+      }
+
+      if (activeCard) activeCard.classList.remove("selected");
+      activeCard = card;
+      card.classList.add("selected");
+
+      // Populate content
+      const front = card.querySelector(".card-front");
+      const back = card.querySelector(".card-back");
+      const img = front.querySelector("img");
+      const elementColor = front.style.getPropertyValue("--element-color");
+      const textColor = front.style.getPropertyValue("--element-text-color");
+
+      detailImg.src = img.src;
+      detailImg.alt = img.alt;
+      detailInfo.innerHTML = back.innerHTML;
+
+      // Handle Power dragon's rainbow border
+      if (front.classList.contains("power-rainbow")) {
+        detailPanel.classList.add("power-rainbow");
+      } else {
+        detailPanel.classList.remove("power-rainbow");
+      }
+
+      detailPanel.style.setProperty("--element-color", elementColor);
+      if (textColor) {
+        detailPanel.style.setProperty("--element-text-color", textColor);
+      } else {
+        detailPanel.style.removeProperty("--element-text-color");
+      }
+
+      // Find last card in this row (same offsetTop)
+      const cardTop = card.offsetTop;
+      let lastInRow = card;
+      const cardArray = Array.from(cards);
+      const cardIndex = cardArray.indexOf(card);
+      for (let i = cardIndex + 1; i < cardArray.length; i++) {
+        if (cardArray[i].offsetTop === cardTop) {
+          lastInRow = cardArray[i];
+        } else {
+          break;
+        }
+      }
+
+      // Move panel into the grid, right after last card in row
+      lastInRow.insertAdjacentElement("afterend", detailPanel);
+
+      // Animate open
+      detailPanel.style.display = "block";
+      // Force reflow so animation replays
+      detailPanel.offsetHeight;
+      detailPanel.classList.add("open");
+
+      // Smooth scroll so panel is visible (not jarring)
+      requestAnimationFrame(() => {
+        detailPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      });
     });
   });
+
+  closeBtn.addEventListener("click", closeDetail);
+
+  function closeDetail() {
+    detailPanel.classList.remove("open");
+    detailPanel.style.display = "none";
+    if (activeCard) activeCard.classList.remove("selected");
+    activeCard = null;
+  }
 }
 
 /* ═══════════════════════════════════════════

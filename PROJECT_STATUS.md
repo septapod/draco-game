@@ -5,12 +5,44 @@
 
 **Last updated**: 2026-02-10
 
-**Status**: Codex v1.6 — Shadow Element, Voice Below, Chromatic Fields & New Lore. All changes complete including 6 new images (generated + resized to 512px).
+**Status**: Codex v1.6.3 — Detail panel now opens inline below the clicked card's row (Google Images style).
+
+**This session** (2026-02-10 — Inline Detail Panel):
+- **Detail panel opens inline** below the row of the clicked card, not at bottom of grid
+- Moved `#dragon-detail` inside `.dragon-cards-grid` so it's a grid child
+- JS detects same-row cards via `offsetTop` comparison, inserts panel after last card in row
+- Panel uses `grid-column: 1 / -1` to span full grid width
+- Animation replays on each card click (reflow force + `open` class)
+- `scrollIntoView({ block: "nearest" })` — minimal scroll, no jarring jump
+- Mobile (single column): panel appears right after the clicked card
+- **Files changed**: `codex/index.html`, `codex/style.css`, `codex/script.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — Dragon Cards → Bestiary Detail Panel):
+- **Replaced flip-card interaction** with RPG bestiary-style detail panel
+- Cards now show image + name + badge only (no flip on hover/click)
+- Clicking a card opens a detail panel below the grid with full dragon profile (image + all info)
+- Click same card again or × button to close; click another card to switch
+- Panel auto-scrolls into view, border colored to element
+- Mobile: detail panel stacks image above text
+- Hover effect: subtle lift (translateY -4px)
+- Selected card: element-color glow
+- Removed all flip CSS (rotateY, backface-visibility, preserve-3d, fixed heights)
+- Added `prefers-reduced-motion` support for detail panel animation
+- **Files changed**: `codex/index.html`, `codex/style.css`, `codex/script.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — v1.6.1 Section Rename + Image Fix):
+- Renamed "Key Locations" heading → "Beyond the Horizon" in `codex/index.html` (comment + h3) and `DRACO_Game_Bible.md`
+- Fixed duplicate image bug: Aurora Layer was using `chromatic-fields.png` → now points to `aurora-layer.png`
+- Added `aurora-layer.png` prompt to `generate-images.js` (shimmering aurora band, dragon silhouette, gateway feel)
+- Aurora-layer image generated and resized to 512px
+- **Files changed**: `codex/index.html`, `DRACO_Game_Bible.md`, `codex/generate-images.js`, `PROJECT_STATUS.md`
+
+**Previous status**: Codex v1.6 — Shadow Element, Voice Below, Chromatic Fields & New Lore. All changes complete including 6 new images (generated + resized to 512px).
 
 **Last session** (2026-02-10 — Codex v1.6 Lore Update):
 - **Shadow Element** (enemy-only) — new dragon card, CSS vars/glow, matchup entry, glossary entries. Dark body with glowing purple veins, serves the Voice Below. Weak to Cosmic/Starlight/Spirit.
 - **6 new attacks** — Multistar (Cosmic), Diamonds in the Sky (Starlight), Outraging Spirit Army (Spirit, Master unlock, 60 dmg), Portal Closer (Spirit), Derealize (Spirit), Universal Camouflage (Universe). Updated card-backs for Cosmic, Starlight, Spirit, Universe.
-- **3 new locations** — Aurora Layer, Chromatic Fields, Shadowpeak Mountains. Added as "Key Locations" pillars in Chapter I.
+- **3 new locations** — Aurora Layer, Chromatic Fields, Shadowpeak Mountains. Added as "Beyond the Horizon" pillars in Chapter I.
 - **Chromatic Dragons** — concept added (wrong-colored dragons from Chromatic Fields). Info box in Chapter II.
 - **3 new creatures** — Star Guardians (allies), Star Parasites (enemy), Surveillance Drones (enemy). Character cards in Chapter VII.
 - **The Voice Below** — expanded from "mysterious voice" to named villain with army, fortresses, and goal. Updated Draco card, added secret card, updated questions.
@@ -225,7 +257,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [x] Built "The Draco Codex" interactive 8-bit web experience (`codex/`)
   - index.html — 9 codex chapters mapped from game bible sections
   - style.css — 8-bit theme with Press Start 2P font, pixel borders, element colors
-  - script.js — Apple-style scroll-triggered animations, card flips, matchup chart, glossary search
+  - script.js — Apple-style scroll-triggered animations, bestiary detail panel, matchup chart, glossary search
   - generate-images.js — DALL-E 3 image generation script (18 consistent 8-bit pixel art images)
   - 18 generated images in `codex/images/`
 

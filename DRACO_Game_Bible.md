@@ -534,7 +534,7 @@ The world has a day/night cycle that affects gameplay. Most abilities work at al
 
 Normal dragons have a top speed of ~50 mph. Power and Speed dragons have a top speed of ~270 mph ("as fast as a peregrine falcon"). Dragons can fly slower when they choose — 270 mph is their maximum, their best move. This speed difference is why Power and Speed dragons are banned from standard races.
 
-### Key Locations
+### Beyond the Horizon
 
 **Aurora Layer** — A shimmering band of light in the Earth's upper atmosphere. Serves as a gateway to the Chromatic Fields. Visible from the ground on clear nights, but only reachable by flying dragons.
 

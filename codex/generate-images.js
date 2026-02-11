@@ -224,6 +224,10 @@ const images = [
     prompt: `${STYLE_PREFIX} two majestic dragons guarding stars in space, one red Fire dragon and one yellow Electric dragon, both radiating protective energy, standing sentinel among glowing stars, heroic and powerful poses, cosmic background with nebulae`,
   },
   {
+    filename: "aurora-layer.png",
+    prompt: `${STYLE_PREFIX} shimmering band of aurora light in the upper atmosphere, brilliant greens purples and blues rippling across the sky, a single dragon silhouette flying upward through glowing curtains of light, clouds far below, stars visible above, ethereal gateway feel, the light bends and swirls like a portal to another dimension`,
+  },
+  {
     filename: "chromatic-fields.png",
     prompt: `${STYLE_PREFIX} fantastical floating islands drifting through prismatic colorful skies, vegetation in impossible colors like blue grass and pink trees, dragons flying between islands with wrong colors for their element, shimmering aurora light connecting the islands, dreamlike dimensional landscape`,
   },

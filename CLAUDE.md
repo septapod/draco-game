@@ -50,7 +50,7 @@ The Codex is a **zero-build static site** deployed on Vercel (static files serve
 **Never generate images inside the conversation.** Images consume 10-50x more context than text.
 
 1. **Update prompts** in `codex/generate-images.js` (edit the `images` array)
-2. **Run generation** via `OPENAI_API_KEY=... node codex/generate-images.js` (skips existing files; ~$0.04/image)
+2. **Run generation** via `export $(grep OPENAI_API_KEY .env.local | xargs) && node codex/generate-images.js` (skips existing files; ~$0.04/image). The API key is in Vercel — run `npx vercel env pull .env.local` if `.env.local` doesn't exist yet. **Do not ask Brent for the key.**
 3. **Review images** by opening the site locally or checking the files — reference by path, don't paste into chat
 4. **To regenerate**: delete the specific PNG, then re-run the script
 5. **To replace**: rename old file (e.g., `aloha.png` → `aloha-v1.png`), update prompt, re-run
