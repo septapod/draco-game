@@ -5,9 +5,16 @@
 
 **Last updated**: 2026-02-10
 
-**Status**: Codex v1.6.3 — Detail panel now opens inline below the clicked card's row (Google Images style).
+**Status**: Codex v1.6.4 — The Voice Below character card added to Heroes & Villains chapter.
 
-**This session** (2026-02-10 — Inline Detail Panel):
+**This session** (2026-02-10 — Voice Below Character Card):
+- **New character card**: The Voice Below — ultimate antagonist, added after Surveillance Drones in Chapter VII
+- **New image**: `voice-below.png` — sphere of shadow energy in obsidian fortress, generated via DALL-E 3, resized to 512px
+- **Image prompt** added to `generate-images.js` (entry #52)
+- **Card details**: villain role badge, "Ultimate Antagonist" label, lore about commanding Shadow dragons/Star Parasites/Surveillance Drones, character-quote about unknown origins
+- **Files changed**: `codex/generate-images.js`, `codex/index.html`, `codex/images/voice-below.png`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — Inline Detail Panel):
 - **Detail panel opens inline** below the row of the clicked card, not at bottom of grid
 - Moved `#dragon-detail` inside `.dragon-cards-grid` so it's a grid child
 - JS detects same-row cards via `offsetTop` comparison, inserts panel after last card in row

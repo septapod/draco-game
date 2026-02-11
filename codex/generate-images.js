@@ -235,6 +235,10 @@ const images = [
     filename: "shadowpeak-mountains.png",
     prompt: `${STYLE_PREFIX} dark foreboding mountain range under perpetual storm clouds, jagged obsidian fortresses with glowing purple veins built into the mountainsides, Shadow dragons patrolling the skies, lightning strikes illuminating the dark peaks, ominous purple energy pulsing from the fortresses`,
   },
+  {
+    filename: "voice-below.png",
+    prompt: `${STYLE_PREFIX} ominous sphere of pure shadow energy hovering above an obsidian fortress throne room, deep purple and black swirling vortex with glowing purple tendrils reaching outward, faint glowing purple runes and eyes within the darkness, obsidian fortress walls with purple veins in background, dark particles radiating from the sphere, ultimate evil presence, mysterious and terrifying cosmic horror`,
+  },
   // NOTE: v1.5 item icons (icon-speed-berry, icon-forest-crystal, icon-forest-essence,
   // icon-wooden-whistle, icon-magic-acorn) moved to generate-icons.js for transparent backgrounds.
 ];
