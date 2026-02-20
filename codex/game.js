@@ -1352,6 +1352,10 @@ const app = {
     state.turnCount = state.turnCount || 0;
     state.transcript = state.transcript || [];
 
+    // Migrate old model IDs to current versions
+    if (state.model === 'claude-sonnet-4-5-20250929') state.model = 'claude-sonnet-4-6';
+    if (state.model === 'claude-opus-4-6-20250514') state.model = 'claude-opus-4-6';
+
     // Seed transcript from existing conversation history for old saves
     if (state.transcript.length === 0 && state.conversationHistory.length > 0) {
       for (const msg of state.conversationHistory) {

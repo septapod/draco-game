@@ -7,10 +7,11 @@
 
 **Status**: v1.6.6 — Narrator intelligence upgrade + Power Up hidden lore.
 
-**This session** (2026-02-20 — Narrator & Hidden Lore):
-- **Narrator improvement**: Added two new system prompt instructions: (1) CALLBACKS AND CONSEQUENCES, narrator actively brings back earlier events as surprises, NPCs remember players, past choices ripple forward. (2) OFFER CONCRETE CHOICES, narrator ends responses with specific forks (2-3 vivid options) instead of generic "What do you do?"
+**This session** (2026-02-20 — Narrator & Hidden Lore & Model Upgrade):
+- **Narrator improvement**: Added two new system prompt instructions: (1) CALLBACKS AND CONSEQUENCES, narrator actively brings back earlier events as surprises, NPCs remember players, past choices ripple forward. (2) OFFER CONCRETE CHOICES, narrator ends responses with specific forks (2-3 vivid options) plus an open-ended "or try something else entirely" so players never feel boxed in.
 - **Hidden lore planted**: "Power Up's Hidden Awakening" added to HIDDEN_LORE. Aza's Power dragon occasionally flares one rainbow color to full specialist strength (Element Surge), triggered by emotion/danger. Builds into a mystery about the origin of elements. Aloha reacts with unusual silence if she witnesses it.
-- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+- **Model upgrade**: Default model changed from Sonnet 4.5 to Sonnet 4.6. Switched all model IDs to alias format (no date suffix). Added migration in `startAdventure()` so existing saves auto-upgrade to new model IDs.
+- **Files changed**: `codex/game.js`, `codex/game.html`, `api/chat.js`, `PROJECT_STATUS.md`
 
 **Previous session** (2026-02-10 — Story Accordion Fix):
 - **Bug fix**: Story accordion entries (e.g., "The Jack O'Rabbit Battle") had text clipped by `max-height: 500px` — images filled the height, hiding paragraphs below. Changed to `max-height: 1200px` in `codex/style.css` line 1565.
