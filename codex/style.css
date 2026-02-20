@@ -1562,7 +1562,7 @@ img {
 }
 
 .story-item.open .story-content {
-  max-height: 500px;
+  max-height: 1200px;
   padding: 0 1.5rem 1.5rem;
 }
 

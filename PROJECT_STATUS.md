@@ -3,11 +3,20 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-10
+**Last updated**: 2026-02-20
 
-**Status**: Codex v1.6.4 — The Voice Below character card added to Heroes & Villains chapter.
+**Status**: v1.6.6 — Narrator intelligence upgrade + Power Up hidden lore.
 
-**This session** (2026-02-10 — Voice Below Character Card):
+**This session** (2026-02-20 — Narrator & Hidden Lore):
+- **Narrator improvement**: Added two new system prompt instructions: (1) CALLBACKS AND CONSEQUENCES, narrator actively brings back earlier events as surprises, NPCs remember players, past choices ripple forward. (2) OFFER CONCRETE CHOICES, narrator ends responses with specific forks (2-3 vivid options) instead of generic "What do you do?"
+- **Hidden lore planted**: "Power Up's Hidden Awakening" added to HIDDEN_LORE. Aza's Power dragon occasionally flares one rainbow color to full specialist strength (Element Surge), triggered by emotion/danger. Builds into a mystery about the origin of elements. Aloha reacts with unusual silence if she witnesses it.
+- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — Story Accordion Fix):
+- **Bug fix**: Story accordion entries (e.g., "The Jack O'Rabbit Battle") had text clipped by `max-height: 500px` — images filled the height, hiding paragraphs below. Changed to `max-height: 1200px` in `codex/style.css` line 1565.
+- **Files changed**: `codex/style.css`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-10 — Voice Below Character Card):
 - **New character card**: The Voice Below — ultimate antagonist, added after Surveillance Drones in Chapter VII
 - **New image**: `voice-below.png` — sphere of shadow energy in obsidian fortress, generated via DALL-E 3, resized to 512px
 - **Image prompt** added to `generate-images.js` (entry #52)
@@ -378,6 +387,7 @@ Canonical reference document for "Draco," a fantasy adventure game created by Az
 - [ ] Future transcript sessions — incorporate new lore from Aza
 - [ ] Open Questions (Section 18) — resolve as Aza provides answers
 - [ ] Potential adaptations: tabletop rules, video game design doc, story outline
+- [ ] Consider [OpenAI Batch API](https://developers.openai.com/api/docs/guides/batch) for bulk image regeneration — 50% cost discount, higher rate limits, built-in retries. Upload prompts as JSONL, results within 24hrs. Two batches needed (DALL-E 3 + gpt-image-1). Best suited for full regen passes, not prompt iteration. Does NOT solve cross-image consistency.
 
 ## Key Files
 | File | Description |
