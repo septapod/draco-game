@@ -1945,7 +1945,7 @@ const app = {
       this.showEggPicker();
     } else {
       // All players ready — create adventure
-      const model = 'claude-sonnet-4-5-20250929';
+      const model = 'claude-sonnet-4-6';
       const state = createAdventure(this.onboardingState.players, model);
       await saveAdventure(state);
       this.isSending = false;
