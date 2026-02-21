@@ -978,12 +978,29 @@ const app = {
     const narrative = document.getElementById('narrative');
     const cleaned = cleanNarrativeText(fullText);
     msgEl.textContent = cleaned;
+    this.addReplayButton(msgEl, cleaned);
     narrative.scrollTop = narrative.scrollHeight;
 
     // Auto-speak if TTS is enabled
     if (this.ttsEnabled && cleaned) {
       this.speak(cleaned);
     }
+  },
+
+  // Add a replay (re-hear) button to a narrator message
+  addReplayButton(msgEl, text) {
+    if (!text) return;
+    const btn = document.createElement('button');
+    btn.className = 'btn-replay-narrator';
+    btn.title = 'Replay narration';
+    btn.setAttribute('aria-label', 'Replay narration');
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.unlockAudio();
+      this.speak(text);
+    });
+    msgEl.appendChild(btn);
   },
 
   // ── Text-to-Speech (OpenAI TTS + browser fallback) ──
@@ -1389,7 +1406,9 @@ const app = {
       const text = typeof msg.content === 'string' ? msg.content : msg.content.map(c => c.text || '').join('');
       if (msg.role === 'assistant') {
         const el = this.addNarratorMessage('');
-        el.textContent = cleanNarrativeText(text);
+        const cleaned = cleanNarrativeText(text);
+        el.textContent = cleaned;
+        this.addReplayButton(el, cleaned);
       } else {
         // Parse player name from "[Name]: message" format
         const playerMatch = text.match(/^\[([^\]]+)\]:\s*(.*)/s);
