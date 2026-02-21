@@ -992,15 +992,91 @@ const app = {
     if (!text) return;
     const btn = document.createElement('button');
     btn.className = 'btn-replay-narrator';
-    btn.title = 'Replay narration';
-    btn.setAttribute('aria-label', 'Replay narration');
-    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+    btn.title = 'Read aloud';
+    btn.setAttribute('aria-label', 'Read aloud');
+    // Circular replay arrow icon — distinct from the speaker/voice toggle
+    btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>';
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       this.unlockAudio();
-      this.speak(text);
+      this.replayNarration(text);
     });
     msgEl.appendChild(btn);
+  },
+
+  // Replay a narrator message — tries API TTS, falls back to browser speech
+  async replayNarration(text) {
+    if (!text) return;
+    this.stopSpeaking();
+    const truncated = text.length > 3000 ? text.slice(0, 3000) + '...' : text;
+
+    try {
+      // Safety net: create AudioContext if missing
+      if (!this.audioContext) {
+        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (this.audioContext.state === 'suspended') {
+        await this.audioContext.resume();
+      }
+
+      this.ttsSpeaking = true;
+      const gen = ++this.ttsGeneration;
+
+      const resp = await fetch('/api/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: truncated }),
+      });
+
+      if (gen !== this.ttsGeneration) return;
+
+      if (!resp.ok) {
+        console.warn('Replay: API returned', resp.status, '— using browser voice');
+        this.speakBrowserFallback(truncated);
+        return;
+      }
+
+      const arrayBuffer = await resp.arrayBuffer();
+      if (gen !== this.ttsGeneration) return;
+
+      // Try AudioContext decode
+      try {
+        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+        if (gen !== this.ttsGeneration) return;
+        const source = this.audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(this.audioContext.destination);
+        source.onended = () => { this.ttsSpeaking = false; this.ttsSourceNode = null; };
+        this.ttsSourceNode = source;
+        source.start(0);
+        return;
+      } catch (decodeErr) {
+        if (gen !== this.ttsGeneration) return;
+        console.warn('Replay: decode failed, trying Audio element:', decodeErr);
+      }
+
+      // Fallback: HTMLAudioElement
+      try {
+        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+        const url = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audio.onended = () => { URL.revokeObjectURL(url); this.ttsSpeaking = false; this.ttsAudio = null; };
+        audio.onerror = () => { URL.revokeObjectURL(url); this.speakBrowserFallback(truncated); };
+        this.ttsAudio = audio;
+        await audio.play();
+        return;
+      } catch (playErr) {
+        console.warn('Replay: Audio.play() blocked, using browser voice:', playErr);
+      }
+
+      // Last resort: browser speechSynthesis
+      this.speakBrowserFallback(truncated);
+    } catch (err) {
+      console.warn('Replay: TTS failed, using browser voice:', err);
+      this.ttsSpeaking = false;
+      // Always fall back to browser speech instead of showing error
+      this.speakBrowserFallback(truncated);
+    }
   },
 
   // ── Text-to-Speech (OpenAI TTS + browser fallback) ──
