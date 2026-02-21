@@ -44,13 +44,21 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // Collect the full audio response as a buffer
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = Buffer.from(arrayBuffer);
-
+    // Stream audio directly to the client instead of buffering the full response.
+    // This lets the client start receiving bytes sooner.
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Content-Length", audioBuffer.length);
-    res.end(audioBuffer);
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const reader = response.body.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
+      }
+    } finally {
+      res.end();
+    }
   } catch (err) {
     console.error("TTS handler error:", err);
     if (!res.headersSent) {

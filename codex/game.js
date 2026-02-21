@@ -1004,7 +1004,7 @@ const app = {
     msgEl.appendChild(btn);
   },
 
-  // Replay a narrator message — tries API TTS, falls back to browser speech
+  // Replay a narrator message — uses cache if available, otherwise fetches
   async replayNarration(text) {
     if (!text) return;
     this.stopSpeaking();
@@ -1022,6 +1022,14 @@ const app = {
       this.ttsSpeaking = true;
       const gen = ++this.ttsGeneration;
 
+      // Check cache first — instant replay, no network
+      const cached = this.ttsCache.get(truncated);
+      if (cached) {
+        this.playAudioBuffer(cached, gen, truncated);
+        return;
+      }
+
+      // No cache — fetch from API
       const resp = await fetch('/api/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -1039,42 +1047,17 @@ const app = {
       const arrayBuffer = await resp.arrayBuffer();
       if (gen !== this.ttsGeneration) return;
 
-      // Try AudioContext decode
-      try {
-        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
-        if (gen !== this.ttsGeneration) return;
-        const source = this.audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(this.audioContext.destination);
-        source.onended = () => { this.ttsSpeaking = false; this.ttsSourceNode = null; };
-        this.ttsSourceNode = source;
-        source.start(0);
-        return;
-      } catch (decodeErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('Replay: decode failed, trying Audio element:', decodeErr);
+      // Cache for next replay
+      this.ttsCache.set(truncated, arrayBuffer.slice(0));
+      if (this.ttsCache.size > 20) {
+        const oldest = this.ttsCache.keys().next().value;
+        this.ttsCache.delete(oldest);
       }
 
-      // Fallback: HTMLAudioElement
-      try {
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audio.onended = () => { URL.revokeObjectURL(url); this.ttsSpeaking = false; this.ttsAudio = null; };
-        audio.onerror = () => { URL.revokeObjectURL(url); this.speakBrowserFallback(truncated); };
-        this.ttsAudio = audio;
-        await audio.play();
-        return;
-      } catch (playErr) {
-        console.warn('Replay: Audio.play() blocked, using browser voice:', playErr);
-      }
-
-      // Last resort: browser speechSynthesis
-      this.speakBrowserFallback(truncated);
+      this.playAudioBuffer(arrayBuffer, gen, truncated);
     } catch (err) {
       console.warn('Replay: TTS failed, using browser voice:', err);
       this.ttsSpeaking = false;
-      // Always fall back to browser speech instead of showing error
       this.speakBrowserFallback(truncated);
     }
   },
@@ -1084,6 +1067,7 @@ const app = {
   ttsAudio: null,
   ttsSpeaking: false,
   audioContext: null,
+  ttsCache: new Map(), // text → ArrayBuffer cache for instant replay
 
   initTTS() {
     // AudioContext created lazily in unlockAudio() on first user gesture
@@ -1150,53 +1134,15 @@ const app = {
       const arrayBuffer = await resp.arrayBuffer();
       if (gen !== this.ttsGeneration) return; // superseded
 
-      // Primary: decode + play through AudioContext
-      try {
-        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
-        if (gen !== this.ttsGeneration) return; // superseded
-        const source = this.audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(this.audioContext.destination);
-        source.onended = () => {
-          this.ttsSpeaking = false;
-          this.ttsSourceNode = null;
-        };
-        this.ttsSourceNode = source;
-        source.start(0);
-        return; // Success
-      } catch (decodeErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
+      // Cache for instant replay later
+      this.ttsCache.set(truncated, arrayBuffer.slice(0));
+      // Cap cache at 20 entries to limit memory
+      if (this.ttsCache.size > 20) {
+        const oldest = this.ttsCache.keys().next().value;
+        this.ttsCache.delete(oldest);
       }
 
-      // Fallback: play via HTMLAudioElement with blob URL
-      try {
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audio.onended = () => {
-          URL.revokeObjectURL(url);
-          this.ttsSpeaking = false;
-          this.ttsAudio = null;
-        };
-        audio.onerror = () => {
-          URL.revokeObjectURL(url);
-          // Only fall through to speechSynthesis if this is still the current generation
-          if (gen !== this.ttsGeneration) return;
-          console.warn('Audio element also failed, trying speechSynthesis');
-          this.speakBrowserFallback(truncated);
-        };
-        this.ttsAudio = audio;
-        await audio.play();
-        return; // Success
-      } catch (playErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
-      }
-
-      // Last resort: browser speechSynthesis
-      if (gen !== this.ttsGeneration) return;
-      this.speakBrowserFallback(truncated);
+      this.playAudioBuffer(arrayBuffer, gen, truncated);
     } catch (err) {
       console.error('TTS error:', err);
       this.ttsSpeaking = false;
@@ -1204,6 +1150,49 @@ const app = {
         this.addSystemMessage('Voice failed — try toggling Voice off and on');
       }
     }
+  },
+
+  // Shared audio playback — decodes an ArrayBuffer and plays it
+  async playAudioBuffer(arrayBuffer, gen, fallbackText) {
+    // Primary: decode + play through AudioContext
+    try {
+      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+      if (gen !== this.ttsGeneration) return;
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioContext.destination);
+      source.onended = () => { this.ttsSpeaking = false; this.ttsSourceNode = null; };
+      this.ttsSourceNode = source;
+      source.start(0);
+      return;
+    } catch (decodeErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
+    }
+
+    // Fallback: HTMLAudioElement with blob URL
+    try {
+      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => { URL.revokeObjectURL(url); this.ttsSpeaking = false; this.ttsAudio = null; };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        if (gen !== this.ttsGeneration) return;
+        console.warn('Audio element also failed, trying speechSynthesis');
+        this.speakBrowserFallback(fallbackText);
+      };
+      this.ttsAudio = audio;
+      await audio.play();
+      return;
+    } catch (playErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
+    }
+
+    // Last resort
+    if (gen !== this.ttsGeneration) return;
+    this.speakBrowserFallback(fallbackText);
   },
 
   speakBrowserFallback(text) {
