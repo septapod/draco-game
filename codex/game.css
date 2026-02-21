@@ -412,6 +412,32 @@ body {
   background: rgba(255, 215, 0, 0.03);
   padding: 0.5rem 0.6rem;
   border-radius: 4px;
+  position: relative;
+}
+
+/* Replay narration button */
+.btn-replay-narrator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: rgba(255, 215, 0, 0.5);
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0.25rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  line-height: 1;
+}
+.btn-replay-narrator:hover {
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(255, 215, 0, 0.08);
+}
+.btn-replay-narrator svg {
+  display: block;
 }
 .msg-player {
   color: var(--text-dim);
@@ -976,6 +1002,14 @@ body {
   .msg-player { font-size: 0.8rem; }
   .msg-system { font-size: 0.75rem; }
   .narrative-image { max-width: 160px; }
+
+  /* Replay button — bigger touch target on mobile */
+  .btn-replay-narrator {
+    padding: 0.4rem;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .btn-replay-narrator svg { width: 16px; height: 16px; }
 
   /* Input area — safe area padding at bottom */
   .input-area {
