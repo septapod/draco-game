@@ -3,11 +3,20 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-20
+**Last updated**: 2026-02-23
 
-**Status**: v1.6.6 — Narrator intelligence upgrade + Power Up hidden lore.
+**Status**: v1.6.8 — Voice Below plural self-reference rule added ("we are legion").
 
-**This session** (2026-02-20 — Narrator & Hidden Lore & Model Upgrade):
+**This session** (2026-02-23 — Voice Below Plural Speech Rule):
+- **Canonical speech rule added**: The Voice Below always refers to itself as "we," "us," and "our." Never "I" or "me." It is singular and collective at once. Rule appended to the Voice Below block in `HIDDEN_LORE` in `codex/game.js`. Applies in every adventure, always.
+- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-23 — Voice Below Always Survives):
+- **Narrative rule added**: The Voice Below cannot be defeated, captured, or destroyed. Added explicit narrator rule to `HIDDEN_LORE` in `codex/game.js`. Any direct fight attempt always ends with players driven back, the Voice dissipating and reforming, or something that forces retreat. No win state exists for this enemy.
+- **After Draco section reinforced**: Updated "After Draco" lore to make clear the Voice always survives and no adventure ends with it defeated.
+- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-20 — Narrator & Hidden Lore & Model Upgrade):
 - **Narrator improvement**: Added two new system prompt instructions: (1) CALLBACKS AND CONSEQUENCES, narrator actively brings back earlier events as surprises, NPCs remember players, past choices ripple forward. (2) OFFER CONCRETE CHOICES, narrator ends responses with specific forks (2-3 vivid options) plus an open-ended "or try something else entirely" so players never feel boxed in.
 - **Hidden lore planted**: "Power Up's Hidden Awakening" added to HIDDEN_LORE. Aza's Power dragon occasionally flares one rainbow color to full specialist strength (Element Surge), triggered by emotion/danger. Builds into a mystery about the origin of elements. Aloha reacts with unusual silence if she witnesses it.
 - **Model upgrade**: Default model changed from Sonnet 4.5 to Sonnet 4.6. Switched all model IDs to alias format (no date suffix). Added migration in `startAdventure()` so existing saves auto-upgrade to new model IDs.
