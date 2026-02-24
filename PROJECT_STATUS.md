@@ -5,9 +5,19 @@
 
 **Last updated**: 2026-02-23
 
-**Status**: v1.6.8 — Voice Below plural self-reference rule added ("we are legion").
+**Status**: v1.7.0 — Voice Below reframed as dramatically elusive, not impossible to defeat.
 
-**This session** (2026-02-23 — Voice Below Plural Speech Rule):
+**This session** (2026-02-23 — Voice Below Elusive Framing):
+- **Tone rewrite**: The "cannot be defeated" impossibility framing in the Voice Below block has been replaced. The mechanic is unchanged (Voice always escapes) but the language now frames it as dramatically close every time. Players should leave every encounter thinking "next time." Key phrases added: "You almost had it," "One more hit and it would have been over," "It barely got away." Removed "cannot be defeated," "not possible," and related ceiling language.
+- **After Draco update**: Trimmed the After Draco sentence to "Keep it alive, keep it looming." Removed "The Voice has never been defeated — yet" (asserting defeat history) and "keep players believing they're getting closer" (redundant with the Voice Below block rewrite). The section is now silent on whether the Voice has ever been defeated.
+- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-23 — Narrator Behavior: Voice Below Aftermath + Quest Hooks):
+- **Voice Below aftermath rule**: After any Voice Below encounter ends in retreat, the narrator must leave something behind (a mark, a darkening star, an NPC warning, a spreading shadow) and immediately spin out new threads. The Voice is a narrative engine, not a dead end. Rule appended to the Voice Below block in `HIDDEN_LORE` in `codex/game.js`.
+- **PROACTIVE QUEST HOOKS rule**: New narrator behavioral rule added alongside CALLBACKS AND CONSEQUENCES and OFFER CONCRETE CHOICES. Narrator drops unprompted hooks at natural moments (after quests wrap, during travel, in lulls) so the world always feels alive and pulling. Examples in rule: glowing egg in snow, urgent NPC, smoke on a new mountain, dragon behaving strangely. World-generated, not GM-clearing-their-throat.
+- **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
+
+**Previous session** (2026-02-23 — Voice Below Plural Speech Rule):
 - **Canonical speech rule added**: The Voice Below always refers to itself as "we," "us," and "our." Never "I" or "me." It is singular and collective at once. Rule appended to the Voice Below block in `HIDDEN_LORE` in `codex/game.js`. Applies in every adventure, always.
 - **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
 
