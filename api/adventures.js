@@ -2,6 +2,7 @@
 // Table: adventures (id, state JSONB, name, player_names, badges, archived, last_played_at)
 
 const { neon } = require('@neondatabase/serverless');
+const { requireAuth } = require('./auth');
 
 function getSQL() {
   return neon(process.env.DATABASE_URL);
@@ -32,6 +33,8 @@ module.exports = async function handler(req, res) {
   const sql = getSQL();
   const { method } = req;
   const id = req.query?.id;
+
+  if (!requireAuth(req, res)) return;
 
   try {
     await ensureTable(sql);

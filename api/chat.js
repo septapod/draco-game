@@ -1,4 +1,5 @@
 const Anthropic = require("@anthropic-ai/sdk");
+const { requireAuth } = require("./auth");
 
 const ALLOWED_MODELS = new Set([
   "claude-haiku-4-5-20251001",
@@ -11,6 +12,8 @@ module.exports = async function handler(req, res) {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
+
+  if (!requireAuth(req, res)) return;
 
   const { model, system, messages, max_tokens } = req.body;
 

@@ -1508,6 +1508,17 @@ const app = {
   },
 
   async init() {
+    // Auth check: verify session before loading anything
+    try {
+      const authCheck = await fetch('/api/adventures');
+      if (authCheck.status === 401) {
+        window.location.href = '/login.html?next=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
+    } catch (e) {
+      // Network error, proceed and let individual calls handle it
+    }
+
     // Check URL for adventure ID (e.g. /game/abc12345)
     const pathMatch = window.location.pathname.match(/\/game\/([a-z0-9]+)/);
     if (pathMatch) {

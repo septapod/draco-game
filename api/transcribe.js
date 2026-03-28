@@ -43,11 +43,15 @@ function parseMultipart(buf, boundary) {
   return parts;
 }
 
+const { requireAuth } = require("./auth");
+
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
     return;
   }
+
+  if (!requireAuth(req, res)) return;
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
