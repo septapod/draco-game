@@ -488,6 +488,16 @@ function initMatchupChart() {
       weak: ["Cosmic", "Starlight", "Spirit"],
       notes: "Enemy-only element serving the Voice Below. Cannot be bonded by keepers. Shadow Drain: dark tendrils drain energy. Shadow Merge: 3 Shadow dragons combine into 1 giant with 6 purple eyes.",
     },
+    // TODO: Aza to decide Mountain matchups. When she picks strong-against
+    // and weak-against, also mirror the reciprocals on the affected
+    // elements above (e.g., if Mountain is strong against Fire, add
+    // "Mountain" to fire.weak). Mountain is legendary-only, used only by
+    // Nalia. See DRACO_Game_Bible.md Section 15.
+    mountain: {
+      strong: [],
+      weak: [],
+      notes: "Legendary-only element. Belongs to Nalia, the first Draco Legend. Strong-against and weak-against matchups are TBD by Aza (the world's god).",
+    },
   };
 
   buttons.forEach((btn) => {

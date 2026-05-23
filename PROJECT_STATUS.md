@@ -5,7 +5,7 @@
 
 **Last updated**: 2026-05-23
 
-**Status**: Nalia / Draco Legends brainstorm complete — Aza answered and corrected all 13 questions; requirements doc written; ready for `/ce-plan` after 2 open product decisions (Mountain matchups + chapter placement).
+**Status**: Nalia + Draco Legends implementation shipped on feat/nalia-draco-legends. All 6 implementation units committed. 8 Aza-pending TODOs grep-findable. Image generation deferred until Aza's baby drawing arrives.
 
 **This session** (2026-05-23 — Nalia + Draco Legends Intake):
 - **Source**: Aza recorded ideas about a new dragon, "the Nalia." Audio at `/Users/brentdixon/Library/CloudStorage/Dropbox/Downloads/Recents/the nalia.m4a`; copied to wiki audio-inbox; transcribed via existing whisper.cpp pipeline.
@@ -16,6 +16,19 @@
 - **Requirements doc**: `docs/brainstorms/nalia-legends-requirements.md` — full spec covering Game Bible / Codex / AI game / image pipeline integration with success criteria, scope boundaries, risks, and open decisions.
 - **Files changed**: `docs/aza-questions-nalia.md` (new), `docs/aza-answers-nalia.md` (new + revised), `docs/brainstorms/nalia-legends-requirements.md` (new), `PROJECT_STATUS.md`.
 - **Pending**: (1) Aza picks Mountain element matchups (strong vs / weak vs which existing elements); (2) Aza confirms Legends chapter placement in the 9-chapter sequence; (3) Aza produces hand drawing of baby Nalia for image-gen reference; (4) optional: photograph cardboard cutouts of baby + sleeping mountain Nalia. After (1) and (2), run `/ce-plan`.
+
+**Implementation session** (2026-05-23, same day, branch `feat/nalia-draco-legends`):
+- **All 6 implementation units shipped as separate commits** on the feature branch.
+- **U1 (commit 9b8f178)**: Game Bible v1.7 with new Section 15 "Draco Legends", full Nalia canon, Mountain as new legendary element across Sections 2/3/4/10, Marcus character entry extended additively, glossary and Named Dragons appendices updated, sections 16-19 renumbered.
+- **U2 (commit e4f0860)**: Mountain wired into Codex web infrastructure. `--mountain` CSS var, Mountain matchup button in Chapter VI, "Legendary Elements" info box in Chapter II, `matchups.mountain` entry in `codex/script.js`.
+- **U3 (commit db85835)**: New Chapter IX "Draco Legends" inserted between Journey and Secrets; existing Secrets renumbered IX → X. New `.legend-card` CSS class (cinematic, vertical, --legend-color themed). Nalia legend card with two image slots, baby form text placeholder, lore body, fact list, encounter callout, variant note. Footer bumped v1.6 → v1.7.
+- **U4 (commit 8c57b0e)**: Marcus character card extended additively. Four new glossary entries (Chromatic Nalia, Legend Codex, Mountain Element, Nalia) placed alphabetically with cross-reference links.
+- **U5 (commit 4937f97)**: `codex/game.js` AI narrator system prompt updated. GAME_BIBLE gains Draco Legends section, Mountain element, Marcus extension, Nalia in Named Dragons. HIDDEN_LORE gains 4 new narrator rules: eternal-singular Nalia, loadout-based taming exclusion (in-fiction surfacing), Chromatic variant lucky-find, Voice Below / Wonky Donkers wake-year crossover hook. `ELEMENT_COLORS` gains mountain key.
+- **U6 (commit 43ef085)**: Three new DALL-E 3 prompts staged in `codex/generate-images.js`: nalia-mountain-sleeping, nalia-mountain-waking (signature snow-becomes-wings shot), and a deferred nalia-chromatic variant. Baby Nalia prompt deliberately NOT staged; waits on Aza's hand drawing. Image generation NOT executed.
+- **Verification sweeps passed**: 8 `TODO: Aza` placeholders grep-findable; zero "Dragon Masters" or "Griffith" references anywhere; version 1.7 in both Bible header and footer; all JS files parse with `node --check`; no net-new em dashes (one preserved on Marcus's existing glossary entry where the em dash was original canon).
+- **Files changed**: `DRACO_Game_Bible.md`, `codex/index.html`, `codex/style.css`, `codex/script.js`, `codex/game.js`, `codex/generate-images.js`, `PROJECT_STATUS.md`.
+- **Branch**: `feat/nalia-draco-legends` (forked from main after planning-docs commit 9f2d975). Six implementation commits on top.
+- **Next**: Aza fills Mountain matchup picks + final color hex + confirms chapter placement. Brent runs `node codex/generate-images.js` (with OPENAI_API_KEY loaded) to materialize the two mountain images after Aza's blessing on the prompts. Then merge to main and deploy via Vercel.
 
 **Previous session** (2026-04-23 — Login Whitespace Fix):
 - **Bug**: `DRACO_PASSWORD` in Vercel was set with a trailing `\n` (likely via `echo "azadraco" | vercel env add`), so strict `!==` comparison in `api/login.js` rejected the correct password.

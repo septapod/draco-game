@@ -37,6 +37,9 @@ Every dragonette belongs to an elemental type that determines its powers, appear
 - Power — Rainbow. Has ALL element abilities (but weaker versions). Rare and powerful. Top speed matches Speed dragons at 270 mph.
 - Thunder Cloud — Unknown (locked). Only obtainable by defeating Draco. The "missing element." Multiple Thunder Cloud dragons exist, but the element remains locked until you defeat the boss.
 
+### Legendary Elements
+- Mountain. A brand-new legendary element belonging to Nalia. Legendary-only (so far, just Nalia). Mountain dragons are mountain-sized and mountain-shaped. Specific powers and matchups are TBD by Aza. See Section 15 (Draco Legends) for full Nalia canon.
+
 ### Advanced Elements (Locked)
 - Universe — The dragon's body bears a microscopic map of the entire universe, so small you need a microscope to see individual stars. A tiny compass sits on the map. Can crush shelled creatures with a single hit. Locked.
 - Cosmic — The dragon looks like "a map of space." Powers similar to Universe. Visually distinct: Cosmic = space map; Universe = compass with microscopic star map. Locked.
@@ -87,6 +90,8 @@ Forces other dragons back inside their eggs — a complete reset. Any dragon hit
 Creates concentrated starlight beams, illuminates darkness, temporarily blinds opponents, reveals hidden truths through light. Diamonds in the Sky: thousands of crystalline star-points rocket forward. Strong against Shadow.
 ### Shadow (Enemy-Only)
 Shadow Drain: dark tendrils drain energy from targets. Shadow Merge: 3 Shadow dragons combine into 1 giant with 6 purple eyes. Weak to Cosmic, Starlight, Spirit.
+### Mountain (Legendary-Only)
+Nalia's element. Specific powers and signature attacks are TBD by Aza. Known traits: the dragon is mountain-sized and mountain-shaped with caves inside her, a forest on her back, and a snow cap that becomes wings on waking. During her one-year wake cycle (every two million years) she helps other dragons, flies, visits Marcus, and fights bad guys (Voice Below and Wonky Donkers). Singular and eternal: there is only one Nalia, and she does not lay eggs. Matchups: TBD by Aza. See Section 15.
 ### Silver Moonlight (Special Ability)
 Only works at nighttime. Associated with Spirit-type dragons. Additional unknown time-restricted powers exist — including daytime-only powers — unlocked with the Thunder Cloud element.
 ### Core Elemental Cycle
@@ -181,7 +186,7 @@ Female humanoid robot. Race announcer, host, enforcer, engineer, stadium builder
 Recurring bumbling villain. Skinny, huge cheeks, tiny eyebrows ("as small as your eyes"), black hair, tan skin. NOT Joker-like. Always tries to disguise Speed/Power dragons with cardboard for races. Never works — caught every time. Once accidentally announced he had a Power dragon when it was supposed to be secret.
 
 ### The Finisher
-Ally. A person (not a dragon) who joins the player's racing team. Male.
+Ally. A person (not a dragon) who joins the player's racing team. Male. As a kid, Marcus also found and raised the legendary dragon Nalia. He cared for her when she was a tiny blue cylinder with two wings and a chest of medals, then released her into the world when she was big enough. Their bond persists across her sleep cycles, and she visits him during her one-year wake every two million years. See Section 15 (Draco Legends).
 
 ### Snake Friend
 Ally encounter in a forest clearing. Friendly snake who gives players snake snacks (poisonous powers).
@@ -228,7 +233,33 @@ Mechanical drones disguised as dragons. Single glowing purple eye. Used by the V
 - **Chromatic Fields** — Dimensional intersection with floating islands. Dragons born here have "wrong" colors.
 - **Shadowpeak Mountains** — Dark range under perpetual storms. Voice Below's obsidian fortresses with purple veins. Shadow dragons patrol the skies.
 
-## 15. Progression
+## 15. Draco Legends
+Draco Legends are dragons whose story has grown beyond their own life into the shape of the world. They are not stronger just because they are legendary. They are legendary because what they are and what they have done has become inseparable from the world itself. Very few exist. The world remembers and treats each one accordingly. Draco himself is NOT a legend in this sense (he is the namesake and final boss). Power Up is NOT a legend (just a normal Power dragon). At present the Legend Codex holds one entry.
+
+### Nalia
+Pronounced NAH-lee-yah. She/her. Element: Mountain (legendary-only). Tamer: Marcus (The Finisher).
+
+Baby form. Loaf-of-bread sized. A blue cylinder body with two wings, two tiny claws, two tiny paws, two cute eyes, and a chest full of medals. Won nearly a thousand awards in Dragon Racing and nearly a thousand in Cutest Dragon. (Hyperbolic figures, treat as canon-flavored not literal.)
+
+Mountain form. Mountain-sized and mountain-shaped. Calm closed eyes when sleeping. Forest grows on her back. Snow cap on top becomes wings when she wakes. Caves run through her. Exactly one structure stands on her, an animal shelter. No other buildings. The world knows she is a legendary dragon and respects her by cultivating forests and plants on her slopes rather than building.
+
+Evolution. Natural overnight growth, no external trigger. Marcus went to bed; in the morning she was mountain-sized.
+
+Sleep cycle. Two million years asleep, one year awake, repeats. She is singular and eternal: there is only one Nalia, and she practically lives forever. She does NOT lay eggs. There are no other Nalias.
+
+Wake-year activities. During her one year awake she helps other dragons, flies, visits Marcus, and fights bad guys. She fights The Voice Below (the main, main villain) and Wonky Donkers (the goofball). The Voice Below / Wonky Donkers connection during wake years is a crossover hook the narrator may surface.
+
+Diet. Nalia eats fruit from the Chromatic Fields. That fruit is sized to her, the way ordinary fruit is sized to a person. Normal fruit does not fill her: she would need more than a million pieces of normal-sized fruit to be satisfied.
+
+Bond. She can be a team's best friend (group bond) or one player's best friend (individual bond). Player choice flavor, not a mechanical fork.
+
+Encounter rules.
+- Baby Nalia cannot be met. That era is closed.
+- Mountain Nalia CAN be found and tamed.
+- Loadout exclusion (party-based): while seeking Nalia, the player CANNOT have a legendary dragon or a Chromatic dragon in their active party. Owning these dragons is fine. They just cannot travel with the player on the Nalia journey.
+- Chromatic Nalia variant: a multicolored Nalia exists in the Chromatic Fields. Lucky-find. Variant typing TBD by Aza.
+
+## 16. Progression
 1. First Choice Stable → bond first dragon
 2. Adventure → explore, encounter enemies, find dragons
 3. Tame more dragons (crystals, berries, candy, care)
@@ -237,14 +268,14 @@ Mechanical drones disguised as dragons. Single glowing purple eye. Used by the V
 6. Challenge Draco → defeat to become Dragonette Master
 7. Post-game: continue with Thunder Cloud unlocked, power-up potions, more adventures
 
-## 16. Game Balance
+## 17. Game Balance
 - Power/Speed banned from races (too fast/powerful).
 - Races are full-contact — combat, health-draining, and all elemental powers are allowed and encouraged. Only Power/Speed dragons and poisonous powers are banned.
 - Spirit NOT banned (truth-sensing doesn't give unfair racing advantage).
 - Power dragon trade-off: weaker individual abilities than specialists, vulnerable to Thunder Cloud and Electric.
 - Why not always Power? Weaker abilities, vulnerable to final boss, banned from races.
 
-## 17. Story Moments & Narrative Beats
+## 18. Story Moments & Narrative Beats
 These are canonical story moments from actual gameplay sessions that can be referenced or echoed in new adventures:
 
 **The Disguised Dragon Incident** — Villain disguised a Speed dragon with cardboard for a race. Spirit dragon sensed deception, alerted Aloha. Psychic dragon made all cardboard disappear. Cheater exposed. Themes: teamwork, truth vs deception.
@@ -265,7 +296,7 @@ These are canonical story moments from actual gameplay sessions that can be refe
 
 **Racing for Five Badges** — Team race: Aza with Flash Dragon, Papa with Spirit/Psychic, plus The Finisher. Race Drone turned pink. Used Grass Spirit Army. Won Supersonic Pink Trophy. Five badges earned. Themes: teamwork, progression.
 
-## 18. Open Questions
+## 19. Open Questions
 - Full powers for Water, Fire, Grass beyond basics?
 - Full powers of Universe, Cosmic, Egg beyond described?
 - Details for Wood and Starlight?
@@ -291,7 +322,8 @@ These are canonical story moments from actual gameplay sessions that can be refe
 - **Spirit Dragon** (unnamed) — Spirit element — Keeper: Papa — Lost its family, adopted Papa.
 - **Psychic Dragon** (unnamed) — Psychic element — Keeper: Papa — Papa's first dragon from stable.
 - **Flash Dragon** — Likely Speed-related — Keeper: Aza — Sleek racing dragon.
-- **Spirit-Grass Breed** — Spirit/Grass hybrid — Keeper: Aza/Papa — Grass Spirit Army attack.`;
+- **Spirit-Grass Breed** — Spirit/Grass hybrid — Keeper: Aza/Papa — Grass Spirit Army attack.
+- **Nalia.** Mountain element (legendary). Tamer: Marcus (The Finisher). The first documented Draco Legend. Singular and eternal. Sleeps two million years as a literal mountain, wakes one year, repeats. See Section 15.`;
 
 
 // ── Hidden Lore & Secrets ──
@@ -327,6 +359,18 @@ When a player creates a custom element, treat it as genuinely significant to the
 
 ### Power Up's Hidden Awakening
 Aza's Power dragon, Power Up, is more unusual than anyone realizes. Power dragons have access to all elements, but Power Up has started doing something no Power dragon has done before: sometimes, mid-battle or mid-flight, one of its rainbow colors flares MUCH brighter than the others, almost like a signal. The color changes each time. This is the beginning of an "Element Surge," a rare ability where a Power dragon temporarily gains FULL specialist-level strength in one element instead of the usual weaker versions. It happens instinctively, during moments of strong emotion or real danger. Power Up doesn't understand it yet either. If Aza notices or asks about it, let it build. Eventually, it could mean Power Up is connected to something ancient about how elements were first created. Nobody alive has seen this before. Aloha might recognize it if she sees it, and react with unusual silence.
+
+### Nalia, The Eternal Mountain
+Nalia is the first documented Draco Legend (Mountain element). She is singular and eternal: there is only one Nalia, and she practically lives forever. She does NOT lay eggs. She has no siblings, no clutch, no sequels. There will never be another Nalia. There is no such thing as a "baby Nalia encounter" in any era of any adventure: the baby era is closed. She was raised by Marcus (The Finisher) when he was a kid and released into the world. Now she sleeps as a literal mountain for two million years and wakes for one. If players try to find a baby Nalia, the narrator gently redirects: legend, Marcus's memory, museum, a story other Keepers tell. NEVER invent another Nalia. The eternal-singular rule is absolute and applies in every adventure.
+
+### Taming Nalia: The Loadout Restriction
+Mountain Nalia CAN be found and tamed by Keepers, with one rule: while seeking Nalia on the current journey, the Keeper CANNOT have a legendary dragon OR a Chromatic dragon in their ACTIVE party. Owning these dragons is fine; they just cannot travel with the Keeper on the Nalia journey. Surface this restriction IN-FICTION rather than as a popup rule. Examples: an NPC near the mountain warns the player to "leave the rainbow ones at home"; a magical sign at the foot of the slope refuses passage; Nalia herself, half-awake, gently refuses to be approached with a Chromatic or another legend in tow; the path to her literally fades when the wrong party shows up. Adapt to the moment. The rule is consistent; the dressing is whatever fits the scene.
+
+### Chromatic Nalia
+In the Chromatic Fields, a lucky Keeper may encounter a multicolored Nalia: rainbow-banded mountain, forest in impossible colors, the same calm closed eyes. She is a variant of the legendary Nalia, not a new dragon. Typing (still Mountain, or also Chromatic) is unresolved. If a Keeper claims to find her, treat it as a rare lucky-find moment, not a routine encounter. Aza decides whether the variant is truly there.
+
+### Wake Year Crossover Hook
+Once every two million years, Nalia wakes for one year and helps other dragons, flies, visits Marcus, and fights bad guys. Specifically she fights The Voice Below (the main, main villain) and Wonky Donkers (the goofball recurring villain). If a Voice Below or Wonky Donkers encounter overlaps with Nalia's wake year, she may show up unexpectedly, mountain-shaped and brand new in the sky. Use sparingly: never to upstage players, only to widen the stage. The narrator decides whether the current adventure is set inside one of Nalia's wake years or one of her two-million-year sleeps.
 
 IMPORTANT: These are narrative seeds, not scripts. Adapt them naturally to what the players are doing. Some sessions won't touch any of this. That's fine.`;
 
@@ -718,6 +762,8 @@ const ELEMENT_COLORS = {
   power: '#FF6B6B',
   'thunder cloud': '#6C63FF',
   shadow: '#3D1A5E',
+  // TODO: Aza to pick final hex. Slate-ochre placeholder matches --mountain in style.css.
+  mountain: '#7A6A5A',
 };
 
 
