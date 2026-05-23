@@ -3,11 +3,27 @@
 ## Current Work (Session Handoff)
 <!-- Update this section at the START and END of every Claude Code session -->
 
-**Last updated**: 2026-02-23
+**Last updated**: 2026-05-23
 
-**Status**: v1.7.0 — Voice Below reframed as dramatically elusive, not impossible to defeat.
+**Status**: Nalia / Draco Legends brainstorm complete — Aza answered and corrected all 13 questions; requirements doc written; ready for `/ce-plan` after 2 open product decisions (Mountain matchups + chapter placement).
 
-**This session** (2026-02-23 — Voice Below Elusive Framing):
+**This session** (2026-05-23 — Nalia + Draco Legends Intake):
+- **Source**: Aza recorded ideas about a new dragon, "the Nalia." Audio at `/Users/brentdixon/Library/CloudStorage/Dropbox/Downloads/Recents/the nalia.m4a`; copied to wiki audio-inbox; transcribed via existing whisper.cpp pipeline.
+- **Transcript**: `/Users/brentdixon/Library/Mobile Documents/iCloud~md~obsidian/Documents/wiki/.raw/audio-transcripts/2026-05-23-0842-the-nalia.txt` — Nalia starts tiny (triangle-with-two-lines shape), is found and tamed, wins awards, evolves overnight along with the tamer-bond into the LEGENDARY MOUNTAIN DRAGON the size of a real mountain, sleeps for 2M years and wakes for 1. Aza also asks for a "Draco Legends" container that holds all legends, with Nalia as one entry.
+- **Brainstorm**: Ran `/ce-brainstorm`. Identified open product questions (Legends shape, Nalia element/typing, tamer identity, game encounterability, sleep-cycle mechanics) and decided Aza needs to author the lore answers before requirements get written.
+- **Output**: `docs/aza-questions-nalia.md` — 13 kid-friendly questions covering pronunciation, gender (transcript flipped between he/she), baby + mountain visuals, element, tamer ("Griffith" — transcription unclear), awards, evolution trigger, mountain-state lore (climbable? caves? do people know she's a dragon?), the 1-year wake cycle, AI-game integration, and the big architectural question (Draco Legends as own chapter vs sub-section vs glossary badge; which existing dragons retroactively count).
+- **Aza review** (same day): Aza answered all 13 questions on the record and corrected several of Claude's interpretations. Key canon updates: Aza is sole creative authority; Draco-Masters IP is off-limits; baby Nalia is a **blue cylinder** with two wings/claws/paws/eyes + medals (not the original "triangle"); **Mountain** is a brand-new element; tamer is **Marcus (The Finisher)** raising her as a kid; taming exclusion is **loadout-based not collection-based** (legendary/Chromatic dragons just can't be in the active party while seeking her); Nalia is **singular and eternal** (no eggs); one animal shelter exists on her, otherwise no buildings; Chromatic Fields fruit is her diet (>1M normal fruit equivalent).
+- **Requirements doc**: `docs/brainstorms/nalia-legends-requirements.md` — full spec covering Game Bible / Codex / AI game / image pipeline integration with success criteria, scope boundaries, risks, and open decisions.
+- **Files changed**: `docs/aza-questions-nalia.md` (new), `docs/aza-answers-nalia.md` (new + revised), `docs/brainstorms/nalia-legends-requirements.md` (new), `PROJECT_STATUS.md`.
+- **Pending**: (1) Aza picks Mountain element matchups (strong vs / weak vs which existing elements); (2) Aza confirms Legends chapter placement in the 9-chapter sequence; (3) Aza produces hand drawing of baby Nalia for image-gen reference; (4) optional: photograph cardboard cutouts of baby + sleeping mountain Nalia. After (1) and (2), run `/ce-plan`.
+
+**Previous session** (2026-04-23 — Login Whitespace Fix):
+- **Bug**: `DRACO_PASSWORD` in Vercel was set with a trailing `\n` (likely via `echo "azadraco" | vercel env add`), so strict `!==` comparison in `api/login.js` rejected the correct password.
+- **Fix**: `api/login.js` now trims both `req.body.password` and `process.env.DRACO_PASSWORD` before comparison. Future whitespace slips won't lock anyone out.
+- **Files changed**: `api/login.js`, `PROJECT_STATUS.md`
+- **Pending**: Redeploy to production so the fix takes effect.
+
+**Previous session** (2026-02-23 — Voice Below Elusive Framing):
 - **Tone rewrite**: The "cannot be defeated" impossibility framing in the Voice Below block has been replaced. The mechanic is unchanged (Voice always escapes) but the language now frames it as dramatically close every time. Players should leave every encounter thinking "next time." Key phrases added: "You almost had it," "One more hit and it would have been over," "It barely got away." Removed "cannot be defeated," "not possible," and related ceiling language.
 - **After Draco update**: Trimmed the After Draco sentence to "Keep it alive, keep it looming." Removed "The Voice has never been defeated — yet" (asserting defeat history) and "keep players believing they're getting closer" (redundant with the Voice Below block rewrite). The section is now silent on whether the Voice has ever been defeated.
 - **Files changed**: `codex/game.js`, `PROJECT_STATUS.md`
