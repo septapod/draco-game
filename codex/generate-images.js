@@ -241,6 +241,27 @@ const images = [
   },
   // NOTE: v1.5 item icons (icon-speed-berry, icon-forest-crystal, icon-forest-essence,
   // icon-wooden-whistle, icon-magic-acorn) moved to generate-icons.js for transparent backgrounds.
+
+  // ── Nalia (Draco Legends, v1.7) ──
+  // Baby Nalia prompt intentionally NOT included: Aza is drawing the
+  // canonical reference. Add the baby prompt only after his drawing
+  // arrives. The two prompts below are the mountain forms.
+  {
+    filename: "nalia-mountain-sleeping.png",
+    prompt: `${STYLE_PREFIX} a serene legendary dragon sleeping as a literal mountain, its body the silhouette of a real mountain at dusk, calm closed eyes carved into the slope, a thick vibrant pine forest growing densely across her back, a deep snow cap on the peak, one small wooden animal shelter tucked low on her slope as the only visible structure, no other buildings, no towns, dignified ancient atmosphere, the world clearly respecting her, soft blue and lavender twilight sky with a few pixel stars`,
+  },
+  {
+    filename: "nalia-mountain-waking.png",
+    prompt: `${STYLE_PREFIX} the legendary mountain dragon Nalia waking after two million years, her mountain silhouette taking on dragon shape, the thick snow cap on top dissolving and lifting upward and outward into vast feathered dragon wings, her two huge eyes opening with calm warm light, the forest on her back catching dawn light, dignified majestic awakening, golden and pink dawn sky, dramatic but peaceful hero moment, a sense of an entire world holding its breath`,
+  },
+  // OPTIONAL / DEFERRED: ship the two mountain prompts above first,
+  // confirm they look right, then enable this Chromatic variant.
+  // Aza must also confirm whether Chromatic Nalia is still Mountain
+  // typing or gains a Chromatic element before this is final canon.
+  {
+    filename: "nalia-chromatic.png",
+    prompt: `${STYLE_PREFIX} a multicolored variant of the legendary mountain dragon Nalia, found floating in the Chromatic Fields, her mountain body banded with shifting rainbow colors, the forest on her back grown in impossible colors (blue trees, pink ferns, gold grass), prismatic snow cap glittering in every hue, calm closed eyes, dimensional islands drifting in the distance through aurora-lit sky, rare and wondrous, beautiful and strange`,
+  },
 ];
 
 async function generateImage(imageConfig) {
