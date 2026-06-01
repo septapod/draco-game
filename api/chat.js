@@ -4,7 +4,7 @@ const { requireAuth } = require("./auth");
 const ALLOWED_MODELS = new Set([
   "claude-haiku-4-5-20251001",
   "claude-sonnet-4-6",
-  "claude-opus-4-6",
+  "claude-opus-4-8",
 ]);
 
 module.exports = async function handler(req, res) {

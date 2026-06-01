@@ -72,7 +72,7 @@ The game page (`codex/game.html`) is an AI-narrated interactive adventure powere
 `vercel.json` uses rewrites: `/api/*` → serverless functions, `/*` → `codex/` static files. The codex continues to work at root URL.
 
 ### API Endpoints
-- **`api/chat.js`** — POST with `{ model, system, messages, max_tokens }`. Streams response via SSE. Allowed models: `claude-haiku-4-5-20251001`, `claude-sonnet-4-5-20250929`, `claude-opus-4-6-20250514`. Uses `ANTHROPIC_API_KEY` env var.
+- **`api/chat.js`** — POST with `{ model, system, messages, max_tokens }`. Streams response via SSE. Allowed models: `claude-haiku-4-5-20251001`, `claude-sonnet-4-6`, `claude-opus-4-8`. Uses `ANTHROPIC_API_KEY` env var.
 - **`api/transcribe.js`** — POST with multipart form-data (audio file). Forwards to OpenAI Whisper API. Uses `OPENAI_API_KEY` env var.
 
 ### Game State
