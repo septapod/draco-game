@@ -48,17 +48,28 @@ module.exports = async function handler(req, res) {
       return;
     }
 
-    // Collect the full audio response as a buffer
-    const arrayBuffer = await response.arrayBuffer();
-    const audioBuffer = Buffer.from(arrayBuffer);
-
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Content-Length", audioBuffer.length);
-    res.end(audioBuffer);
+    res.setHeader("Cache-Control", "no-store");
+    res.setHeader("Transfer-Encoding", "chunked");
+
+    const reader = response.body.getReader();
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        res.write(Buffer.from(value));
+      }
+      res.end();
+    } catch (streamErr) {
+      console.error("TTS stream error:", streamErr);
+      try { res.end(); } catch (_) {}
+    }
   } catch (err) {
     console.error("TTS handler error:", err);
     if (!res.headersSent) {
       res.status(500).json({ error: err.message });
+    } else {
+      try { res.end(); } catch (_) {}
     }
   }
 };

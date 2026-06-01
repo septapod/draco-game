@@ -1106,69 +1106,13 @@ const app = {
       }
       if (gen !== this.ttsGeneration) return; // superseded
 
-      const resp = await fetch('/api/speak', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: truncated }),
-      });
-
-      if (gen !== this.ttsGeneration) return; // superseded
-
-      if (!resp.ok) {
-        console.error('TTS API error:', resp.status);
-        throw new Error('TTS API returned ' + resp.status);
-      }
-
-      const arrayBuffer = await resp.arrayBuffer();
-      if (gen !== this.ttsGeneration) return; // superseded
-
-      // Primary: decode + play through AudioContext
-      try {
-        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
-        if (gen !== this.ttsGeneration) return; // superseded
-        const source = this.audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(this.audioContext.destination);
-        source.onended = () => {
-          this.ttsSpeaking = false;
-          this.ttsSourceNode = null;
-        };
-        this.ttsSourceNode = source;
-        source.start(0);
-        return; // Success
-      } catch (decodeErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
-      }
-
-      // Fallback: play via HTMLAudioElement with blob URL
-      try {
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audio.onended = () => {
-          URL.revokeObjectURL(url);
-          this.ttsSpeaking = false;
-          this.ttsAudio = null;
-        };
-        audio.onerror = () => {
-          URL.revokeObjectURL(url);
-          // Only fall through to speechSynthesis if this is still the current generation
-          if (gen !== this.ttsGeneration) return;
-          console.warn('Audio element also failed, trying speechSynthesis');
-          this.speakBrowserFallback(truncated);
-        };
-        this.ttsAudio = audio;
-        await audio.play();
-        return; // Success
-      } catch (playErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
-      }
-
-      // Last resort: browser speechSynthesis
+      // Primary: MSE streaming — starts playback as bytes arrive (low latency)
+      const streamed = await this.speakStreaming(truncated, gen);
+      if (streamed) return;
       if (gen !== this.ttsGeneration) return;
-      this.speakBrowserFallback(truncated);
+
+      // Fallback: original buffered path (full fetch + decode)
+      await this.speakBuffered(truncated, gen);
     } catch (err) {
       console.error('TTS error:', err);
       this.ttsSpeaking = false;
@@ -1176,6 +1120,181 @@ const app = {
         this.addSystemMessage('Voice failed — try toggling Voice off and on');
       }
     }
+  },
+
+  // MSE-based streaming playback: appends mp3 chunks as they arrive from /api/speak
+  // and starts playing on the first chunk. Returns true if streaming initialized
+  // successfully (even if playback later fails); false if MSE isn't usable.
+  async speakStreaming(text, gen) {
+    const MSEClass = window.ManagedMediaSource || window.MediaSource;
+    if (!MSEClass || typeof MSEClass.isTypeSupported !== 'function' || !MSEClass.isTypeSupported('audio/mpeg')) {
+      return false;
+    }
+
+    let objectUrl = null;
+    try {
+      const audio = new Audio();
+      // iOS ManagedMediaSource requires remote playback disabled
+      if ('disableRemotePlayback' in audio) audio.disableRemotePlayback = true;
+
+      const mediaSource = new MSEClass();
+      objectUrl = URL.createObjectURL(mediaSource);
+      audio.src = objectUrl;
+      this.ttsAudio = audio;
+
+      audio.onended = () => {
+        if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} objectUrl = null; }
+        if (gen === this.ttsGeneration) {
+          this.ttsSpeaking = false;
+          this.ttsAudio = null;
+        }
+      };
+
+      // Wait for MediaSource to open before adding a SourceBuffer
+      await new Promise((resolve, reject) => {
+        const onOpen = () => { cleanup(); resolve(); };
+        const onErr = () => { cleanup(); reject(new Error('audio element error before sourceopen')); };
+        const cleanup = () => {
+          mediaSource.removeEventListener('sourceopen', onOpen);
+          audio.removeEventListener('error', onErr);
+        };
+        mediaSource.addEventListener('sourceopen', onOpen, { once: true });
+        audio.addEventListener('error', onErr, { once: true });
+      });
+
+      if (gen !== this.ttsGeneration) {
+        if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} }
+        return true;
+      }
+
+      const sourceBuffer = mediaSource.addSourceBuffer('audio/mpeg');
+
+      const resp = await fetch('/api/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+
+      if (!resp.ok || !resp.body) {
+        try { mediaSource.endOfStream('network'); } catch (e) {}
+        if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} }
+        throw new Error('TTS API returned ' + resp.status);
+      }
+
+      if (gen !== this.ttsGeneration) {
+        try { mediaSource.endOfStream(); } catch (e) {}
+        if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} }
+        return true;
+      }
+
+      const reader = resp.body.getReader();
+      const queue = [];
+      let streamDone = false;
+      let playStarted = false;
+
+      const tryAppend = () => {
+        if (sourceBuffer.updating) return;
+        if (queue.length > 0) {
+          try { sourceBuffer.appendBuffer(queue.shift()); } catch (e) {
+            console.warn('appendBuffer failed:', e);
+          }
+        } else if (streamDone) {
+          try { mediaSource.endOfStream(); } catch (e) {}
+        }
+      };
+
+      sourceBuffer.addEventListener('updateend', tryAppend);
+
+      // Pump chunks from the network into the SourceBuffer queue
+      while (gen === this.ttsGeneration) {
+        const { done, value } = await reader.read();
+        if (done) {
+          streamDone = true;
+          tryAppend();
+          break;
+        }
+        queue.push(value);
+        tryAppend();
+
+        if (!playStarted) {
+          audio.play().catch(e => console.warn('streaming audio.play() failed:', e));
+          playStarted = true;
+        }
+      }
+
+      return true;
+    } catch (err) {
+      console.warn('Streaming TTS failed, falling back to buffered path:', err);
+      if (objectUrl) { try { URL.revokeObjectURL(objectUrl); } catch (e) {} }
+      this.ttsAudio = null;
+      return false;
+    }
+  },
+
+  // Original buffered path: collect full mp3, then play via AudioContext / Audio / speechSynthesis
+  async speakBuffered(text, gen) {
+    const resp = await fetch('/api/speak', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+
+    if (gen !== this.ttsGeneration) return;
+
+    if (!resp.ok) {
+      console.error('TTS API error:', resp.status);
+      throw new Error('TTS API returned ' + resp.status);
+    }
+
+    const arrayBuffer = await resp.arrayBuffer();
+    if (gen !== this.ttsGeneration) return;
+
+    // Primary buffered: decode + play through AudioContext
+    try {
+      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+      if (gen !== this.ttsGeneration) return;
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioContext.destination);
+      source.onended = () => {
+        this.ttsSpeaking = false;
+        this.ttsSourceNode = null;
+      };
+      this.ttsSourceNode = source;
+      source.start(0);
+      return;
+    } catch (decodeErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
+    }
+
+    // Fallback: HTMLAudioElement with blob URL
+    try {
+      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        this.ttsSpeaking = false;
+        this.ttsAudio = null;
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        if (gen !== this.ttsGeneration) return;
+        console.warn('Audio element also failed, trying speechSynthesis');
+        this.speakBrowserFallback(text);
+      };
+      this.ttsAudio = audio;
+      await audio.play();
+      return;
+    } catch (playErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
+    }
+
+    // Last resort
+    if (gen !== this.ttsGeneration) return;
+    this.speakBrowserFallback(text);
   },
 
   speakBrowserFallback(text) {
