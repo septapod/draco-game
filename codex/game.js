@@ -708,6 +708,39 @@ function cleanNarrativeText(text) {
     .trim();
 }
 
+// Split narrator text into ordered, speakable sentence chunks so the voice can
+// start on the first sentence while later ones are still being fetched. The
+// chunks preserve the spoken words (markdown and sound-effect markers kept), so
+// concatenating them reproduces what the voice says today. A chunk too short to
+// be worth its own clip is merged into the previous one. Returns at least one
+// chunk; a single-chunk result means the caller should just play the whole clip.
+const MIN_CHUNK_CHARS = 12;
+function splitIntoSentences(text) {
+  if (!text) return [];
+  const trimmed = text.trim();
+  if (!trimmed) return [];
+
+  // Match runs that end in sentence punctuation (with any trailing markup or
+  // closing quotes), plus a final run that has no terminal punctuation. Uses a
+  // lookahead (not a lookbehind) for broad mobile-Safari support.
+  const matches = trimmed.match(/.*?[.!?]+[*"')\]]*(?=\s|$)|.+$/gs) || [trimmed];
+
+  const chunks = [];
+  for (const m of matches) {
+    const piece = m.trim();
+    if (!piece) continue;
+    const hasLetters = /[A-Za-z]/.test(piece);
+    if (chunks.length && (piece.length < MIN_CHUNK_CHARS || !hasLetters)) {
+      // Too short or wordless on its own — fold into the previous chunk.
+      chunks[chunks.length - 1] += ' ' + piece;
+    } else {
+      chunks.push(piece);
+    }
+  }
+
+  return chunks.length ? chunks : [trimmed];
+}
+
 function applyStateUpdates(state, updates) {
   if (!updates) return;
   if (updates.location) state.location = updates.location;
@@ -1082,6 +1115,7 @@ const app = {
 
   ttsSourceNode: null,
   ttsGeneration: 0, // generation counter to prevent overlapping speech
+  ttsAbortController: null, // aborts in-flight sentence fetches on interruption
 
   async speak(text) {
     if (!text) return;
@@ -1106,69 +1140,18 @@ const app = {
       }
       if (gen !== this.ttsGeneration) return; // superseded
 
-      const resp = await fetch('/api/speak', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: truncated }),
-      });
-
-      if (gen !== this.ttsGeneration) return; // superseded
-
-      if (!resp.ok) {
-        console.error('TTS API error:', resp.status);
-        throw new Error('TTS API returned ' + resp.status);
+      // Fast start: split into sentences and play them one at a time, fetching
+      // the next while the current plays. Falls back to the whole-clip path on
+      // any trouble, so the result is never worse than playing the full reply.
+      const chunks = splitIntoSentences(truncated);
+      if (chunks.length > 1) {
+        const handled = await this.speakChunked(chunks, gen);
+        if (handled) return;
+        if (gen !== this.ttsGeneration) return; // superseded during the chunked attempt
+        // chunked attempt failed (not superseded) — fall through to the whole clip
       }
 
-      const arrayBuffer = await resp.arrayBuffer();
-      if (gen !== this.ttsGeneration) return; // superseded
-
-      // Primary: decode + play through AudioContext
-      try {
-        const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
-        if (gen !== this.ttsGeneration) return; // superseded
-        const source = this.audioContext.createBufferSource();
-        source.buffer = audioBuffer;
-        source.connect(this.audioContext.destination);
-        source.onended = () => {
-          this.ttsSpeaking = false;
-          this.ttsSourceNode = null;
-        };
-        this.ttsSourceNode = source;
-        source.start(0);
-        return; // Success
-      } catch (decodeErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
-      }
-
-      // Fallback: play via HTMLAudioElement with blob URL
-      try {
-        const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-        const url = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audio.onended = () => {
-          URL.revokeObjectURL(url);
-          this.ttsSpeaking = false;
-          this.ttsAudio = null;
-        };
-        audio.onerror = () => {
-          URL.revokeObjectURL(url);
-          // Only fall through to speechSynthesis if this is still the current generation
-          if (gen !== this.ttsGeneration) return;
-          console.warn('Audio element also failed, trying speechSynthesis');
-          this.speakBrowserFallback(truncated);
-        };
-        this.ttsAudio = audio;
-        await audio.play();
-        return; // Success
-      } catch (playErr) {
-        if (gen !== this.ttsGeneration) return;
-        console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
-      }
-
-      // Last resort: browser speechSynthesis
-      if (gen !== this.ttsGeneration) return;
-      this.speakBrowserFallback(truncated);
+      await this.speakWhole(truncated, gen);
     } catch (err) {
       console.error('TTS error:', err);
       this.ttsSpeaking = false;
@@ -1176,6 +1159,151 @@ const app = {
         this.addSystemMessage('Voice failed — try toggling Voice off and on');
       }
     }
+  },
+
+  // Read-ahead sequencer: play each sentence in order, preparing the next while
+  // the current one plays. Returns true when it handled playback (including a
+  // clean interruption), false when it failed and the caller should fall back
+  // to the whole-clip path.
+  async speakChunked(chunks, gen) {
+    const controller = new AbortController();
+    this.ttsAbortController = controller;
+    try {
+      let current = await this.fetchDecodeChunk(chunks[0], controller.signal);
+
+      for (let i = 0; i < chunks.length; i++) {
+        if (gen !== this.ttsGeneration) return true; // superseded
+
+        // Begin preparing the next chunk before playing the current one, so it
+        // is ready the moment the current finishes (read-ahead by one). Capture
+        // its result so a prefetch rejection surfaces only when we await it.
+        const nextPrep = i + 1 < chunks.length
+          ? this.fetchDecodeChunk(chunks[i + 1], controller.signal)
+              .then((buffer) => ({ buffer }), (error) => ({ error }))
+          : null;
+
+        await this.playDecoded(current, gen);
+        if (gen !== this.ttsGeneration) return true; // superseded mid-playback
+
+        if (nextPrep) {
+          const result = await nextPrep;
+          if (result.error) throw result.error;
+          current = result.buffer;
+        }
+      }
+
+      if (gen === this.ttsGeneration) {
+        this.ttsSpeaking = false;
+        this.ttsSourceNode = null;
+      }
+      // Only clear the shared slot if it still holds this run's controller — a
+      // newer speak() may have already installed its own after superseding us.
+      if (this.ttsAbortController === controller) this.ttsAbortController = null;
+      return true;
+    } catch (err) {
+      if (this.ttsAbortController === controller) this.ttsAbortController = null;
+      if (gen !== this.ttsGeneration) return true; // interrupted, not a real failure
+      console.warn('Sentence-by-sentence TTS failed, falling back to whole clip:', err);
+      return false;
+    }
+  },
+
+  // Fetch one chunk from /api/speak and decode it into a ready-to-play buffer.
+  // Separated from playback so the next chunk can be prepared while one plays.
+  async fetchDecodeChunk(text, signal) {
+    const resp = await fetch('/api/speak', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+      signal,
+    });
+    if (!resp.ok) throw new Error('TTS API returned ' + resp.status);
+    const arrayBuffer = await resp.arrayBuffer();
+    return this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+  },
+
+  // Play one decoded buffer through the already-unlocked AudioContext; resolves
+  // when it finishes. The same playback mechanism the whole-clip path uses.
+  playDecoded(audioBuffer, gen) {
+    return new Promise((resolve) => {
+      if (gen !== this.ttsGeneration) { resolve(); return; }
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioContext.destination);
+      source.onended = () => resolve();
+      this.ttsSourceNode = source;
+      source.start(0);
+    });
+  },
+
+  // Whole-clip playback: the original path, kept unchanged as the reliable
+  // fallback. Fetches the full text as one clip, decodes, and plays, with
+  // HTMLAudioElement and speechSynthesis fallbacks. Assumes the AudioContext is
+  // already unlocked and ttsGeneration/ttsSpeaking are set by speak().
+  async speakWhole(text, gen) {
+    const resp = await fetch('/api/speak', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text }),
+    });
+
+    if (gen !== this.ttsGeneration) return; // superseded
+
+    if (!resp.ok) {
+      console.error('TTS API error:', resp.status);
+      throw new Error('TTS API returned ' + resp.status);
+    }
+
+    const arrayBuffer = await resp.arrayBuffer();
+    if (gen !== this.ttsGeneration) return; // superseded
+
+    // Primary: decode + play through AudioContext
+    try {
+      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+      if (gen !== this.ttsGeneration) return; // superseded
+      const source = this.audioContext.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioContext.destination);
+      source.onended = () => {
+        this.ttsSpeaking = false;
+        this.ttsSourceNode = null;
+      };
+      this.ttsSourceNode = source;
+      source.start(0);
+      return; // Success
+    } catch (decodeErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
+    }
+
+    // Fallback: play via HTMLAudioElement with blob URL
+    try {
+      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
+      const url = URL.createObjectURL(blob);
+      const audio = new Audio(url);
+      audio.onended = () => {
+        URL.revokeObjectURL(url);
+        this.ttsSpeaking = false;
+        this.ttsAudio = null;
+      };
+      audio.onerror = () => {
+        URL.revokeObjectURL(url);
+        // Only fall through to speechSynthesis if this is still the current generation
+        if (gen !== this.ttsGeneration) return;
+        console.warn('Audio element also failed, trying speechSynthesis');
+        this.speakBrowserFallback(text);
+      };
+      this.ttsAudio = audio;
+      await audio.play();
+      return; // Success
+    } catch (playErr) {
+      if (gen !== this.ttsGeneration) return;
+      console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
+    }
+
+    // Last resort: browser speechSynthesis
+    if (gen !== this.ttsGeneration) return;
+    this.speakBrowserFallback(text);
   },
 
   speakBrowserFallback(text) {
@@ -1193,6 +1321,10 @@ const app = {
 
   stopSpeaking() {
     this.ttsGeneration++; // invalidate any in-flight speak() calls
+    if (this.ttsAbortController) {
+      try { this.ttsAbortController.abort(); } catch (e) {}
+      this.ttsAbortController = null;
+    }
     if (this.ttsSourceNode) {
       try { this.ttsSourceNode.stop(); } catch (e) {}
       this.ttsSourceNode = null;
