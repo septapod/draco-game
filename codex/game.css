@@ -166,6 +166,26 @@ body {
   gap: 0.75rem;
   margin-bottom: 1.5rem;
 }
+#keeper-number-help { text-align: left; line-height: 1.5; }
+#keeper-number-help p + p { margin-top: 0.5rem; }
+#name-inputs label {
+  display: block;
+  text-align: left;
+  font-size: 1rem;
+}
+#name-inputs input { font-size: 1rem; min-height: 44px; }
+.keeper-cue { font-size: 1rem; line-height: 1.5; }
+#hear-player-cue {
+  font: 1rem var(--font-body);
+  color: var(--text);
+  border-color: #76768b;
+  min-height: 44px;
+  margin: 0.5rem 0 1rem;
+}
+#screen-eggs :focus-visible, #screen-names :focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
 
 .text-input {
   font-family: var(--font-body);

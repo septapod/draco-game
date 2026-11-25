@@ -45,6 +45,10 @@
   <div id="screen-names" class="screen">
     <div class="onboard-box">
       <h2 class="onboard-title">Name your Keepers</h2>
+      <div id="keeper-number-help" class="onboard-hint" hidden>
+        <p>Your place on the list is your Keeper number.</p>
+        <p>Playing by voice? “Dragon two” tells Draco that Keeper two is speaking.</p>
+      </div>
       <div id="name-inputs"></div>
       <button id="btn-names-done" class="btn-primary">Next</button>
     </div>
@@ -53,7 +57,10 @@
   <!-- ═══════ ONBOARDING: EGG SELECTION ═══════ -->
   <div id="screen-eggs" class="screen">
     <div class="onboard-box">
-      <h2 class="onboard-title"><span id="egg-picker-name">Keeper</span>, choose your egg</h2>
+      <h2 class="onboard-title" id="egg-picker-title" tabindex="-1" aria-describedby="egg-player-cue"><span id="egg-picker-name">Keeper</span>, choose your egg</h2>
+      <p class="keeper-cue" id="egg-player-cue"></p>
+      <button class="btn-secondary" id="hear-player-cue" type="button">Hear how to answer</button>
+      <p class="turn-status" id="egg-voice-status" role="status"></p>
       <p id="egg-picker-hint" class="onboard-hint">A berry balances on top of each egg.</p>
       <div class="egg-grid">
         <button class="egg-btn" data-element="fire"><span class="egg-dot fire"></span>Fire</button>

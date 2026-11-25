@@ -1319,7 +1319,11 @@ const app = {
   },
 
   setVoiceStatus(message) {
-    document.getElementById('voice-status').textContent = message;
+    if (document.getElementById('screen-eggs').classList.contains('active')) {
+      document.getElementById('egg-voice-status').textContent = message ? 'The audio didn’t play. Tap “Hear how to answer” to try again.' : '';
+    } else {
+      document.getElementById('voice-status').textContent = message;
+    }
   },
 
   connectNarration(source) {
@@ -1881,16 +1885,20 @@ const app = {
         // Build name inputs
         const container = document.getElementById('name-inputs');
         container.innerHTML = '';
+        const group = this.onboardingState.playerCount > 1;
+        document.getElementById('keeper-number-help').hidden = !group;
         for (let i = 0; i < this.onboardingState.playerCount; i++) {
+          const label = document.createElement('label');
+          label.textContent = group ? `Keeper ${i + 1} name` : 'Keeper name';
           const input = document.createElement('input');
           input.type = 'text';
           input.className = 'text-input';
-          input.placeholder = `Keeper ${i + 1} name`;
           input.maxLength = 20;
           input.autocomplete = 'off';
-          input.setAttribute('aria-label', input.placeholder);
+          if (group && i === 0) input.setAttribute('aria-describedby', 'keeper-number-help');
           input.addEventListener('input', () => input.setCustomValidity(''));
-          container.appendChild(input);
+          label.appendChild(input);
+          container.appendChild(label);
         }
         this.showScreen('screen-names');
         container.querySelector('input').focus();
@@ -1923,6 +1931,10 @@ const app = {
     });
 
     // Egg selection
+    document.getElementById('hear-player-cue').addEventListener('click', () => {
+      this.unlockAudio();
+      this.speak(document.getElementById('egg-player-cue').textContent);
+    });
     document.querySelectorAll('.egg-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.egg-btn').forEach(b => b.classList.remove('selected'));
@@ -2342,9 +2354,17 @@ const app = {
     const idx = this.onboardingState.currentPlayerIndex;
     const player = this.onboardingState.players[idx];
     document.getElementById('egg-picker-name').textContent = player.name;
+    const number = ['one', 'two', 'three', 'four'][idx];
+    const cue = this.onboardingState.playerCount > 1
+      ? `When the narrator says “Keeper ${number},” that’s you. With Hands-free on, say “Dragon ${number}, I open the gate.”`
+      : 'To speak your move, turn on Hands-free during play. Try saying “Dragon, I open the gate.”';
+    document.getElementById('egg-player-cue').textContent = cue;
+    document.getElementById('egg-voice-status').textContent = '';
     document.getElementById('egg-picker-hint').textContent = feedingFeedback || 'A berry balances on top of each egg.';
     document.querySelectorAll('.egg-btn').forEach(b => b.classList.remove('selected'));
     this.showScreen('screen-eggs');
+    document.getElementById('egg-picker-title').focus();
+    if (this.ttsEnabled) this.speak(cue);
   },
 
   async finishDragonNaming(feedingId) {
