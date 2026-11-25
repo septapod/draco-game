@@ -1,4 +1,4 @@
-const { renderVoice } = require('./_realtime-voice');
+const { streamTosca } = require('./_tosca-voice');
 const { requireAuth } = require('./auth');
 const { meterGuest } = require('./_passes');
 
@@ -10,22 +10,27 @@ module.exports = async function handler(req, res) {
   if (typeof text !== 'string' || !text.trim() || text.length > 3500) {
     return res.status(400).json({ error: 'Narration text is required' });
   }
-  if (process.env.DRACO_OPENAI_ZDR !== 'verified') {
-    return res.status(503).json({ error: 'OpenAI narrator voice is unavailable' });
+  const apiKey = (process.env.DRACO_ELEVENLABS_API_KEY || process.env.ELEVENLABS_API_KEY)?.trim();
+  if (!apiKey) {
+    return res.status(503).json({ error: 'Narrator voice is unavailable' });
   }
   if (!(await meterGuest(req, res, 'speaks'))) return;
 
   const controller = new AbortController();
   res.once('close', () => controller.abort());
   try {
-    const audio = await renderVoice(text.trim(), controller.signal);
-    res.setHeader('Content-Type', 'audio/wav');
-    res.setHeader('Cache-Control', 'no-store');
-    res.setHeader('Content-Length', audio.length);
-    res.end(audio);
+    await streamTosca(text.trim(), apiKey, controller.signal, chunk => {
+      if (!res.headersSent) {
+        res.setHeader('Content-Type', 'audio/mpeg');
+        res.setHeader('Cache-Control', 'no-store');
+      }
+      res.write(chunk);
+    });
+    res.end();
   } catch (error) {
     if (controller.signal.aborted) return;
-    console.error('OpenAI voice unavailable:', error.status || error.message, error.code || '');
-    res.status(error.status === 429 ? 429 : 502).json({ error: 'OpenAI narrator voice is unavailable' });
+    console.error('ElevenLabs voice unavailable:', error.status || error.message);
+    if (res.headersSent) return res.destroy();
+    res.status(error.status === 429 ? 429 : 502).json({ error: 'Narrator voice is unavailable' });
   }
 };

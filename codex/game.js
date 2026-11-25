@@ -419,6 +419,8 @@ Flags: ${JSON.stringify(state.flags)}`;
     prompt += `\n\n## Story So Far\n${state.narrativeSummary}`;
   }
 
+  prompt += '\n\nKeep spoken narration inside the adventure. Address players by Keeper number or by their dragon’s name. Keep personal details about the players out of the narrative. In game-state updates, continue to use the exact player names in Current Game State.';
+
   prompt += `
 
 ## Response Format
@@ -1143,7 +1145,7 @@ const app = {
     msgEl.appendChild(btn);
   },
 
-  // ── OpenAI narrator audio ──
+  // ── Narrator audio ──
   ttsEnabled: localStorage.getItem('draco_tts_enabled') === 'true',
   ttsAudio: null,
   ttsSpeaking: false,
@@ -1174,6 +1176,13 @@ const app = {
 
   async speak(text) {
     if (!text?.trim()) return;
+    let narration = text.trim();
+    for (const [index, player] of (this.state?.players || []).entries()) {
+      if (!player.name?.trim()) continue;
+      const name = player.name.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const wholeName = new RegExp(`(?<![\\p{L}\\p{N}])${name}(?![\\p{L}\\p{N}])`, 'giu');
+      narration = narration.replace(wholeName, 'Keeper ' + (index + 1));
+    }
     this.stopSpeaking();
     const generation = this.ttsGeneration;
     const controller = new AbortController();
@@ -1187,7 +1196,7 @@ const app = {
       const response = await fetch('/api/speak', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text.trim().slice(0, 3500) }),
+        body: JSON.stringify({ text: narration.slice(0, 3500) }),
         signal: controller.signal,
       });
       if (!response.ok) throw new Error('Voice unavailable');
