@@ -1196,11 +1196,13 @@ const app = {
 
     let narration = this.narrationText;
     for (const [index, player] of (this.state?.players || []).entries()) {
-      if (!player.name?.trim()) continue;
+      if (!player.name?.trim() || /^pax$/i.test(player.name.trim())) continue;
       const name = player.name.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const wholeName = new RegExp(`(?<![\\p{L}\\p{N}])${name}(?![\\p{L}\\p{N}])`, 'giu');
       narration = narration.replace(wholeName, 'Keeper ' + (index + 1));
     }
+    // The speech spelling also carries through to possessives such as “Pax’s”.
+    narration = narration.replace(/(?<![\p{L}\p{M}\p{N}_])pax(?![\p{L}\p{M}\p{N}_])/giu, 'Packs');
     const track = {
       controller: new AbortController(),
       mode: 'playing',
