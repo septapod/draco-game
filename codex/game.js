@@ -2081,7 +2081,10 @@ const app = {
       capture.cancelled = true;
       finishCapture();
     };
-    this.cancelManualCapture = cancelCapture;
+    this.cancelManualCapture = () => {
+      clearSpacePress();
+      cancelCapture();
+    };
     const finishCapture = async () => {
       const take = capture;
       if (!take) return;
@@ -2165,29 +2168,64 @@ const app = {
     micBtn.addEventListener('blur', () => { if (typeof capture?.pointer === 'string') cancelCapture(); });
     const adventureScreen = document.getElementById('screen-adventure');
     const interactive = 'input, textarea, select, button, a[href], summary, label, audio[controls], video[controls], [contenteditable], [tabindex], [role]';
+    const moveBox = document.getElementById('input-message');
+    let spacePress = null;
+    const clearSpacePress = () => {
+      clearTimeout(spacePress?.timer);
+      spacePress = null;
+    };
+    const shortcutAvailable = () => this.state && !document.hidden && adventureScreen.classList.contains('active') &&
+      !this.manualMicBusy() && !this.isSending && !micBtn.disabled && !this.handsFree?.session &&
+      !document.querySelector('#bottom-sheet.open, #discoveries-overlay.open, dialog[open], [aria-modal="true"]:not([hidden])');
+
     document.addEventListener('keydown', event => {
-      if (event.key !== ' ' || event.defaultPrevented || event.isComposing || event.altKey ||
-          event.ctrlKey || event.metaKey || event.shiftKey) return;
-      if (capture?.pointer === 'space-shortcut' && event.repeat) {
+      if (event.key !== ' ') {
+        clearSpacePress();
+        return;
+      }
+      if (event.repeat && (spacePress || capture?.pointer === 'space-shortcut')) {
         event.preventDefault();
         return;
       }
-      if (event.repeat || !this.state || document.hidden || !adventureScreen.classList.contains('active') ||
-          capture || transcribing || this.isSending || micBtn.disabled || this.handsFree?.session) return;
+      if (event.defaultPrevented || event.isComposing || event.altKey || event.ctrlKey ||
+          event.metaKey || event.shiftKey || event.repeat || !shortcutAvailable()) return;
+      if (event.target === moveBox) {
+        // Let the browser type a normal space, including its native selection and undo behavior.
+        // A deliberate hold restores the draft before starting the microphone.
+        const original = moveBox.value;
+        const start = moveBox.selectionStart;
+        const end = moveBox.selectionEnd;
+        const direction = moveBox.selectionDirection;
+        const typed = original.slice(0, start) + ' ' + original.slice(end);
+        clearSpacePress();
+        spacePress = { timer: setTimeout(() => {
+          if (!shortcutAvailable() || document.activeElement !== moveBox || moveBox.value !== typed ||
+              moveBox.selectionStart !== start + 1 || moveBox.selectionEnd !== start + 1) return;
+          moveBox.setRangeText(original.slice(start, end), start, start + 1);
+          moveBox.setSelectionRange(start, end, direction);
+          beginCapture('space-shortcut');
+        }, 300) };
+        return;
+      }
       if (event.composedPath().some(node => node instanceof Element && node.matches(interactive))) return;
-      if (document.querySelector('#bottom-sheet.open, #discoveries-overlay.open, dialog[open], [aria-modal="true"]:not([hidden])')) return;
       event.preventDefault();
       beginCapture('space-shortcut');
     });
     window.addEventListener('keyup', event => {
-      if (event.key === ' ' && capture?.pointer === 'space-shortcut') {
+      if (event.key !== ' ') return;
+      clearSpacePress();
+      if (capture?.pointer === 'space-shortcut') {
         event.preventDefault();
         finishCapture();
       }
     }, true);
-    window.addEventListener('blur', () => cancelCapture());
-    window.addEventListener('pagehide', () => cancelCapture());
-    document.addEventListener('visibilitychange', () => { if (document.hidden) cancelCapture(); });
+    moveBox.addEventListener('blur', () => {
+      clearSpacePress();
+      if (capture?.pointer === 'space-shortcut') cancelCapture();
+    });
+    window.addEventListener('blur', this.cancelManualCapture);
+    window.addEventListener('pagehide', this.cancelManualCapture);
+    document.addEventListener('visibilitychange', () => { if (document.hidden) this.cancelManualCapture(); });
 
     document.getElementById('btn-narration-play').addEventListener('click', () => this.toggleNarrationPlayback());
     document.getElementById('btn-narration-back').addEventListener('click', () => this.rewindNarration());
