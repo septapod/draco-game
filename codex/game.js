@@ -378,13 +378,13 @@ IMPORTANT: These are narrative seeds, not scripts. Adapt them naturally to what 
 // ── System Prompt Builder ──
 
 function buildSystemPrompt(state) {
-  const playerSummary = state.players.map((p, index) => {
+  const playerSummary = state.players.map(p => {
     const hp = p.hp != null ? p.hp : 100;
     const activeIdx = p.activeDragonIndex || 0;
     const dragons = p.dragons.map((d, i) =>
       `${i === activeIdx ? '★ ' : ''}${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'}${FIRST_FEEDINGS[d.firstFeeding] ? ', first feeding: ' + FIRST_FEEDINGS[d.firstFeeding].label : ''})`
     ).join('; ');
-    return `- Keeper ${index + 1} (${p.name}): HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
+    return `- ${p.name}: HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
   }).join('\n');
 
   let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone.
@@ -395,7 +395,7 @@ Play the consequences of the Keeper's actual move. A dragon, a rival, or the sur
 
 Offer an open choice at a decision. When the players ask for help or get stuck, suggest two distinct actions they can try. Let them invent another. With several Keepers, honor whose dragon is acting and invite a teammate to contribute when the scene gives them a reason. The children decide what their Keepers say and do.
 
-With several players, make it clear who can answer. If one Keeper has a choice to make or you are inviting one specific player, address them by their Keeper number: “Keeper 2, do you follow the tracks?” If anyone can answer, invite the whole group: “Keepers, who wants to go first?” Let this follow the scene. In solo play, speak directly to the player.
+When one player has a choice, use that player's exact name from Current Game State so everyone hears whose turn it is. Use the dragon's own name for the dragon. When anyone can answer, invite the whole table naturally: “Who wants to go first?” In solo play, speak directly to the player.
 
 Track inventory, badges, location, and bonded dragons. Build callbacks from actual events in this adventure. A dragon can remember the way its Keeper first offered the berry; let that memory change how it responds when it matters.
 
@@ -421,7 +421,7 @@ Flags: ${JSON.stringify(state.flags)}`;
     prompt += `\n\n## Story So Far\n${state.narrativeSummary}`;
   }
 
-  prompt += '\n\nKeep spoken narration inside the adventure. Address players by Keeper number or by their dragon’s name. Keep personal details about the players out of the narrative. In game-state updates, continue to use the exact player names in Current Game State.';
+  prompt += '\n\nUse the entered player names in both narration and game-state updates. Keep other personal details out of the story.';
 
   prompt += `
 
@@ -773,6 +773,15 @@ function parseNewContent(text) {
     discoveries.push({ type: m[1], name: m[2], description: m[3].trim() });
   }
   return discoveries;
+}
+
+// Older adventures used numbered titles in the narrator's dialogue.
+function nameKeepers(text, players) {
+  const ranks = ['one', 'two', 'three', 'four'];
+  return text.replace(/\bKeeper\s+(?:number\s+|#)?(one|two|three|four|[1-4])\b/gi, (title, rank) => {
+    const seat = Number(rank) || ranks.indexOf(rank.toLowerCase()) + 1;
+    return players[seat - 1]?.name || title;
+  });
 }
 
 function cleanNarrativeText(text) {
@@ -1194,15 +1203,8 @@ const app = {
       return;
     }
 
-    let narration = this.narrationText;
-    for (const [index, player] of (this.state?.players || []).entries()) {
-      if (!player.name?.trim() || /^pax$/i.test(player.name.trim())) continue;
-      const name = player.name.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const wholeName = new RegExp(`(?<![\\p{L}\\p{N}])${name}(?![\\p{L}\\p{N}])`, 'giu');
-      narration = narration.replace(wholeName, 'Keeper ' + (index + 1));
-    }
-    // The speech spelling also carries through to possessives such as “Pax’s”.
-    narration = narration.replace(/(?<![\p{L}\p{M}\p{N}_])pax(?![\p{L}\p{M}\p{N}_])/giu, 'Packs');
+    // Preserve the written name and use its pronunciation only for the voice.
+    const narration = this.narrationText.replace(/(?<![\p{L}\p{M}\p{N}_])pax(?![\p{L}\p{M}\p{N}_])/giu, 'Packs');
     const track = {
       controller: new AbortController(),
       mode: 'playing',
@@ -1551,7 +1553,7 @@ const app = {
           if (event.error) throw new Error('The narrator couldn’t finish that turn.');
           if (event.text) {
             fullText += event.text;
-            msgEl.textContent = cleanNarrativeText(fullText);
+            msgEl.textContent = nameKeepers(cleanNarrativeText(fullText), state.players);
             msgEl.parentElement.scrollTop = msgEl.parentElement.scrollHeight;
             status.textContent = '';
           }
@@ -1575,7 +1577,7 @@ const app = {
       draft.transcript.push({ role: 'narrator', text: cleaned });
       Object.assign(state, draft);
       success = true;
-      this.renderNarratorFinal(msgEl, cleaned);
+      this.renderNarratorFinal(msgEl, nameKeepers(cleaned, state.players));
       for (const discovery of discoveries) this.showDiscoveryToast(discovery.name);
       this.renderDiscoveries();
       this.renderStatusBar();
@@ -1774,7 +1776,7 @@ const app = {
       if (isOpening(text)) continue;
       if (msg.role === 'assistant') {
         const el = this.addNarratorMessage('');
-        const cleaned = cleanNarrativeText(text);
+        const cleaned = nameKeepers(cleanNarrativeText(text), state.players);
         el.textContent = cleaned;
         this.addReplayButton(el, cleaned);
         this.selectNarration(cleaned);
@@ -1836,7 +1838,7 @@ const app = {
         }
         return `<div class="transcript-entry player"><span class="transcript-player-name" style="color:${color}">${escapeHtml(entry.name)}</span><p>${escapeHtml(entry.text)}</p></div>`;
       }
-      return `<div class="transcript-entry narrator"><p>${escapeHtml(entry.text)}</p></div>`;
+      return `<div class="transcript-entry narrator"><p>${escapeHtml(nameKeepers(entry.text, this.state.players))}</p></div>`;
     }).join('');
     this.showScreen('screen-transcript');
     content.scrollTop = 0;
@@ -2359,7 +2361,7 @@ const app = {
     document.getElementById('egg-picker-name').textContent = player.name;
     const number = ['one', 'two', 'three', 'four'][idx];
     const cue = this.onboardingState.playerCount > 1
-      ? `When the narrator says “Keeper ${number},” that’s you. With Hands-free on, say “Dragon ${number}, I open the gate.”`
+      ? `${player.name}, with Hands-free on, you can say “Dragon ${number}, I open the gate.”`
       : 'To speak your move, turn on Hands-free during play. Try saying “Dragon, I open the gate.”';
     document.getElementById('egg-player-cue').textContent = cue;
     document.getElementById('egg-voice-status').textContent = '';
