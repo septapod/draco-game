@@ -993,6 +993,7 @@ const app = {
   // Screen management
   showScreen(id) {
     if (id !== 'screen-adventure') {
+      this.cancelManualCapture?.();
       this.handsFree?.stop();
       this.stopSpeaking();
     }
@@ -2080,6 +2081,7 @@ const app = {
       capture.cancelled = true;
       finishCapture();
     };
+    this.cancelManualCapture = cancelCapture;
     const finishCapture = async () => {
       const take = capture;
       if (!take) return;
@@ -2138,7 +2140,8 @@ const app = {
       }
       micBtn.classList.add('recording');
       inputRow.classList.add('recording-active');
-      flashPlaceholder('Listening. Release the mic when you finish.');
+      flashPlaceholder(take.pointer === 'space-shortcut' || take.pointer === ' ' ?
+        'Listening. Release Space when you finish.' : 'Listening. Release when you finish.');
     };
     micBtn.addEventListener('pointerdown', event => {
       if (event.button !== 0 || capture || transcribing) return;
@@ -2151,7 +2154,8 @@ const app = {
     micBtn.addEventListener('pointercancel', cancelCapture);
     micBtn.addEventListener('lostpointercapture', cancelCapture);
     micBtn.addEventListener('keydown', event => {
-      if (![' ', 'Enter'].includes(event.key)) return;
+      if (![' ', 'Enter'].includes(event.key) || event.isComposing || event.altKey ||
+          event.ctrlKey || event.metaKey || event.shiftKey) return;
       event.preventDefault();
       if (!event.repeat) beginCapture(event.key);
     });
@@ -2159,6 +2163,29 @@ const app = {
       if (capture?.pointer === event.key) { event.preventDefault(); finishCapture(); }
     });
     micBtn.addEventListener('blur', () => { if (typeof capture?.pointer === 'string') cancelCapture(); });
+    const adventureScreen = document.getElementById('screen-adventure');
+    const interactive = 'input, textarea, select, button, a[href], summary, label, audio[controls], video[controls], [contenteditable], [tabindex], [role]';
+    document.addEventListener('keydown', event => {
+      if (event.key !== ' ' || event.defaultPrevented || event.isComposing || event.altKey ||
+          event.ctrlKey || event.metaKey || event.shiftKey) return;
+      if (capture?.pointer === 'space-shortcut' && event.repeat) {
+        event.preventDefault();
+        return;
+      }
+      if (event.repeat || !this.state || document.hidden || !adventureScreen.classList.contains('active') ||
+          capture || transcribing || this.isSending || micBtn.disabled || this.handsFree?.session) return;
+      if (event.composedPath().some(node => node instanceof Element && node.matches(interactive))) return;
+      if (document.querySelector('#bottom-sheet.open, #discoveries-overlay.open, dialog[open], [aria-modal="true"]:not([hidden])')) return;
+      event.preventDefault();
+      beginCapture('space-shortcut');
+    });
+    window.addEventListener('keyup', event => {
+      if (event.key === ' ' && capture?.pointer === 'space-shortcut') {
+        event.preventDefault();
+        finishCapture();
+      }
+    }, true);
+    window.addEventListener('blur', () => cancelCapture());
     window.addEventListener('pagehide', () => cancelCapture());
     document.addEventListener('visibilitychange', () => { if (document.hidden) cancelCapture(); });
 
