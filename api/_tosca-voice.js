@@ -2,11 +2,11 @@ const WebSocket = require('ws');
 
 const VOICE_ID = 'fNmw8sukfGuvWVOp33Ge';
 const URL = 'wss://api.elevenlabs.io/v1/text-to-dialogue/stream-input' +
-  '?model_id=eleven_v4_turbo&output_format=mp3_44100_128&language_code=en';
+  '?model_id=eleven_v4_turbo&language_code=en';
 
-function streamTosca(text, apiKey, signal, onAudio) {
+function streamTosca(text, apiKey, format, signal, onAudio) {
   return new Promise((resolve, reject) => {
-    const socket = new WebSocket(URL, {
+    const socket = new WebSocket(URL + '&output_format=' + format, {
       headers: { 'xi-api-key': apiKey },
       handshakeTimeout: 10000,
     });

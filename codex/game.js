@@ -378,22 +378,24 @@ IMPORTANT: These are narrative seeds, not scripts. Adapt them naturally to what 
 // ── System Prompt Builder ──
 
 function buildSystemPrompt(state) {
-  const playerSummary = state.players.map(p => {
+  const playerSummary = state.players.map((p, index) => {
     const hp = p.hp != null ? p.hp : 100;
     const activeIdx = p.activeDragonIndex || 0;
     const dragons = p.dragons.map((d, i) =>
       `${i === activeIdx ? '★ ' : ''}${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'}${FIRST_FEEDINGS[d.firstFeeding] ? ', first feeding: ' + FIRST_FEEDINGS[d.firstFeeding].label : ''})`
     ).join('; ');
-    return `- ${p.name}: HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
+    return `- Keeper ${index + 1} (${p.name}): HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
   }).join('\n');
 
-  let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name.
+  let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone.
 
 Speak to the table in two or three short sentences. Give them one vivid thing they can hear or picture. Use a sound effect when it carries a clue or makes a moment funny. Leave room for an answer.
 
 Play the consequences of the Keeper's actual move. A dragon, a rival, or the surroundings should react in a way the players can use. If an attempt fails, reveal a clue or a fresh opportunity alongside the cost. Let a clever solution work when it fits the rules. If a Keeper asks a question, answer it before advancing the scene.
 
 Offer an open choice at a decision. When the players ask for help or get stuck, suggest two distinct actions they can try. Let them invent another. With several Keepers, honor whose dragon is acting and invite a teammate to contribute when the scene gives them a reason. The children decide what their Keepers say and do.
+
+With several players, make it clear who can answer. If one Keeper has a choice to make or you are inviting one specific player, address them by their Keeper number: “Keeper 2, do you follow the tracks?” If anyone can answer, invite the whole group: “Keepers, who wants to go first?” Let this follow the scene. In solo play, speak directly to the player.
 
 Track inventory, badges, location, and bonded dragons. Build callbacks from actual events in this adventure. A dragon can remember the way its Keeper first offered the berry; let that memory change how it responds when it matters.
 
@@ -1171,6 +1173,7 @@ const app = {
   },
 
   ttsSourceNode: null,
+  ttsStreamSources: null,
   ttsGeneration: 0, // generation counter to prevent overlapping speech
   ttsAbortController: null, // aborts in-flight sentence fetches on interruption
 
@@ -1195,17 +1198,24 @@ const app = {
       if (generation !== this.ttsGeneration) return;
       const response = await fetch('/api/speak', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: this.audioContext?.state === 'running' ? 'audio/pcm' : 'audio/mpeg',
+        },
         body: JSON.stringify({ text: narration.slice(0, 3500) }),
         signal: controller.signal,
       });
       if (!response.ok) throw new Error('Voice unavailable');
+      if (response.headers.get('Content-Type') === 'audio/pcm' && response.body) {
+        await this.playNarrationStream(response.body, generation);
+        return;
+      }
       const clip = await response.blob();
       if (generation !== this.ttsGeneration) return;
       let decoded = clip;
       if (this.audioContext) {
         try { decoded = await this.audioContext.decodeAudioData(await clip.arrayBuffer()); }
-        catch { /* Let the browser's audio player decode the OpenAI clip. */ }
+        catch { /* Let the browser's audio player decode the clip. */ }
       }
       await this.playDecoded(decoded, generation);
     } catch {
@@ -1232,6 +1242,76 @@ const app = {
     document.getElementById('voice-status').textContent = message;
   },
 
+  connectNarration(source) {
+    const context = this.audioContext;
+    if (!this.narratorGain) {
+      const gain = context.createGain();
+      const compressor = context.createDynamicsCompressor();
+      gain.gain.value = 1.9;
+      compressor.threshold.value = -10;
+      compressor.ratio.value = 8;
+      compressor.knee.value = 6;
+      compressor.attack.value = 0.003;
+      compressor.release.value = 0.15;
+      gain.connect(compressor).connect(context.destination);
+      this.narratorGain = gain;
+    }
+    source.connect(this.narratorGain);
+  },
+
+  async playNarrationStream(body, generation) {
+    const reader = body.getReader();
+    const context = this.audioContext;
+    const sampleRate = 24000;
+    const sources = new Set();
+    this.ttsStreamSources = sources;
+    let buffer = new Uint8Array(0);
+    let scheduledUntil = context.currentTime + 0.08;
+    let lastPlayback;
+    try {
+      while (generation === this.ttsGeneration) {
+        const { value, done } = await reader.read();
+        if (generation !== this.ttsGeneration) return;
+        if (value?.length) {
+          const joined = new Uint8Array(buffer.length + value.length);
+          joined.set(buffer);
+          joined.set(value, buffer.length);
+          buffer = joined;
+        }
+        if (!done && buffer.length < 4096) continue;
+        const samples = Math.floor(buffer.length / 2);
+        if (samples) {
+          const audio = context.createBuffer(1, samples, sampleRate);
+          const output = audio.getChannelData(0);
+          const input = new DataView(buffer.buffer, buffer.byteOffset, samples * 2);
+          for (let i = 0; i < samples; i++) output[i] = input.getInt16(i * 2, true) / 32768;
+          buffer = buffer.slice(samples * 2);
+          const source = context.createBufferSource();
+          source.buffer = audio;
+          this.connectNarration(source);
+          sources.add(source);
+          lastPlayback = new Promise(resolve => {
+            source.onended = () => {
+              sources.delete(source);
+              source.disconnect();
+              resolve();
+            };
+          });
+          if (scheduledUntil < context.currentTime) scheduledUntil = context.currentTime + 0.08;
+          source.start(scheduledUntil);
+          scheduledUntil += audio.duration;
+        }
+        if (done) break;
+      }
+      if (!lastPlayback || buffer.length) throw new Error('Narration audio was incomplete');
+      await lastPlayback;
+    } finally {
+      reader.releaseLock();
+      for (const source of sources) source.stop();
+      if (this.ttsStreamSources === sources) this.ttsStreamSources = null;
+    }
+  },
+
   playDecoded(clip, gen) {
     if (gen !== this.ttsGeneration) return;
     if (clip instanceof Blob) {
@@ -1253,7 +1333,7 @@ const app = {
     return new Promise((resolve) => {
       const source = this.audioContext.createBufferSource();
       source.buffer = clip;
-      source.connect(this.audioContext.destination);
+      this.connectNarration(source);
       source.onended = () => {
         if (this.ttsSourceNode === source) this.ttsSourceNode = null;
         resolve();
@@ -1272,6 +1352,11 @@ const app = {
     if (this.ttsSourceNode) {
       try { this.ttsSourceNode.stop(); } catch (e) {}
       this.ttsSourceNode = null;
+    }
+    if (this.ttsStreamSources) {
+      for (const source of this.ttsStreamSources) source.stop();
+      this.ttsStreamSources.clear();
+      this.ttsStreamSources = null;
     }
     if (this.ttsAudio) {
       this.ttsAudio.pause();

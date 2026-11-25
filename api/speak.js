@@ -16,13 +16,14 @@ module.exports = async function handler(req, res) {
   }
   if (!(await meterGuest(req, res, 'speaks'))) return;
 
+  const pcm = req.headers.accept === 'audio/pcm';
   const controller = new AbortController();
   res.once('close', () => controller.abort());
   try {
-    await streamTosca(text.trim(), apiKey, controller.signal, chunk => {
+    await streamTosca(text.trim(), apiKey, pcm ? 'pcm_24000' : 'mp3_44100_128', controller.signal, chunk => {
       if (!res.headersSent) {
-        res.setHeader('Content-Type', 'audio/mpeg');
-        res.setHeader('Cache-Control', 'no-store');
+        res.setHeader('Content-Type', pcm ? 'audio/pcm' : 'audio/mpeg');
+        res.setHeader('Cache-Control', 'no-store, no-transform');
       }
       res.write(chunk);
     });
