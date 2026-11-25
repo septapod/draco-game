@@ -6,15 +6,15 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const { password } = req.body;
-  const expected = process.env.DRACO_PASSWORD;
+  const submitted = typeof req.body.password === 'string' ? req.body.password.trim() : '';
+  const expected = (process.env.DRACO_PASSWORD || '').trim();
 
   if (!expected) {
     res.status(500).json({ error: 'DRACO_PASSWORD not configured' });
     return;
   }
 
-  if (!password || password !== expected) {
+  if (!submitted || submitted !== expected) {
     res.status(403).json({ error: 'Wrong password' });
     return;
   }

@@ -1,5 +1,7 @@
+const { streamStory } = require('./_openai-story');
 const Anthropic = require("@anthropic-ai/sdk");
 const { requireAuth } = require("./auth");
+const { meterGuest } = require("./_passes");
 
 const ALLOWED_MODELS = new Set([
   "claude-haiku-4-5-20251001",
@@ -15,19 +17,18 @@ module.exports = async function handler(req, res) {
 
   if (!requireAuth(req, res)) return;
 
-  const { model, system, messages, max_tokens } = req.body;
-
-  if (!model || !ALLOWED_MODELS.has(model)) {
-    res.status(400).json({ error: "Invalid model" });
-    return;
+  const { system = '', messages, purpose, model } = req.body || {};
+  const summary = purpose === 'summary' || model === 'claude-haiku-4-5-20251001';
+  if (typeof system !== 'string' || system.length > 150000 || !Array.isArray(messages) ||
+      !messages.length || messages.length > 64 || !messages.every(validMessage)) {
+    return res.status(400).json({ error: 'Valid story messages are required' });
   }
+  if (!(await meterGuest(req, res, 'turns'))) return;
 
-  if (!messages || !Array.isArray(messages) || messages.length === 0) {
-    res.status(400).json({ error: "Messages required" });
-    return;
-  }
-
-  const client = new Anthropic();
+  const useOpenAI = process.env.DRACO_OPENAI_ZDR === 'verified';
+  const legacyModel = ALLOWED_MODELS.has(model) ? model
+    : summary ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
+  const send = event => res.write(`data: ${JSON.stringify(event)}\n\n`);
 
   // Stream response via SSE
   res.setHeader("Content-Type", "text/event-stream");
@@ -41,13 +42,23 @@ module.exports = async function handler(req, res) {
     ? [{ type: "text", text: system, cache_control: { type: "ephemeral" } }]
     : undefined;
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 40000);
+  res.once('close', () => controller.abort());
   try {
+    if (useOpenAI) {
+      await streamStory({ system, messages, summary }, send, controller.signal);
+      res.end();
+      return;
+    }
+    // Keep the current story service available while the OpenAI project is configured.
+    const client = new Anthropic();
     const stream = await client.messages.stream({
-      model,
+      model: legacyModel,
       system: systemBlocks,
       messages,
-      max_tokens: max_tokens || 1024,
-    });
+      max_tokens: summary ? 2048 : 500,
+    }, { signal: controller.signal });
 
     for await (const event of stream) {
       if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
@@ -56,15 +67,26 @@ module.exports = async function handler(req, res) {
     }
 
     const finalMessage = await stream.finalMessage();
-    res.write(`data: ${JSON.stringify({ done: true, usage: finalMessage.usage })}\n\n`);
+    send({ done: true, stopReason: finalMessage.stop_reason, model: legacyModel });
     res.end();
-  } catch (err) {
-    // If headers already sent, write error as SSE event
+  } catch (error) {
+    if (res.destroyed || res.writableEnded) return;
+    console.error('Story service unavailable:', error.status || error.name, error.code || '');
     if (res.headersSent) {
-      res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
+      send({ error: 'The story service is unavailable' });
       res.end();
     } else {
-      res.status(500).json({ error: err.message });
+      res.status(error.status === 429 ? 429 : 502).json({ error: 'The story service is unavailable' });
     }
+  } finally {
+    clearTimeout(timeout);
   }
 };
+
+function validMessage(message) {
+  if (!message || !['user', 'assistant'].includes(message.role)) return false;
+  const content = message.content;
+  if (typeof content === 'string') return content.length <= 32000;
+  return Array.isArray(content) && content.length <= 64 &&
+    content.every(part => part?.type === 'text' && typeof part.text === 'string' && part.text.length <= 32000);
+}

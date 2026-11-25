@@ -1162,3 +1162,41 @@ body {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Give the move its own line so voice controls never squeeze the typing area. */
+.input-row .text-input { min-width: 0; font-size: 1rem; min-height: 44px; }
+.move-tools { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.4rem; }
+.move-tools button, .move-tools select, .input-row .btn-send, .retry-turn {
+  font: 1rem var(--font-body); min-height: 44px; height: auto; width: auto;
+  color: var(--text); padding: 0.35rem 0.55rem; gap: 0.35rem;
+  background: var(--bg-surface); border: 1px solid #595972; cursor: pointer;
+}
+.input-row .btn-send, .move-tools [aria-pressed="true"], .move-tools [aria-checked="true"], .retry-turn {
+  color: var(--gold); border-color: var(--gold-dim);
+}
+.move-tools .select-player { max-width: 100%; }
+#btn-mic { touch-action: none; user-select: none; -webkit-user-select: none; }
+#handsfree-status, .turn-status { color: #bcbbcb; font: 1rem/1.4 var(--font-body); }
+#handsfree-status { margin-top: 0.25rem; }
+.turn-status:not(:empty) { margin-bottom: 0.3rem; }
+.msg-narrator { font-size: 1.06rem; line-height: 1.7; }
+.msg-player, .msg-system, .onboard-hint { font-size: 1rem; }
+.toolbar .btn-sm, .toolbar select, .bottom-sheet .btn-sm { font: 1rem var(--font-body); }
+.toolbar { flex-wrap: wrap; }
+.input-area :focus-visible, .retry-turn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+button:disabled { opacity: 0.65; }
+.msg-player { color: #c1bfce; }
+.msg-player .player-label, .status-player-name { font: bold 1rem var(--font-body); }
+.status-detail, .status-items, .status-location, .dragon-pill { font: 1rem var(--font-body); }
+.status-collapsed-hp-fill { display: block; }
+@media (max-width: 767px) {
+  .status-collapsed { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)) 44px; gap: 0.25rem 0.6rem; }
+  .status-collapsed-player { min-height: 23px; justify-content: space-between; }
+  .status-collapsed-name { font: bold 1rem var(--font-body); overflow: hidden; text-overflow: ellipsis; }
+  .status-collapsed-hp-pct { font: 1rem var(--font-body); color: #c1bfce; }
+  .status-collapsed-dragon, .status-collapsed-hp { display: none; }
+  .btn-status-toggle { grid-column: 3; grid-row: 1 / span 2; }
+  .status-bar.expanded { max-height: 45dvh; }
+}
+
+.fixed-story-model > .select-model { display: none; }

@@ -44,6 +44,7 @@ function parseMultipart(buf, boundary) {
 }
 
 const { requireAuth } = require("./auth");
+const { meterGuest } = require("./_passes");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -52,6 +53,7 @@ module.exports = async function handler(req, res) {
   }
 
   if (!requireAuth(req, res)) return;
+  if (!(await meterGuest(req, res, "transcribes"))) return;
 
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {

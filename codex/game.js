@@ -9,7 +9,7 @@
 const GAME_BIBLE = `# DRACO — Game Bible (Complete)
 
 ## Overview
-Draco is a fantasy adventure game set in a world where humans — called Dragonette Keepers — bond with, train, and race baby dragons called dragonettes. The name "Draco" comes from the Latin word for dragon (inspired by the Pokémon move "Draco Meteor" used by Dragonite). It is also the name of the game's ultimate villain.
+Draco is a fantasy adventure game set in a world where humans — called Dragonette Keepers — bond with, train, and race baby dragons called dragonettes. The name "Draco" comes from the Latin word for dragon. It is also the name of the game's ultimate villain.
 
 Despite their name, dragonettes are not small. They hatch from eggs at full adult dragon size. They are "baby" dragons in age and experience, but massive in stature. The bond between a Keeper and their dragonettes is central to the game — and at its deepest, a Keeper can even transform into their dragon.
 
@@ -196,7 +196,7 @@ Named dragon. Owner: Aza. Used for racing. Sleek competition dragon.
 
 ## 13. Enemies & Villains
 ### Draco (The Thunder Cloud Dragon)
-Final boss / raid boss. The game's namesake. NOT inherently evil — controlled by an evil shell connected to the Voice Below. Shell is pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, can be tamed. Like a "raid boss in Pokémon Go." Weakness: Grass. Requires 10 badges to challenge. Upon defeat: Thunder Cloud element unlocked, Draco joins your team.
+Final boss / raid boss. The game's namesake. NOT inherently evil — controlled by an evil shell connected to the Voice Below. Shell is pure dragon scale energy. Once defeated, Draco drops the shell, its true nature is restored, can be tamed. A colossal raid boss meant to be faced together. Weakness: Grass. Requires 10 badges to challenge. Upon defeat: Thunder Cloud element unlocked, Draco joins your team.
 
 ### The Tow Road
 Giant evil flying turtle with dragon-scale-energy shell. Weakness: Fire (2 hits). Has its own dimension where it's more powerful. Drops: dragon scale, turtle meat, and (in its dimension) special berries.
@@ -382,31 +382,24 @@ function buildSystemPrompt(state) {
     const hp = p.hp != null ? p.hp : 100;
     const activeIdx = p.activeDragonIndex || 0;
     const dragons = p.dragons.map((d, i) =>
-      `${i === activeIdx ? '★ ' : ''}${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'})`
+      `${i === activeIdx ? '★ ' : ''}${d.name} (${d.element}${d.customElement ? ', custom: ' + d.customElement : ''}, items: ${d.items.join(', ') || 'none'}${FIRST_FEEDINGS[d.firstFeeding] ? ', first feeding: ' + FIRST_FEEDINGS[d.firstFeeding].label : ''})`
     ).join('; ');
     return `- ${p.name}: HP ${hp}%, ${p.badges}/10 badges, dragons: ${dragons}, items: ${p.items.join(', ') || 'none'}${p.customElement ? ', custom element: ' + p.customElement : ''}`;
   }).join('\n');
 
   let prompt = `You are the Narrator — the guide and facilitator of adventures in the World of Draco. You speak in a vivid but concise adventure-game tone. Address each player by name.
 
-BREVITY IS CRITICAL — THIS IS A SPOKEN GAME PLAYED BY KIDS:
-- 2-4 sentences MAX per response. Never more.
-- Write like you're TALKING to the players, not writing a book.
-- One short description + one question or prompt for action. That's it.
-- NO purple prose, NO lengthy descriptions, NO multiple paragraphs.
-- Think: "You enter a dark cave. Something growls in the shadows. What do you do?"
-- NOT: "As you step through the ancient stone archway, the temperature drops noticeably. The cave stretches before you, its walls glistening with moisture..."
-- The players are kids. Keep it punchy. Keep it fun. Keep it FAST.
+Speak to the table in two or three short sentences. Give them one vivid thing they can hear or picture. Use a sound effect when it carries a clue or makes a moment funny. Leave room for an answer.
 
-Enforce all game rules faithfully. When players attempt something that contradicts the rules, gently redirect them. Track items gained/lost, badges earned, location changes, and story progress.
+Play the consequences of the Keeper's actual move. A dragon, a rival, or the surroundings should react in a way the players can use. If an attempt fails, reveal a clue or a fresh opportunity alongside the cost. Let a clever solution work when it fits the rules. If a Keeper asks a question, answer it before advancing the scene.
 
-You have COMPLETE knowledge of the Draco universe. You remember everything that has happened in this adventure — every item found, every dragon tamed, every battle fought, every NPC encountered. Use this knowledge to create continuity: reference past events, have NPCs remember the players, let consequences of earlier choices ripple forward.
+Offer an open choice at a decision. When the players ask for help or get stuck, suggest two distinct actions they can try. Let them invent another. With several Keepers, honor whose dragon is acting and invite a teammate to contribute when the scene gives them a reason. The children decide what their Keepers say and do.
 
-CALLBACKS AND CONSEQUENCES: Actively surprise players by bringing back things from earlier. If they helped an NPC, that NPC shows up later with a gift or a warning. If they chose to spare an enemy, that enemy remembers. If they found a weird item 10 turns ago, make it suddenly relevant. The best moments in the game come from "WAIT, remember when we...?" connections.
+Track inventory, badges, location, and bonded dragons. Build callbacks from actual events in this adventure. A dragon can remember the way its Keeper first offered the berry; let that memory change how it responds when it matters.
 
-OFFER CONCRETE CHOICES: End responses with two or three vivid options that branch the story, PLUS remind them they can do anything. Example: "The cave splits two ways. Left glows orange. Right is dead silent. Or... you could try something else entirely. What do you do?" The specific options spark imagination. The open ending makes sure players never feel boxed in.
+For a challenge, give the Keepers an observable clue and make the stakes clear before a risky move. Respect the facts the children uncovered, whichever route they take. If a new Keeper joins a team move, show what each contribution changes. For a solo Keeper, a dragon can offer a look, a sound, or a small gesture that invites the Keeper to act. Give each dragon behavior consistent with its element and this adventure.
 
-PROACTIVE QUEST HOOKS: Don't wait for players to ask "what do we do now?" At key moments — after a quest wraps up, after a big battle, during a lull, when players are mid-travel — drop a hook that pulls them toward something new. A glowing egg half-buried in snow. An NPC running toward them with urgent news. A distant mountain with smoke that wasn't there yesterday. A dragon behaving strangely near a certain rock formation. These should feel natural and world-generated, not like a GM clearing their throat. The world of Draco is always humming with activity. Surface it.
+Let a scene finish when the Keepers achieve their goal. Introduce a fresh mystery, race, or encounter when the table is ready to move on. Allow quiet moments of care between challenges.
 
 MULTIPLE DRAGONS: Players can bond with more than one dragon during the adventure. The ★ marks the active dragon used for battle and racing. Ways to bond new dragons: find eggs in the wild, earn trust from wild dragons (crystal slots + berries), use Breed Berries for hybrid dragons, encounter lost dragons that want a home. When a new dragon bonds with a player, include a "newDragon" field in the dragonUpdates for that dragon. Naturally introduce dragon encounters every few turns — don't force it, but create opportunities for players to discover eggs, encounter wild dragons, or find breeding opportunities.
 
@@ -458,13 +451,77 @@ Only include fields that changed. If nothing changed, output an empty object: <g
 If you invent something not in the Game Bible (new creature, location, item, character), wrap it in tags:
 <new_content type="creature" name="Crystal Moth">Description here</new_content>
 
-This helps players track what's canonical vs. newly created.`;
+The visible story is a spoken turn. Aim for 25 to 45 words, with 60 as the ceiling for an ordinary move. Keep the state tags separate from that word count. Write one consequence and give the floor back to the players. For a listening move, for example: "Tap, tap. Your dragon folds one ear against the door. The tapping stops when you lift the latch. What do you do?" Use the length and rhythm of that example for your own scene.`;
 
   return prompt;
 }
 
 
 // ── State Management ──
+
+// Each opening is one adventure's circumstances at the canonical First Choice Stable.
+const STABLE_OPENINGS = {
+  footprints: {
+    arrival: 'Rain drums on the roof of the First Choice Stable. Wet clawprints cross the floor and stop beside an empty bucket.',
+    next: 'A fresh print appears inside the bucket. The hatchling can hear a tiny splash.',
+  },
+  countdown: {
+    arrival: 'At the First Choice Stable, a Race Drone whispers, “Three, two...” It keeps looking under a bench.',
+    next: 'Something under the bench answers “One!” before the Race Drone can finish. Let the Keepers investigate or join the game.',
+  },
+  sneeze: {
+    arrival: 'A heap of blankets at the First Choice Stable sneezes. Three empty buckets topple like bowling pins.',
+    next: 'A small, bashful visitor under the blankets is trying to put the buckets back. Let the Keepers decide how to approach.',
+  },
+  ribbon: {
+    arrival: 'A red ribbon snakes through the open door of the First Choice Stable. Outside, somebody yells, “My finish line!”',
+    next: 'One end of the ribbon catches on the stable gate. Something outside is still tugging the other end.',
+  },
+  lantern: {
+    arrival: 'Dusk falls on the First Choice Stable. A light under the stable door blinks twice, pauses, then blinks twice again.',
+    next: 'A lost rider outside is using a lantern to ask for help. Let the children discover who is signaling and why.',
+  },
+  whistle: {
+    arrival: 'A reed whistle rolls across the floor of the First Choice Stable. From the hayloft comes a perfect imitation of its squeak.',
+    next: 'The sound in the hayloft answers the hatchling, too. Give the Keepers room to try a sound of their own.',
+  },
+};
+
+const FIRST_FEEDINGS = {
+  palm: {
+    label: 'Wait with an open palm',
+    response: 'The dragon takes one enormous step, eats from your hand, and rests its chin on your shoulder.',
+  },
+  call: {
+    label: 'Call it over for the berry',
+    response: 'The dragon answers your call with a chirp. It eats from your hand, then chirps again to hear you answer.',
+  },
+  close: {
+    label: 'Walk up and offer the berry',
+    response: 'The dragon lowers its great head to meet you. It takes the berry from your hand and bumps your elbow with its nose.',
+  },
+};
+
+let openingHistory = { seen: [], last: null };
+
+function chooseStableOpening() {
+  const key = 'draco_stable_openings_v1';
+  try {
+    const stored = JSON.parse(localStorage.getItem(key));
+    if (stored && Array.isArray(stored.seen)) openingHistory = stored;
+  } catch { /* The current tab still keeps its own rotation. */ }
+
+  const ids = Object.keys(STABLE_OPENINGS);
+  let seen = openingHistory.seen;
+  if (ids.every(id => seen.includes(id))) seen = [];
+  const available = ids.filter(id => !seen.includes(id) && (seen.length || id !== openingHistory.last));
+  const opening = available[Math.floor(Math.random() * available.length)];
+  openingHistory = { seen: [...seen, opening], last: opening };
+  try {
+    localStorage.setItem(key, JSON.stringify(openingHistory));
+  } catch { /* Storage is optional. */ }
+  return opening;
+}
 
 function generateId() {
   const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
@@ -473,13 +530,14 @@ function generateId() {
   return id;
 }
 
-function createAdventure(players, model) {
+function createAdventure(players, model, openingId) {
   return {
     id: generateId(),
     name: players.map(p => p.name).join(' & ') + "'s Quest",
     createdAt: new Date().toISOString(),
     lastPlayedAt: new Date().toISOString(),
     model: model,
+    openingId,
     players: players,
     location: 'first-choice-stable',
     flags: {},
@@ -491,18 +549,31 @@ function createAdventure(players, model) {
   };
 }
 
+// Keep writes for the same adventure in the order the player made them.
+const pendingSaves = new Map();
+
 async function saveAdventure(state) {
   state.lastPlayedAt = new Date().toISOString();
+  const body = JSON.stringify(state);
+  const previous = pendingSaves.get(state.id) || Promise.resolve();
+  const saving = previous.then(async () => {
+    try {
+      const response = await fetch('/api/adventures', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+      });
+      return response.ok;
+    } catch (error) {
+      console.error('Save failed:', error);
+      return false;
+    }
+  });
+  pendingSaves.set(state.id, saving);
   try {
-    const resp = await fetch('/api/adventures', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(state),
-    });
-    return resp.ok;
-  } catch (err) {
-    console.error('Save failed:', err);
-    return false;
+    return await saving;
+  } finally {
+    if (pendingSaves.get(state.id) === saving) pendingSaves.delete(state.id);
   }
 }
 
@@ -580,8 +651,7 @@ async function migrateToCloud() {
     if (!raw) continue;
     try {
       const state = JSON.parse(raw);
-      await saveAdventure(state);
-      migrated++;
+      if (await saveAdventure(state)) migrated++;
     } catch (err) {
       console.error('Migration failed for', entry.id, err);
     }
@@ -623,7 +693,7 @@ async function compressHistory(state) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001', // Use Haiku for cheap/fast compression
+        purpose: 'summary',
         system: 'You are a game session summarizer. Produce a concise narrative summary of a Draco adventure game session. Focus on: key events, decisions made, items gained/lost, dragons encountered/tamed, battles fought, locations visited, NPC interactions, and any unresolved plot threads. Write in past tense. Be thorough about details that matter for game continuity but concise in prose. Max 1500 words.',
         messages: [{ role: 'user', content: `Summarize this adventure session:\n\n${conversationText}\n\nExisting summary of earlier events:\n${state.narrativeSummary || '(none)'}` }],
         max_tokens: 2048,
@@ -634,6 +704,7 @@ async function compressHistory(state) {
       const reader = resp.body.getReader();
       const decoder = new TextDecoder();
       let summary = '';
+      let complete = false;
       let buffer = '';
 
       while (true) {
@@ -647,11 +718,12 @@ async function compressHistory(state) {
           try {
             const data = JSON.parse(line.slice(6));
             if (data.text) summary += data.text;
+            if (data.done && data.stopReason !== 'max_tokens') complete = true;
           } catch (e) {}
         }
       }
 
-      if (summary.length > 100) {
+      if (complete && summary.length > 100) {
         state.narrativeSummary = summary;
         state.conversationHistory = toKeep;
         return;
@@ -700,45 +772,14 @@ function parseNewContent(text) {
 }
 
 function cleanNarrativeText(text) {
-  // Strip game_state and new_content tags for display
+  // A streamed reply can end halfway through a tag or state block.
   return text
-    .replace(/<game_state>[\s\S]*?<\/game_state>/g, '')
-    .replace(/<new_content[^>]*>[\s\S]*?<\/new_content>/g, '')
-    .replace(/<scene_image[^/]*\/>/g, '')
+    .replace(/<game_state>[\s\S]*?(?:<\/game_state>|$)/g, '')
+    .replace(/<new_content[^>]*>[\s\S]*?(?:<\/new_content>|$)/g, '')
+    .replace(/<scene_image[^>]*>/g, '')
+    .replace(/<[^>]*$/, '')
+    .replace(/\*{1,2}([^*]+)\*{1,2}/g, '$1')
     .trim();
-}
-
-// Split narrator text into ordered, speakable sentence chunks so the voice can
-// start on the first sentence while later ones are still being fetched. The
-// chunks preserve the spoken words (markdown and sound-effect markers kept), so
-// concatenating them reproduces what the voice says today. A chunk too short to
-// be worth its own clip is merged into the previous one. Returns at least one
-// chunk; a single-chunk result means the caller should just play the whole clip.
-const MIN_CHUNK_CHARS = 12;
-function splitIntoSentences(text) {
-  if (!text) return [];
-  const trimmed = text.trim();
-  if (!trimmed) return [];
-
-  // Match runs that end in sentence punctuation (with any trailing markup or
-  // closing quotes), plus a final run that has no terminal punctuation. Uses a
-  // lookahead (not a lookbehind) for broad mobile-Safari support.
-  const matches = trimmed.match(/.*?[.!?]+[*"')\]]*(?=\s|$)|.+$/gs) || [trimmed];
-
-  const chunks = [];
-  for (const m of matches) {
-    const piece = m.trim();
-    if (!piece) continue;
-    const hasLetters = /[A-Za-z]/.test(piece);
-    if (chunks.length && (piece.length < MIN_CHUNK_CHARS || !hasLetters)) {
-      // Too short or wordless on its own — fold into the previous chunk.
-      chunks[chunks.length - 1] += ' ' + piece;
-    } else {
-      chunks.push(piece);
-    }
-  }
-
-  return chunks.length ? chunks : [trimmed];
 }
 
 function applyStateUpdates(state, updates) {
@@ -817,12 +858,13 @@ const WHISPER_HALLUCINATIONS = [
 
 function isWhisperHallucination(text) {
   const lower = text.toLowerCase().trim().replace(/[.!?,]/g, '');
-  return WHISPER_HALLUCINATIONS.includes(lower) || lower.length < 3;
+  return !lower || WHISPER_HALLUCINATIONS.includes(lower);
 }
 
 async function startRecording() {
+  let stream;
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     recordingMimeType = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg']
       .find(t => MediaRecorder.isTypeSupported(t)) || '';
     mediaRecorder = new MediaRecorder(stream, recordingMimeType ? { mimeType: recordingMimeType } : {});
@@ -837,7 +879,8 @@ async function startRecording() {
     recordingStartTime = Date.now();
     return true;
   } catch (err) {
-    console.error('Mic access denied:', err);
+    stream?.getTracks().forEach(track => track.stop());
+    console.error('Microphone unavailable:', err);
     return false;
   }
 }
@@ -909,7 +952,16 @@ async function sendMessage(state, userText) {
   });
 
   if (!resp.ok) {
-    throw new Error('API request failed: ' + resp.status);
+    // Adventure Pass denials (403 from the pass meter) carry a friendly
+    // message. Surface it instead of a raw status code.
+    let passMessage = null;
+    if (resp.status === 403) {
+      try {
+        const data = await resp.json();
+        if (data.code && data.code.startsWith('pass_')) passMessage = data.error;
+      } catch (e) { /* non-JSON body, fall through */ }
+    }
+    throw new Error(passMessage || (resp.status === 401 ? 'Your game session has expired. Sign in to continue.' : 'The narrator couldn’t finish that turn.'));
   }
 
   return resp.body;
@@ -925,6 +977,10 @@ const app = {
 
   // Screen management
   showScreen(id) {
+    if (id !== 'screen-adventure') {
+      this.handsFree?.stop();
+      this.stopSpeaking();
+    }
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
   },
@@ -954,7 +1010,7 @@ const app = {
       </div>`;
     }).join('');
     if (collapsed) {
-      collapsed.innerHTML = collapsedCards + `<button class="btn-status-toggle${this.statusExpanded ? ' expanded' : ''}" id="btn-status-toggle" aria-label="Toggle status details">\u25BC</button>`;
+      collapsed.innerHTML = collapsedCards + `<button class="btn-status-toggle${this.statusExpanded ? ' expanded' : ''}" id="btn-status-toggle" aria-expanded="${this.statusExpanded}" aria-controls="status-bar" aria-label="Keeper and dragon details">\u25BC</button>`;
     }
 
     // ── Full detail bar (expandable) ──
@@ -1005,12 +1061,15 @@ const app = {
     const bar = document.getElementById('status-bar');
     const toggleBtn = document.getElementById('btn-status-toggle');
     bar.classList.toggle('expanded', this.statusExpanded);
-    if (toggleBtn) toggleBtn.classList.toggle('expanded', this.statusExpanded);
+    if (toggleBtn) {
+      toggleBtn.classList.toggle('expanded', this.statusExpanded);
+      toggleBtn.setAttribute('aria-expanded', String(this.statusExpanded));
+    }
   },
 
   // Set active dragon for a player
   async setActiveDragon(playerIdx, dragonIdx) {
-    if (!this.state) return;
+    if (!this.state || this.isSending) return;
     const player = this.state.players[playerIdx];
     if (!player || dragonIdx < 0 || dragonIdx >= player.dragons.length) return;
     player.activeDragonIndex = dragonIdx;
@@ -1040,9 +1099,10 @@ const app = {
       }
       return '#888';
     })() : '#888';
-    div.innerHTML = `<div class="player-label" style="color:${color}">${playerName}</div>${escapeHtml(text)}`;
+    div.innerHTML = `<div class="player-label" style="color:${color}">${escapeHtml(playerName)}</div>${escapeHtml(text)}`;
     narrative.appendChild(div);
     narrative.scrollTop = narrative.scrollHeight;
+    return div;
   },
 
   addSystemMessage(text) {
@@ -1055,9 +1115,8 @@ const app = {
   },
 
   // Render a completed narrator response: clean text + optional TTS
-  renderNarratorFinal(msgEl, fullText) {
+  renderNarratorFinal(msgEl, cleaned) {
     const narrative = document.getElementById('narrative');
-    const cleaned = cleanNarrativeText(fullText);
     msgEl.textContent = cleaned;
     this.addReplayButton(msgEl, cleaned);
     narrative.scrollTop = narrative.scrollHeight;
@@ -1084,22 +1143,18 @@ const app = {
     msgEl.appendChild(btn);
   },
 
-  // ── Text-to-Speech (OpenAI TTS + browser fallback) ──
+  // ── OpenAI narrator audio ──
   ttsEnabled: localStorage.getItem('draco_tts_enabled') === 'true',
   ttsAudio: null,
   ttsSpeaking: false,
   audioContext: null,
 
-  initTTS() {
-    // AudioContext created lazily in unlockAudio() on first user gesture
-    // Creating it here (at DOMContentLoaded) causes it to start permanently
-    // suspended on mobile browsers, especially Safari
-  },
-
   // Call on any user gesture (send, mic, TTS toggle) to unlock audio playback
   unlockAudio() {
     if (!this.audioContext) {
-      this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const Context = window.AudioContext || window.webkitAudioContext;
+      if (!Context) return;
+      this.audioContext = new Context();
     }
     if (this.audioContext.state === 'suspended') {
       this.audioContext.resume();
@@ -1118,205 +1173,85 @@ const app = {
   ttsAbortController: null, // aborts in-flight sentence fetches on interruption
 
   async speak(text) {
-    if (!text) return;
+    if (!text?.trim()) return;
     this.stopSpeaking();
-
-    // Increment generation — any in-flight speak() with a stale generation
-    // will bail after its await instead of starting a second audio stream.
-    const gen = ++this.ttsGeneration;
-
-    // Truncate to ~3000 chars for faster TTS
-    const truncated = text.length > 3000 ? text.slice(0, 3000) + '...' : text;
-
-    try {
-      this.ttsSpeaking = true;
-
-      // Safety net: create AudioContext if somehow missing
-      if (!this.audioContext) {
-        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (this.audioContext.state === 'suspended') {
-        await this.audioContext.resume();
-      }
-      if (gen !== this.ttsGeneration) return; // superseded
-
-      // Fast start: split into sentences and play them one at a time, fetching
-      // the next while the current plays. Falls back to the whole-clip path on
-      // any trouble, so the result is never worse than playing the full reply.
-      const chunks = splitIntoSentences(truncated);
-      if (chunks.length > 1) {
-        const handled = await this.speakChunked(chunks, gen);
-        if (handled) return;
-        if (gen !== this.ttsGeneration) return; // superseded during the chunked attempt
-        // chunked attempt failed (not superseded) — fall through to the whole clip
-      }
-
-      await this.speakWhole(truncated, gen);
-    } catch (err) {
-      console.error('TTS error:', err);
-      this.ttsSpeaking = false;
-      if (gen === this.ttsGeneration) {
-        this.addSystemMessage('Voice failed — try toggling Voice off and on');
-      }
-    }
-  },
-
-  // Read-ahead sequencer: play each sentence in order, preparing the next while
-  // the current one plays. Returns true when it handled playback (including a
-  // clean interruption), false when it failed and the caller should fall back
-  // to the whole-clip path.
-  async speakChunked(chunks, gen) {
+    const generation = this.ttsGeneration;
     const controller = new AbortController();
     this.ttsAbortController = controller;
+    this.ttsSpeaking = true;
+    this.setVoiceStatus('');
     try {
-      let current = await this.fetchDecodeChunk(chunks[0], controller.signal);
-
-      for (let i = 0; i < chunks.length; i++) {
-        if (gen !== this.ttsGeneration) return true; // superseded
-
-        // Begin preparing the next chunk before playing the current one, so it
-        // is ready the moment the current finishes (read-ahead by one). Capture
-        // its result so a prefetch rejection surfaces only when we await it.
-        const nextPrep = i + 1 < chunks.length
-          ? this.fetchDecodeChunk(chunks[i + 1], controller.signal)
-              .then((buffer) => ({ buffer }), (error) => ({ error }))
-          : null;
-
-        await this.playDecoded(current, gen);
-        if (gen !== this.ttsGeneration) return true; // superseded mid-playback
-
-        if (nextPrep) {
-          const result = await nextPrep;
-          if (result.error) throw result.error;
-          current = result.buffer;
-        }
+      if (!this.audioContext) this.unlockAudio();
+      if (this.audioContext?.state === 'suspended') await this.audioContext.resume();
+      if (generation !== this.ttsGeneration) return;
+      const response = await fetch('/api/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text.trim().slice(0, 3500) }),
+        signal: controller.signal,
+      });
+      if (!response.ok) throw new Error('Voice unavailable');
+      const clip = await response.blob();
+      if (generation !== this.ttsGeneration) return;
+      let decoded = clip;
+      if (this.audioContext) {
+        try { decoded = await this.audioContext.decodeAudioData(await clip.arrayBuffer()); }
+        catch { /* Let the browser's audio player decode the OpenAI clip. */ }
       }
-
-      if (gen === this.ttsGeneration) {
-        this.ttsSpeaking = false;
-        this.ttsSourceNode = null;
+      await this.playDecoded(decoded, generation);
+    } catch {
+      if (generation === this.ttsGeneration) {
+        this.setVoiceStatus('Narrator audio is unavailable. You can read the story and keep playing.');
       }
-      // Only clear the shared slot if it still holds this run's controller — a
-      // newer speak() may have already installed its own after superseding us.
+    } finally {
+      if (generation === this.ttsGeneration) this.ttsSpeaking = false;
       if (this.ttsAbortController === controller) this.ttsAbortController = null;
-      return true;
-    } catch (err) {
-      if (this.ttsAbortController === controller) this.ttsAbortController = null;
-      if (gen !== this.ttsGeneration) return true; // interrupted, not a real failure
-      console.warn('Sentence-by-sentence TTS failed, falling back to whole clip:', err);
-      return false;
     }
   },
 
-  // Fetch one chunk from /api/speak and decode it into a ready-to-play buffer.
-  // Separated from playback so the next chunk can be prepared while one plays.
-  async fetchDecodeChunk(text, signal) {
-    const resp = await fetch('/api/speak', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
-      signal,
-    });
-    if (!resp.ok) throw new Error('TTS API returned ' + resp.status);
-    const arrayBuffer = await resp.arrayBuffer();
-    return this.audioContext.decodeAudioData(arrayBuffer.slice(0));
+  showStoryModel(model) {
+    const display = document.getElementById('active-story-model');
+    const desktop = document.getElementById('select-model');
+    const mobile = document.getElementById('bs-select-model');
+    const usesOpenAI = model.startsWith('gpt-6.2-sol');
+    desktop.parentElement.classList.toggle('fixed-story-model', usesOpenAI);
+    mobile.parentElement.classList.toggle('fixed-story-model', usesOpenAI);
+    display.textContent = model.startsWith('gpt-6.2-sol') ? 'Story by GPT-6.2 Sol' : '';
   },
 
-  // Play one decoded buffer through the already-unlocked AudioContext; resolves
-  // when it finishes. The same playback mechanism the whole-clip path uses.
-  playDecoded(audioBuffer, gen) {
+  setVoiceStatus(message) {
+    document.getElementById('voice-status').textContent = message;
+  },
+
+  playDecoded(clip, gen) {
+    if (gen !== this.ttsGeneration) return;
+    if (clip instanceof Blob) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(clip);
+        const audio = new Audio(url);
+        this.ttsAudio = audio;
+        const finish = (error) => {
+          URL.revokeObjectURL(url);
+          if (this.ttsAudio === audio) this.ttsAudio = null;
+          if (error) reject(error);
+          else resolve();
+        };
+        audio.onended = audio.onpause = () => finish();
+        audio.onerror = () => finish(new Error('Audio playback failed'));
+        audio.play().catch(finish);
+      });
+    }
     return new Promise((resolve) => {
-      if (gen !== this.ttsGeneration) { resolve(); return; }
       const source = this.audioContext.createBufferSource();
-      source.buffer = audioBuffer;
-      source.connect(this.audioContext.destination);
-      source.onended = () => resolve();
-      this.ttsSourceNode = source;
-      source.start(0);
-    });
-  },
-
-  // Whole-clip playback: the original path, kept unchanged as the reliable
-  // fallback. Fetches the full text as one clip, decodes, and plays, with
-  // HTMLAudioElement and speechSynthesis fallbacks. Assumes the AudioContext is
-  // already unlocked and ttsGeneration/ttsSpeaking are set by speak().
-  async speakWhole(text, gen) {
-    const resp = await fetch('/api/speak', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
-    });
-
-    if (gen !== this.ttsGeneration) return; // superseded
-
-    if (!resp.ok) {
-      console.error('TTS API error:', resp.status);
-      throw new Error('TTS API returned ' + resp.status);
-    }
-
-    const arrayBuffer = await resp.arrayBuffer();
-    if (gen !== this.ttsGeneration) return; // superseded
-
-    // Primary: decode + play through AudioContext
-    try {
-      const audioBuffer = await this.audioContext.decodeAudioData(arrayBuffer.slice(0));
-      if (gen !== this.ttsGeneration) return; // superseded
-      const source = this.audioContext.createBufferSource();
-      source.buffer = audioBuffer;
+      source.buffer = clip;
       source.connect(this.audioContext.destination);
       source.onended = () => {
-        this.ttsSpeaking = false;
-        this.ttsSourceNode = null;
+        if (this.ttsSourceNode === source) this.ttsSourceNode = null;
+        resolve();
       };
       this.ttsSourceNode = source;
       source.start(0);
-      return; // Success
-    } catch (decodeErr) {
-      if (gen !== this.ttsGeneration) return;
-      console.warn('AudioContext decode failed, trying Audio element:', decodeErr);
-    }
-
-    // Fallback: play via HTMLAudioElement with blob URL
-    try {
-      const blob = new Blob([arrayBuffer], { type: 'audio/mpeg' });
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audio.onended = () => {
-        URL.revokeObjectURL(url);
-        this.ttsSpeaking = false;
-        this.ttsAudio = null;
-      };
-      audio.onerror = () => {
-        URL.revokeObjectURL(url);
-        // Only fall through to speechSynthesis if this is still the current generation
-        if (gen !== this.ttsGeneration) return;
-        console.warn('Audio element also failed, trying speechSynthesis');
-        this.speakBrowserFallback(text);
-      };
-      this.ttsAudio = audio;
-      await audio.play();
-      return; // Success
-    } catch (playErr) {
-      if (gen !== this.ttsGeneration) return;
-      console.warn('Audio.play() blocked, trying speechSynthesis:', playErr);
-    }
-
-    // Last resort: browser speechSynthesis
-    if (gen !== this.ttsGeneration) return;
-    this.speakBrowserFallback(text);
-  },
-
-  speakBrowserFallback(text) {
-    if (!window.speechSynthesis) {
-      this.ttsSpeaking = false;
-      this.addSystemMessage('Voice not supported in this browser');
-      return;
-    }
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.95;
-    utterance.onend = () => { this.ttsSpeaking = false; };
-    utterance.onerror = () => { this.ttsSpeaking = false; };
-    speechSynthesis.speak(utterance);
+    });
   },
 
   stopSpeaking() {
@@ -1332,9 +1267,6 @@ const app = {
     if (this.ttsAudio) {
       this.ttsAudio.pause();
       this.ttsAudio = null;
-    }
-    if (window.speechSynthesis) {
-      speechSynthesis.cancel();
     }
     this.ttsSpeaking = false;
   },
@@ -1361,91 +1293,111 @@ const app = {
     });
   },
 
-  // Send a chat message
-  async send() {
-    if (this.isSending || !this.state) return;
-    const input = document.getElementById('input-message');
-    const text = input.value.trim();
-    if (!text) return;
-
-    input.value = '';
-    // Reset keyboard state on mobile, then refocus to keep keyboard open
-    input.blur();
-    setTimeout(() => input.focus(), 50);
+  // Keep the previous adventure intact until a complete narrator reply arrives.
+  async playTurn(prompt, playerMove = null) {
+    if (this.isSending || !this.state) return false;
+    const state = this.state;
+    const draft = structuredClone(state);
+    this.handsFree?.suspendListening();
     this.isSending = true;
-
-    // Use selected player (from dropdown) or default to first player
-    const sel = document.getElementById('select-player');
-    const playerName = (this.state.players.length > 1 && sel.value)
-      ? sel.value
-      : this.state.players[0].name;
-
-    this.addPlayerMessage(playerName, text);
-    this.state.transcript.push({ role: 'player', name: playerName, text });
-
+    const controls = ['btn-send', 'btn-new', 'bs-new', 'btn-save', 'bs-save', 'select-player', 'select-model', 'bs-select-model'];
+    for (const id of controls) document.getElementById(id).disabled = true;
+    const playerEl = playerMove && this.addPlayerMessage(playerMove.name, playerMove.text);
     const msgEl = this.addNarratorMessage('');
-    let fullText = '';
+    const status = document.getElementById('turn-status');
+    status.textContent = 'The narrator is thinking…';
+    let success = false;
 
     try {
-      const body = await sendMessage(this.state, `[${playerName}]: ${text}`);
+      const body = await sendMessage(draft, prompt);
       const reader = body.getReader();
       const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
+      let pending = '';
+      let fullText = '';
+      let complete = false;
+      while (!complete) {
         const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-
-        // Parse SSE events
-        const lines = buffer.split('\n');
-        buffer = lines.pop(); // Keep incomplete line
-
+        pending += decoder.decode(value, { stream: !done });
+        const lines = pending.split('\n');
+        pending = done ? '' : lines.pop();
         for (const line of lines) {
           if (!line.startsWith('data: ')) continue;
-          try {
-            const data = JSON.parse(line.slice(6));
-            if (data.text) {
-              fullText += data.text;
-              // During streaming, just update text — no image parsing or TTS
-              msgEl.textContent = cleanNarrativeText(fullText);
-              document.getElementById('narrative').scrollTop = document.getElementById('narrative').scrollHeight;
-            }
-            if (data.error) {
-              msgEl.textContent += '\n[Error: ' + data.error + ']';
-            }
-          } catch (e) { /* skip unparseable */ }
+          const event = JSON.parse(line.slice(6));
+          if (event.error) throw new Error('The narrator couldn’t finish that turn.');
+          if (event.text) {
+            fullText += event.text;
+            msgEl.textContent = cleanNarrativeText(fullText);
+            msgEl.parentElement.scrollTop = msgEl.parentElement.scrollHeight;
+            status.textContent = '';
+          }
+          if (event.done) {
+            if (event.model) this.showStoryModel(event.model);
+            if (event.stopReason === 'max_tokens') throw new Error('The reply was cut short.');
+            complete = true;
+          }
         }
+        if (done) break;
       }
+      const cleaned = cleanNarrativeText(fullText);
+      if (!complete || !cleaned) throw new Error('The reply was interrupted.');
+      if (this.state !== state) return false;
 
-      // Process the full response
-      this.state.conversationHistory.push({ role: 'assistant', content: fullText });
-
-      // Parse and apply state updates
-      const stateUpdates = parseGameState(fullText);
-      applyStateUpdates(this.state, stateUpdates);
-
-      // Parse discoveries
-      const newDiscoveries = parseNewContent(fullText);
-      if (newDiscoveries.length > 0) {
-        this.state.discoveries.push(...newDiscoveries);
-        for (const d of newDiscoveries) {
-          this.showDiscoveryToast(d.name);
-        }
-        this.renderDiscoveries();
-      }
-
-      // Final render: clean text + images + TTS (once, after stream completes)
-      this.renderNarratorFinal(msgEl, fullText);
-      this.state.transcript.push({ role: 'narrator', text: cleanNarrativeText(fullText) });
-
+      draft.conversationHistory.push({ role: 'assistant', content: fullText });
+      applyStateUpdates(draft, parseGameState(fullText));
+      const discoveries = parseNewContent(fullText);
+      draft.discoveries.push(...discoveries);
+      if (playerMove) draft.transcript.push({ role: 'player', ...playerMove });
+      draft.transcript.push({ role: 'narrator', text: cleaned });
+      Object.assign(state, draft);
+      success = true;
+      this.renderNarratorFinal(msgEl, cleaned);
+      for (const discovery of discoveries) this.showDiscoveryToast(discovery.name);
+      this.renderDiscoveries();
       this.renderStatusBar();
-      await saveAdventure(this.state);
-    } catch (err) {
-      msgEl.textContent = '[Error: ' + err.message + ']';
+      if (!await saveAdventure(state)) this.addSystemMessage('Choose Save to keep this turn before leaving.');
+    } catch (error) {
+      if (this.state === state && !success) {
+        this.handsFree?.stop('Hands-free paused. Check the move and retry.');
+        playerEl?.remove();
+        msgEl.textContent = (error instanceof TypeError ? 'The connection dropped.' : error.message) + ' ';
+        if (playerMove) {
+          const input = document.getElementById('input-message');
+          if (!input.value) input.value = playerMove.text;
+        }
+        const retry = document.createElement('button');
+        retry.className = 'retry-turn';
+        if (!playerMove) retry.dataset.retryOpening = 'true';
+        retry.textContent = playerMove ? 'Retry this move' : 'Retry opening';
+        retry.onclick = () => {
+          if (this.isSending || this.state !== state) return;
+          const input = document.getElementById('input-message');
+          if (playerMove && input.value === playerMove.text) input.value = '';
+          msgEl.remove();
+          this.playTurn(prompt, playerMove);
+        };
+        msgEl.appendChild(retry);
+      } else {
+        console.error('Could not display the completed turn:', error);
+      }
+    } finally {
+      this.isSending = false;
+      for (const id of controls) document.getElementById(id).disabled = false;
+      status.textContent = '';
     }
+    return success;
+  },
 
-    this.isSending = false;
+  async send() {
+    if (this.isSending || !this.state || document.querySelector('[data-retry-opening]')) return false;
+    const input = document.getElementById('input-message');
+    const text = input.value.trim();
+    if (!text) return false;
+    const name = document.getElementById('select-player').value || this.state.players[0].name;
+    input.value = '';
+    this.stopSpeaking();
+    // A retry belongs only to the last unresolved move.
+    for (const old of document.querySelectorAll('.retry-turn')) old.parentElement.remove();
+    return this.playTurn(`[${name}]: ${text}`, { name, text });
   },
 
   // Discovery toast
@@ -1553,10 +1505,16 @@ const app = {
     if (state.model === 'claude-sonnet-4-5-20250929') state.model = 'claude-sonnet-4-6';
     if (state.model === 'claude-opus-4-6-20250514' || state.model === 'claude-opus-4-6') state.model = 'claude-opus-4-8';
 
+    const openingInstruction = /^The (?:adventure begins\.|Keepers have just hand-fed)/;
+    state.transcript = state.transcript.filter(entry =>
+      !(entry.role === 'player' && entry.name === 'System' && openingInstruction.test(entry.text)));
+    const isOpening = text => text.startsWith('[System]: ') && openingInstruction.test(text.slice(10));
+
     // Seed transcript from existing conversation history for old saves
     if (state.transcript.length === 0 && state.conversationHistory.length > 0) {
       for (const msg of state.conversationHistory) {
         const text = typeof msg.content === 'string' ? msg.content : msg.content.map(c => c.text || '').join('');
+        if (isOpening(text)) continue;
         if (msg.role === 'assistant') {
           state.transcript.push({ role: 'narrator', text: cleanNarrativeText(text) });
         } else {
@@ -1568,6 +1526,10 @@ const app = {
       }
     }
 
+    document.getElementById('input-message').value = '';
+    document.getElementById('turn-status').textContent = '';
+    this.setVoiceStatus('');
+    this.showStoryModel('');
     this.state = state;
     // Push adventure ID into URL
     history.replaceState(null, '', '/game/' + state.id);
@@ -1584,6 +1546,7 @@ const app = {
     const recent = state.conversationHistory.slice(-10);
     for (const msg of recent) {
       const text = typeof msg.content === 'string' ? msg.content : msg.content.map(c => c.text || '').join('');
+      if (isOpening(text)) continue;
       if (msg.role === 'assistant') {
         const el = this.addNarratorMessage('');
         const cleaned = cleanNarrativeText(text);
@@ -1601,64 +1564,32 @@ const app = {
     }
 
     if (state.conversationHistory.length === 0) {
-      // New game — send initial prompt
+      const lastKeeper = state.players[state.players.length - 1];
+      const firstDragon = lastKeeper?.dragons[0];
+      const feeding = FIRST_FEEDINGS[firstDragon?.firstFeeding];
+      if (feeding) this.addSystemMessage(`${lastKeeper.name}: ${feeding.response}`);
       this.sendInitialPrompt();
     }
   },
 
   async sendInitialPrompt() {
     if (!this.state) return;
-    this.isSending = true;
+
 
     const playerDescs = this.state.players.map(p => {
       const d = p.dragons[0];
-      return `${p.name} chose a ${d.element} egg and named their dragonette "${d.name}"`;
-    }).join('. ');
+      const feeding = FIRST_FEEDINGS[d.firstFeeding];
+      const memory = feeding ? ` First feeding choice: "${feeding.label}". Reaction: ${feeding.response}` : '';
+      return `${p.name} chose the ${d.element} egg and named their dragonette "${d.name}".${memory}`;
+    }).join(' ');
 
-    const initMsg = `[System]: The adventure begins. ${playerDescs}. They are at the First Choice Stable. The berry has been fed and the bond is formed. Set the scene and begin the adventure. Welcome the keeper(s) warmly.`;
+    const opening = STABLE_OPENINGS[this.state.openingId];
+    const firstBeat = opening
+      ? `The players saw this on arrival: ${opening.arrival} Continue from here: ${opening.next} Keep the underlying surprise for them to discover.`
+      : 'Introduce one curious sight or sound at the stable.';
+    const initMsg = `[System]: The Keepers have just hand-fed their newly hatched, full-sized dragonettes at the First Choice Stable. Their bonds are formed. ${playerDescs} ${firstBeat} Begin in the action after the feeding. Show how a named hatchling reacts, then give the next decision to the Keepers.`;
 
-    const msgEl = this.addNarratorMessage('');
-    let fullText = '';
-
-    try {
-      const body = await sendMessage(this.state, initMsg);
-      const reader = body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          try {
-            const data = JSON.parse(line.slice(6));
-            if (data.text) {
-              fullText += data.text;
-              // During streaming, just update text — no image parsing or TTS
-              msgEl.textContent = cleanNarrativeText(fullText);
-              document.getElementById('narrative').scrollTop = document.getElementById('narrative').scrollHeight;
-            }
-          } catch (e) {}
-        }
-      }
-
-      this.state.conversationHistory.push({ role: 'assistant', content: fullText });
-      const stateUpdates = parseGameState(fullText);
-      applyStateUpdates(this.state, stateUpdates);
-      // Final render: clean text + images + TTS (once, after stream completes)
-      this.renderNarratorFinal(msgEl, fullText);
-      this.state.transcript.push({ role: 'narrator', text: cleanNarrativeText(fullText) });
-      this.renderStatusBar();
-      await saveAdventure(this.state);
-    } catch (err) {
-      msgEl.textContent = '[Error: ' + err.message + ']';
-    }
-
-    this.isSending = false;
+    return this.playTurn(initMsg);
   },
 
   // Full Story transcript view
@@ -1686,6 +1617,7 @@ const app = {
   },
 
   async init() {
+    this.handsFree = new HandsFreePlay(this);
     // Auth check: verify session before loading anything
     try {
       const authCheck = await fetch('/api/adventures');
@@ -1710,7 +1642,9 @@ const app = {
 
     // Welcome screen
     document.getElementById('btn-new-adventure').addEventListener('click', () => {
-      this.onboardingState = { playerCount: 0, players: [], currentPlayerIndex: 0 };
+      const openingId = chooseStableOpening();
+      this.onboardingState = { playerCount: 0, players: [], currentPlayerIndex: 0, openingId };
+      document.getElementById('stable-arrival').textContent = STABLE_OPENINGS[openingId].arrival;
       this.showScreen('screen-players');
     });
 
@@ -1733,6 +1667,8 @@ const app = {
           input.placeholder = `Keeper ${i + 1} name`;
           input.maxLength = 20;
           input.autocomplete = 'off';
+          input.setAttribute('aria-label', input.placeholder);
+          input.addEventListener('input', () => input.setCustomValidity(''));
           container.appendChild(input);
         }
         this.showScreen('screen-names');
@@ -1743,11 +1679,15 @@ const app = {
     // Names done
     document.getElementById('btn-names-done').addEventListener('click', () => {
       const inputs = document.querySelectorAll('#name-inputs input');
-      const names = Array.from(inputs).map(i => i.value.trim()).filter(Boolean);
-      if (names.length !== this.onboardingState.playerCount) {
-        // Highlight empty ones
-        inputs.forEach(i => { if (!i.value.trim()) i.style.borderBottomColor = '#FF4136'; });
-        return;
+      const names = [];
+      for (const input of inputs) {
+        const name = input.value.trim();
+        const duplicate = names.some(other => other.toLowerCase() === name.toLowerCase());
+        const message = !name ? 'Choose a name for this Keeper.' :
+          duplicate ? 'Choose a different name or nickname so each Keeper gets their own moves.' : '';
+        input.setCustomValidity(message);
+        if (!input.reportValidity()) return;
+        names.push(name);
       }
       this.onboardingState.players = names.map(name => ({
         name,
@@ -1770,18 +1710,34 @@ const app = {
         const idx = this.onboardingState.currentPlayerIndex;
         this.onboardingState.players[idx].selectedElement = element;
 
-        // Move to dragon naming
-        document.getElementById('dragon-element-label').textContent = element.charAt(0).toUpperCase() + element.slice(1);
-        document.getElementById('input-dragon-name').value = '';
+        const elementName = element.charAt(0).toUpperCase() + element.slice(1);
+        document.getElementById('dragon-element-label').textContent = elementName;
+        document.getElementById('hatching-keeper').textContent = this.onboardingState.players[idx].name;
+        const nameInput = document.getElementById('input-dragon-name');
+        nameInput.value = '';
+        nameInput.setCustomValidity('');
         this.showScreen('screen-dragon-name');
-        document.getElementById('input-dragon-name').focus();
+        nameInput.focus();
       });
     });
 
-    // Dragon named
-    document.getElementById('btn-dragon-named').addEventListener('click', () => this.finishDragonNaming());
-    document.getElementById('input-dragon-name').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') this.finishDragonNaming();
+    const feedingChoices = document.getElementById('feeding-choices');
+    for (const [id, feeding] of Object.entries(FIRST_FEEDINGS)) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = id === 'palm' ? 'btn-primary' : 'btn-secondary';
+      if (id === 'palm') button.id = 'btn-dragon-named';
+      button.textContent = feeding.label;
+      button.addEventListener('click', () => this.finishDragonNaming(id));
+      feedingChoices.appendChild(button);
+    }
+    const nameInput = document.getElementById('input-dragon-name');
+    nameInput.addEventListener('input', () => nameInput.setCustomValidity(''));
+    nameInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        feedingChoices.querySelector('button').focus();
+      }
     });
 
     // Load screen
@@ -1824,10 +1780,11 @@ const app = {
     // Migrate localStorage to cloud
     document.getElementById('btn-migrate').addEventListener('click', async () => {
       const btn = document.getElementById('btn-migrate');
-      btn.textContent = 'Migrating...';
+      btn.textContent = 'Moving adventures…';
       btn.disabled = true;
       const count = await migrateToCloud();
-      btn.textContent = count > 0 ? `Migrated ${count} adventure${count > 1 ? 's' : ''}!` : 'Nothing to migrate';
+      btn.textContent = count > 0 ? `Moved ${count} adventure${count > 1 ? 's' : ''}` : 'Try moving adventures again';
+      btn.disabled = false;
       await this.renderLoadScreen();
     });
 
@@ -1853,7 +1810,7 @@ const app = {
     // Adventure screen controls
     document.getElementById('btn-send').addEventListener('click', () => { this.unlockAudio(); this.send(); });
     document.getElementById('input-message').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.unlockAudio(); this.send(); }
+      if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); this.unlockAudio(); this.send(); }
     });
 
     // Model selector
@@ -1872,103 +1829,140 @@ const app = {
       }
     });
 
-    // New adventure from game screen
-    document.getElementById('btn-new').addEventListener('click', async () => {
-      if (this.state) await saveAdventure(this.state);
+    const leaveAdventure = async () => {
+      if (this.state && !await saveAdventure(this.state)) {
+        this.addSystemMessage('The save failed. Your adventure is still open. Choose Save to try again.');
+        return;
+      }
       this.state = null;
       history.replaceState(null, '', '/game.html');
       this.showScreen('screen-welcome');
-    });
+    };
+    document.getElementById('btn-new').addEventListener('click', leaveAdventure);
 
     // Mic button
     const micBtn = document.getElementById('btn-mic');
     const flashPlaceholder = (msg) => {
       const input = document.getElementById('input-message');
+      document.getElementById('turn-status').textContent = msg;
       input.placeholder = msg;
       setTimeout(() => { input.placeholder = 'What do you do?'; }, 2500);
     };
 
     const inputRow = document.querySelector('.input-row');
-    const startRec = async () => {
-      const ok = await startRecording();
-      if (ok) {
-        micBtn.classList.add('recording');
-        inputRow.classList.add('recording-active');
-        document.getElementById('input-message').placeholder = 'Listening...';
-      } else {
-        flashPlaceholder('Mic access denied');
-      }
+    let capture = null;
+    let transcribing = false;
+    this.manualMicBusy = () => Boolean(capture || transcribing);
+    const cancelCapture = (event) => {
+      if (!capture || (event?.pointerId != null && capture.pointer !== event.pointerId)) return;
+      capture.cancelled = true;
+      finishCapture();
     };
-
-    micBtn.addEventListener('mousedown', startRec);
-    micBtn.addEventListener('touchstart', (e) => {
-      e.preventDefault();
-      startRec();
-    });
-
-    const stopAndTranscribe = async () => {
-      if (!isRecording) return;
-      isRecording = false; // clear immediately to prevent double-fire
+    const finishCapture = async () => {
+      const take = capture;
+      if (!take) return;
+      take.released = true;
+      if (!isRecording) return; // Permission may still be pending.
+      isRecording = false;
+      capture = null;
+      transcribing = true;
       micBtn.classList.remove('recording');
       inputRow.classList.remove('recording-active');
       const duration = Date.now() - recordingStartTime;
-      const blob = await stopRecording();
-
-      // Need at least 1 second of recording and a reasonable blob size
-      if (!blob || blob.size < 2000 || duration < 1000) {
-        flashPlaceholder('Hold longer to record');
-        return;
-      }
-
       const input = document.getElementById('input-message');
-      input.placeholder = 'Transcribing...';
-
+      const original = input.value;
+      const current = () => this.state === take.adventure && !document.hidden &&
+        document.getElementById('screen-adventure').classList.contains('active');
       try {
-        const text = await transcribeAudio(blob);
-        if (!text || isWhisperHallucination(text)) {
-          flashPlaceholder("Didn't catch that — try again");
+        const blob = await stopRecording();
+        if (take.cancelled || !current()) return;
+        if (!blob?.size || duration < 160) {
+          flashPlaceholder('Hold the mic while you speak.');
           return;
         }
-        input.value = text;
-        input.focus();
-        input.placeholder = 'What do you do?';
-      } catch (err) {
-        console.error('Transcription error:', err);
-        flashPlaceholder('Transcription failed — try again');
+        flashPlaceholder('Writing down your move…');
+        const text = (await transcribeAudio(blob)).trim();
+        if (!current()) return;
+        if (isWhisperHallucination(text)) {
+          flashPlaceholder('Try saying your move again.');
+          return;
+        }
+        // Leave any text the player wrote while the recording was processing.
+        if (input.value === original) input.value = [original, text].filter(Boolean).join(' ');
+        else this.addSystemMessage('Heard: ' + text);
+        flashPlaceholder('Check your words, then send.');
+      } catch {
+        if (current()) flashPlaceholder('Try Hands-free for on-device speech, or type your move.');
+      } finally {
+        transcribing = false;
       }
     };
-
-    micBtn.addEventListener('mouseup', stopAndTranscribe);
-    micBtn.addEventListener('mouseleave', stopAndTranscribe);
-    micBtn.addEventListener('touchend', stopAndTranscribe);
+    const beginCapture = async (pointer) => {
+      if (capture || transcribing || this.isSending || micBtn.disabled) return;
+      const take = { pointer, adventure: this.state, released: false, cancelled: false };
+      capture = take;
+      this.unlockAudio();
+      this.stopSpeaking();
+      const started = await startRecording();
+      if (!started) {
+        capture = null;
+        flashPlaceholder('Allow microphone access, or type your move.');
+        return;
+      }
+      if (take.released || take.cancelled || document.hidden || this.state !== take.adventure) {
+        take.cancelled = true;
+        await finishCapture();
+        return;
+      }
+      micBtn.classList.add('recording');
+      inputRow.classList.add('recording-active');
+      flashPlaceholder('Listening. Release the mic when you finish.');
+    };
+    micBtn.addEventListener('pointerdown', event => {
+      if (event.button !== 0 || capture || transcribing) return;
+      micBtn.setPointerCapture(event.pointerId);
+      beginCapture(event.pointerId);
+    });
+    micBtn.addEventListener('pointerup', event => {
+      if (capture?.pointer === event.pointerId) finishCapture();
+    });
+    micBtn.addEventListener('pointercancel', cancelCapture);
+    micBtn.addEventListener('lostpointercapture', cancelCapture);
+    micBtn.addEventListener('keydown', event => {
+      if (![' ', 'Enter'].includes(event.key)) return;
+      event.preventDefault();
+      if (!event.repeat) beginCapture(event.key);
+    });
+    micBtn.addEventListener('keyup', event => {
+      if (capture?.pointer === event.key) { event.preventDefault(); finishCapture(); }
+    });
+    micBtn.addEventListener('blur', () => { if (typeof capture?.pointer === 'string') cancelCapture(); });
+    window.addEventListener('pagehide', () => cancelCapture());
+    document.addEventListener('visibilitychange', () => { if (document.hidden) cancelCapture(); });
 
     // TTS toggle — restore persisted state
-    this.initTTS();
     const voiceIcon = document.getElementById('btn-voice-icon');
-    const updateVoiceUI = () => {
-      document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Voice: On' : 'Voice: Off';
-      if (voiceIcon) voiceIcon.classList.toggle('voice-on', this.ttsEnabled);
+    this.setNarratorEnabled = (enabled, remember = false) => {
+      this.ttsEnabled = enabled;
+      if (remember) localStorage.setItem('draco_tts_enabled', String(enabled));
+      if (!enabled) {
+        this.stopSpeaking();
+        this.setVoiceStatus('');
+      }
+      document.getElementById('btn-tts').textContent = this.ttsEnabled ? 'Narrator on' : 'Narrator off';
+      if (voiceIcon) {
+        voiceIcon.classList.toggle('voice-on', this.ttsEnabled);
+        voiceIcon.setAttribute('aria-pressed', String(this.ttsEnabled));
+        voiceIcon.querySelector('span').textContent = this.ttsEnabled ? 'Narrator on' : 'Narrator off';
+      }
     };
-    updateVoiceUI();
-
-    document.getElementById('btn-tts').addEventListener('click', () => {
+    this.setNarratorEnabled(this.ttsEnabled);
+    const toggleNarrator = () => {
       this.unlockAudio();
-      this.ttsEnabled = !this.ttsEnabled;
-      localStorage.setItem('draco_tts_enabled', this.ttsEnabled ? 'true' : 'false');
-      updateVoiceUI();
-      if (!this.ttsEnabled) this.stopSpeaking();
-    });
-
-    // Voice icon button (mobile input row) — same toggle logic
-    if (voiceIcon) {
-      voiceIcon.addEventListener('click', () => {
-        this.unlockAudio();
-        this.ttsEnabled = !this.ttsEnabled;
-        localStorage.setItem('draco_tts_enabled', this.ttsEnabled ? 'true' : 'false');
-        updateVoiceUI();
-        if (!this.ttsEnabled) this.stopSpeaking();
-      });
-    }
+      this.setNarratorEnabled(!this.ttsEnabled, true);
+    };
+    document.getElementById('btn-tts').addEventListener('click', toggleNarrator);
+    voiceIcon.addEventListener('click', toggleNarrator);
 
     // Test Voice button
     document.getElementById('btn-test-voice').addEventListener('click', () => {
@@ -2010,10 +2004,7 @@ const app = {
       const bsNew = document.getElementById('bs-new');
       if (bsNew) bsNew.addEventListener('click', async () => {
         closeBottomSheet();
-        if (this.state) await saveAdventure(this.state);
-        this.state = null;
-        history.replaceState(null, '', '/game.html');
-        this.showScreen('screen-welcome');
+        await leaveAdventure();
       });
       const bsTestVoice = document.getElementById('bs-test-voice');
       if (bsTestVoice) bsTestVoice.addEventListener('click', () => {
@@ -2118,49 +2109,46 @@ const app = {
     }
   },
 
-  showEggPicker() {
+  showEggPicker(feedingFeedback) {
     const idx = this.onboardingState.currentPlayerIndex;
     const player = this.onboardingState.players[idx];
     document.getElementById('egg-picker-name').textContent = player.name;
+    document.getElementById('egg-picker-hint').textContent = feedingFeedback || 'A berry balances on top of each egg.';
     document.querySelectorAll('.egg-btn').forEach(b => b.classList.remove('selected'));
     this.showScreen('screen-eggs');
   },
 
-  async finishDragonNaming() {
+  async finishDragonNaming(feedingId) {
     if (this.isSending) return;
-    const name = document.getElementById('input-dragon-name').value.trim();
+    const nameInput = document.getElementById('input-dragon-name');
+    const name = nameInput.value.trim();
     if (!name) {
-      document.getElementById('input-dragon-name').style.borderBottomColor = '#FF4136';
+      nameInput.setCustomValidity('Give your dragon a name.');
+      nameInput.reportValidity();
+      nameInput.focus();
       return;
     }
     this.isSending = true;
-    const bondBtn = document.getElementById('btn-dragon-named');
-    bondBtn.disabled = true;
-    bondBtn.textContent = 'Bonding...';
 
     const idx = this.onboardingState.currentPlayerIndex;
     const player = this.onboardingState.players[idx];
     player.dragons.push({
       name: name,
       element: player.selectedElement,
+      firstFeeding: feedingId,
       customElement: null,
-      items: ['berry'],
+      items: [],
     });
     delete player.selectedElement;
-
-    // Reset bond button
-    bondBtn.disabled = false;
-    bondBtn.textContent = 'Bond';
-
     // Next player or start game
     this.onboardingState.currentPlayerIndex++;
     if (this.onboardingState.currentPlayerIndex < this.onboardingState.playerCount) {
       this.isSending = false;
-      this.showEggPicker();
+      this.showEggPicker(`${player.name}: ${FIRST_FEEDINGS[feedingId].response}`);
     } else {
       // All players ready — create adventure
       const model = 'claude-sonnet-4-6';
-      const state = createAdventure(this.onboardingState.players, model);
+      const state = createAdventure(this.onboardingState.players, model, this.onboardingState.openingId);
       await saveAdventure(state);
       this.isSending = false;
       this.startAdventure(state);

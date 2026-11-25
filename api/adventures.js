@@ -22,6 +22,10 @@ async function ensureTable(sql) {
       created_at TIMESTAMPTZ DEFAULT now()
     )
   `;
+  // Owner scoping (added with Adventure Passes): pre-existing rows belong to
+  // the family session; guest passes get their own bucket so paying players
+  // never see or touch family adventures.
+  await sql`ALTER TABLE adventures ADD COLUMN IF NOT EXISTS owner TEXT DEFAULT 'family'`;
 }
 
 module.exports = async function handler(req, res) {
@@ -36,6 +40,9 @@ module.exports = async function handler(req, res) {
 
   if (!requireAuth(req, res)) return;
 
+  // Every query below is scoped to the session owner ('family' or 'guest:<id>').
+  const owner = req.userId;
+
   try {
     await ensureTable(sql);
 
@@ -43,7 +50,7 @@ module.exports = async function handler(req, res) {
     if (method === 'GET') {
       if (id) {
         const rows = await sql`
-          SELECT state FROM adventures WHERE id = ${id}
+          SELECT state FROM adventures WHERE id = ${id} AND owner = ${owner}
         `;
         if (rows.length === 0) {
           res.status(404).json({ error: 'Adventure not found' });
@@ -56,6 +63,7 @@ module.exports = async function handler(req, res) {
       const rows = await sql`
         SELECT id, name, player_names, badges, archived, last_played_at
         FROM adventures
+        WHERE owner = ${owner}
         ORDER BY last_played_at DESC
       `;
       const index = rows.map(r => ({
@@ -81,15 +89,18 @@ module.exports = async function handler(req, res) {
       const playerNames = state.players.map(p => p.name);
       const badges = state.players.reduce((s, p) => s + p.badges, 0);
 
+      // ON CONFLICT update is owner-guarded: a guest can't overwrite a family
+      // adventure (or another guest's) by reusing its id.
       await sql`
-        INSERT INTO adventures (id, state, name, player_names, badges, last_played_at)
-        VALUES (${state.id}, ${JSON.stringify(state)}::jsonb, ${state.name}, ${playerNames}, ${badges}, ${state.lastPlayedAt})
+        INSERT INTO adventures (id, state, name, player_names, badges, last_played_at, owner)
+        VALUES (${state.id}, ${JSON.stringify(state)}::jsonb, ${state.name}, ${playerNames}, ${badges}, ${state.lastPlayedAt}, ${owner})
         ON CONFLICT (id) DO UPDATE SET
           state = ${JSON.stringify(state)}::jsonb,
           name = ${state.name},
           player_names = ${playerNames},
           badges = ${badges},
           last_played_at = ${state.lastPlayedAt}
+        WHERE adventures.owner = ${owner}
       `;
 
       res.json({ ok: true });
@@ -104,7 +115,7 @@ module.exports = async function handler(req, res) {
       }
       const { archived } = req.body;
       const result = await sql`
-        UPDATE adventures SET archived = ${!!archived} WHERE id = ${id}
+        UPDATE adventures SET archived = ${!!archived} WHERE id = ${id} AND owner = ${owner}
       `;
       res.json({ ok: true });
       return;

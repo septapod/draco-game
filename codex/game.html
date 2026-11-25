@@ -22,7 +22,7 @@
       <div class="welcome-actions">
         <button id="btn-new-adventure" class="btn-primary">New Adventure</button>
         <button id="btn-load-adventure" class="btn-secondary">Continue</button>
-        <a href="/" class="btn-link-codex">← Back to Codex</a>
+        <a href="/" class="btn-link-codex">Draco world guide</a>
       </div>
     </div>
   </div>
@@ -30,7 +30,8 @@
   <!-- ═══════ ONBOARDING: PLAYER COUNT ═══════ -->
   <div id="screen-players" class="screen">
     <div class="onboard-box">
-      <h2 class="onboard-title">How many Keepers?</h2>
+      <p id="stable-arrival" class="onboard-hint"></p>
+      <h2 class="onboard-title">How many players are becoming Keepers?</h2>
       <div class="player-count-options">
         <button class="btn-count" data-count="1">1</button>
         <button class="btn-count" data-count="2">2</button>
@@ -53,6 +54,7 @@
   <div id="screen-eggs" class="screen">
     <div class="onboard-box">
       <h2 class="onboard-title"><span id="egg-picker-name">Keeper</span>, choose your egg</h2>
+      <p id="egg-picker-hint" class="onboard-hint">A berry balances on top of each egg.</p>
       <div class="egg-grid">
         <button class="egg-btn" data-element="fire"><span class="egg-dot fire"></span>Fire</button>
         <button class="egg-btn" data-element="water"><span class="egg-dot water"></span>Water</button>
@@ -67,10 +69,12 @@
   <!-- ═══════ ONBOARDING: DRAGON NAMING ═══════ -->
   <div id="screen-dragon-name" class="screen">
     <div class="onboard-box">
-      <h2 class="onboard-title">Name your <span id="dragon-element-label">Fire</span> dragonette</h2>
-      <p class="onboard-hint">The egg hatches. A full-sized dragonette emerges. You take the berry and hand-feed it...</p>
-      <input type="text" id="input-dragon-name" class="text-input" placeholder="Dragon name" maxlength="24" autocomplete="off">
-      <button id="btn-dragon-named" class="btn-primary">Bond</button>
+      <h2 class="onboard-title"><span id="hatching-keeper"></span>, meet your <span id="dragon-element-label">Fire</span> dragonette</h2>
+      <p class="onboard-hint">Crack! A full-sized dragon unfolds its wings. You catch the berry as it rolls off the shell. The hatchling watches your hand.</p>
+      <label for="input-dragon-name">Dragon name</label>
+      <input type="text" id="input-dragon-name" class="text-input" maxlength="24" autocomplete="off">
+      <p class="onboard-hint" id="feeding-question">How will you offer the berry?</p>
+      <div id="feeding-choices" class="welcome-actions" role="group" aria-labelledby="feeding-question"></div>
     </div>
   </div>
 
@@ -80,11 +84,11 @@
       <h2 class="onboard-title">Saved Adventures</h2>
       <div id="save-list"></div>
       <div id="migrate-section" class="hidden" style="margin:1rem 0; padding:0.75rem; border:1px solid #FFB800; border-radius:4px;">
-        <p style="font-size:0.7rem; margin:0 0 0.5rem; color:#FFB800;">Local saves found on this device.</p>
-        <button id="btn-migrate" class="btn-primary" style="font-size:0.65rem;">Migrate to Cloud</button>
+        <p style="font-size:0.7rem; margin:0 0 0.5rem; color:#FFB800;">These adventures are saved on this device.</p>
+        <button id="btn-migrate" class="btn-primary" style="font-size:0.65rem;">Move adventures to online saves</button>
       </div>
       <div id="archived-section" class="hidden">
-        <h3 class="onboard-title" style="font-size:0.6rem; margin-top:1.5rem;">Archived</h3>
+        <h3 class="onboard-title" style="font-size:0.6rem; margin-top:1.5rem;">Archived adventures</h3>
         <div id="archived-list"></div>
       </div>
       <button id="btn-back-welcome" class="btn-secondary">Back</button>
@@ -104,24 +108,34 @@
 
     <!-- Input area -->
     <div class="input-area">
+      <div id="turn-status" class="turn-status" role="status"></div>
       <div class="input-row">
-        <select id="select-player" class="select-player hidden"></select>
-        <input type="text" id="input-message" class="text-input" placeholder="What do you do?" autocomplete="off">
-        <button id="btn-mic" class="btn-icon" title="Hold to record" aria-label="Record audio">
+        <input type="text" id="input-message" class="text-input" placeholder="What do you do?" aria-label="Your move" autocomplete="off">
+        <button id="btn-send" class="btn-icon btn-send" title="Send" aria-label="Send message">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        <span>Send</span></button>
+      </div>
+      <div class="move-tools">
+        <select id="select-player" aria-label="Keeper speaking" class="select-player hidden"></select>
+        <button id="btn-mic" class="btn-icon" title="Hold to record" aria-label="Hold to talk">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
             <line x1="12" y1="19" x2="12" y2="23"/>
             <line x1="8" y1="23" x2="16" y2="23"/>
           </svg>
-        </button>
-        <button id="btn-voice-icon" class="btn-icon btn-voice" title="Toggle voice" aria-label="Toggle voice">
+        <span>Hold to talk</span></button>
+        <button id="btn-handsfree" class="btn-sm" type="button" role="switch" aria-checked="false" aria-describedby="handsfree-status">Hands-free</button>
+        <button id="btn-voice-icon" class="btn-icon btn-voice" title="Toggle voice" aria-label="AI narrator voice">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
             <path class="voice-on-wave" d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
             <path class="voice-on-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
           </svg>
-        </button>
+        <span>Narrator off</span></button>
         <button id="btn-more" class="btn-icon btn-more" title="More options" aria-label="More options">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <circle cx="12" cy="5" r="2"/>
@@ -129,25 +143,21 @@
             <circle cx="12" cy="19" r="2"/>
           </svg>
         </button>
-        <button id="btn-send" class="btn-icon btn-send" title="Send" aria-label="Send message">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="22" y1="2" x2="11" y2="13"/>
-            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-          </svg>
-        </button>
       </div>
+      <div id="handsfree-status" role="status">First use of Hands-free downloads about 45 MB.</div>
+      <div id="voice-status" class="turn-status" role="status"></div>
       <div class="toolbar">
-        <button id="btn-save" class="btn-sm">Save</button>
-        <button id="btn-new" class="btn-sm">New</button>
-        <button id="btn-tts" class="btn-sm" title="Toggle narrator voice">Voice: Off</button>
+        <button id="btn-save" class="btn-sm">Save Adventure</button>
+        <button id="btn-new" class="btn-sm">New Adventure</button>
+        <button id="btn-tts" aria-label="AI narrator voice" class="btn-sm" title="Toggle narrator voice">Narrator off</button>
         <button id="btn-test-voice" class="btn-sm" title="Test narrator voice">Test Voice</button>
-        <button id="btn-transcript" class="btn-sm">Full Story</button>
-        <select id="select-model" class="select-model">
+        <button id="btn-transcript" class="btn-sm">Adventure transcript</button>
+        <select aria-label="Narrator model" id="select-model" class="select-model">
           <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
           <option value="claude-sonnet-4-6" selected>Sonnet 4.6</option>
           <option value="claude-opus-4-8">Opus 4.8</option>
         </select>
-        <a href="/" class="btn-sm link-codex">Codex</a>
+        <a href="/" class="btn-sm link-codex">World guide</a>
       </div>
     </div>
 
@@ -166,16 +176,17 @@
         <button id="bs-save" class="bottom-sheet-btn">Save Adventure</button>
         <button id="bs-new" class="bottom-sheet-btn">New Adventure</button>
         <button id="bs-test-voice" class="bottom-sheet-btn">Test Voice</button>
-        <button id="bs-transcript" class="bottom-sheet-btn">Full Story</button>
+        <button id="bs-transcript" class="bottom-sheet-btn">Adventure transcript</button>
         <div class="bottom-sheet-btn bottom-sheet-model">
-          <span>Model</span>
-          <select id="bs-select-model" class="select-model">
+          <span>Story narrator</span>
+          <span id="active-story-model"></span>
+          <select aria-label="Narrator model" id="bs-select-model" class="select-model">
             <option value="claude-haiku-4-5-20251001">Haiku 4.5</option>
             <option value="claude-sonnet-4-6" selected>Sonnet 4.6</option>
             <option value="claude-opus-4-8">Opus 4.8</option>
           </select>
         </div>
-        <a href="/" class="bottom-sheet-btn bottom-sheet-link">Back to Codex</a>
+        <a href="/" class="bottom-sheet-btn bottom-sheet-link">Draco world guide</a>
       </div>
     </div>
   </div>
@@ -184,11 +195,12 @@
   <div id="screen-transcript" class="screen">
     <div class="transcript-header">
       <button id="btn-transcript-back" class="btn-sm">← Back</button>
-      <h2 class="transcript-title">Full Story</h2>
+      <h2 class="transcript-title">Adventure transcript</h2>
     </div>
     <div id="transcript-content" class="transcript-content"></div>
   </div>
 
+  <script src="/handsfree.js"></script>
   <script src="/game.js"></script>
 </body>
 </html>

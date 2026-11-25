@@ -45,12 +45,19 @@ function getSession(req) {
   return verify(token);
 }
 
-// Sets the session cookie on the response
-function setSession(res, value) {
+// Sets the session cookie on the response.
+// maxAge (seconds) defaults to 90 days; guest passes use a shorter window.
+function setSession(res, value, maxAge = COOKIE_MAX_AGE) {
   const signed = sign(value);
   res.setHeader('Set-Cookie',
-    `${COOKIE_NAME}=${encodeURIComponent(signed)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${COOKIE_MAX_AGE}; Secure`
+    `${COOKIE_NAME}=${encodeURIComponent(signed)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAge}; Secure`
   );
+}
+
+// Guest sessions come from paid Adventure Passes (see api/claim.js).
+// Session value format: "guest:<stripe_checkout_session_id>"
+function isGuest(session) {
+  return typeof session === 'string' && session.startsWith('guest:');
 }
 
 // Middleware: returns true if authenticated, sends 401 and returns false if not
@@ -64,4 +71,4 @@ function requireAuth(req, res) {
   return true;
 }
 
-module.exports = { getSession, setSession, requireAuth, parseCookies, COOKIE_NAME };
+module.exports = { getSession, setSession, requireAuth, parseCookies, isGuest, COOKIE_NAME };

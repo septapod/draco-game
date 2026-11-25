@@ -81,6 +81,20 @@
       text-decoration: none;
     }
     .login-home:hover { color: #FFB800; }
+    .login-pass {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #222;
+      font-size: 0.8rem;
+      color: #8a8070;
+      line-height: 1.6;
+    }
+    .login-pass a {
+      color: #FFB800;
+      text-decoration: none;
+      border-bottom: 1px solid #FFB800;
+    }
+    .login-pass a:hover { opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -92,6 +106,7 @@
       <button type="submit" class="login-btn">Enter</button>
     </form>
     <p id="error" class="login-error"></p>
+    <p class="login-pass">No password? Get an <a href="/api/buy">Adventure Pass ($5)</a>. It covers the AI costs of your adventure: about 100 narrator turns over 7 days.</p>
     <a href="/" class="login-home">Back to Codex</a>
   </div>
   <script>
@@ -99,6 +114,18 @@
     const input = document.getElementById('password');
     const error = document.getElementById('error');
     const btn = form.querySelector('button');
+
+    // Surface Adventure Pass claim errors (redirects from /api/claim)
+    const passError = new URLSearchParams(window.location.search).get('error');
+    if (passError) {
+      const messages = {
+        pass_invalid: 'That pass link is not valid. If you just paid, contact brent@dxn.is.',
+        pass_unpaid: 'Payment has not completed yet. Try the link from your receipt in a minute.',
+        pass_expired: 'That Adventure Pass has expired. You can get a new one below.',
+        pass_error: 'Something went wrong claiming your pass. Try again, or contact brent@dxn.is.',
+      };
+      error.textContent = messages[passError] || 'Pass error. Contact brent@dxn.is.';
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

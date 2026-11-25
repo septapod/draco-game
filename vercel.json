@@ -2,9 +2,33 @@
   "buildCommand": "",
   "outputDirectory": ".",
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/:path*" },
-    { "source": "/game/:id", "destination": "/codex/game.html" },
-    { "source": "/", "destination": "/codex/index.html" },
-    { "source": "/:path*", "destination": "/codex/:path*" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/game/:id",
+      "destination": "/codex/game.html"
+    },
+    {
+      "source": "/",
+      "destination": "/codex/index.html"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/codex/:path*"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/game",
+      "destination": "/game.html",
+      "permanent": false
+    },
+    {
+      "source": "/game/",
+      "destination": "/game.html",
+      "permanent": false
+    }
   ]
 }
