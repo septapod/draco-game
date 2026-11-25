@@ -395,6 +395,8 @@ Play the consequences of the Keeper's actual move. A dragon, a rival, or the sur
 
 Offer an open choice at a decision. When the players ask for help or get stuck, suggest two distinct actions they can try. Let them invent another. With several Keepers, honor whose dragon is acting and invite a teammate to contribute when the scene gives them a reason. The children decide what their Keepers say and do.
 
+A move labelled “The group” comes from the shared table microphone. Follow the action in context. If knowing who acted matters and the scene leaves it unclear, ask who is acting.
+
 When one player has a choice, use that player's exact name from Current Game State so everyone hears whose turn it is. Use the dragon's own name for the dragon. When anyone can answer, invite the whole table naturally: “Who wants to go first?” In solo play, speak directly to the player.
 
 Track inventory, badges, location, and bonded dragons. Build callbacks from actual events in this adventure. A dragon can remember the way its Keeper first offered the berry; let that memory change how it responds when it matters.
@@ -1534,6 +1536,7 @@ const app = {
     const status = document.getElementById('turn-status');
     status.textContent = 'The narrator is thinking…';
     let success = false;
+    let saving;
 
     try {
       const body = await sendMessage(draft, prompt);
@@ -1581,7 +1584,7 @@ const app = {
       for (const discovery of discoveries) this.showDiscoveryToast(discovery.name);
       this.renderDiscoveries();
       this.renderStatusBar();
-      if (!await saveAdventure(state)) this.addSystemMessage('Choose Save to keep this turn before leaving.');
+      saving = saveAdventure(state);
     } catch (error) {
       if (this.state === state && !success) {
         playerEl?.remove();
@@ -1609,16 +1612,21 @@ const app = {
       this.isSending = false;
       for (const id of controls) document.getElementById(id).disabled = false;
       status.textContent = '';
+      const session = this.handsFree?.session;
+      if (session?.tick) this.handsFree.update(session);
+    }
+    if (saving && !await saving && this.state === state && state.turnCount === draft.turnCount) {
+      this.addSystemMessage('Choose Save to keep this turn before leaving.');
     }
     return success;
   },
 
-  async send() {
+  async send(speaker) {
     if (this.isSending || !this.state || document.querySelector('[data-retry-opening]')) return false;
     const input = document.getElementById('input-message');
     const text = input.value.trim();
     if (!text) return false;
-    const name = document.getElementById('select-player').value || this.state.players[0].name;
+    const name = speaker || document.getElementById('select-player').value || this.state.players[0].name;
     input.value = '';
     this.stopSpeaking();
     // A retry belongs only to the last unresolved move.
@@ -2361,8 +2369,8 @@ const app = {
     document.getElementById('egg-picker-name').textContent = player.name;
     const number = ['one', 'two', 'three', 'four'][idx];
     const cue = this.onboardingState.playerCount > 1
-      ? `${player.name}, with Hands-free on, you can say “Dragon ${number}, I open the gate.”`
-      : 'To speak your move, turn on Hands-free during play. Try saying “Dragon, I open the gate.”';
+      ? `${player.name}, you can answer out loud after I finish. To tell me it’s you, say “Dragon ${number}, I open the gate.”`
+      : 'With Hands-free on, answer out loud after I finish. Try saying “I open the gate.”';
     document.getElementById('egg-player-cue').textContent = cue;
     document.getElementById('egg-voice-status').textContent = '';
     document.getElementById('egg-picker-hint').textContent = feedingFeedback || 'A berry balances on top of each egg.';

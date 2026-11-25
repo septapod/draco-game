@@ -47,7 +47,7 @@
       <h2 class="onboard-title">Name your Keepers</h2>
       <div id="keeper-number-help" class="onboard-hint" hidden>
         <p>The narrator will call you by the name you enter.</p>
-        <p>Playing hands-free? The second player starts a move by saying “Dragon two.”</p>
+        <p>Everyone can answer out loud with Hands-free on. The second player can say “Dragon two” to take their own turn.</p>
       </div>
       <div id="name-inputs"></div>
       <button id="btn-names-done" class="btn-primary">Next</button>
@@ -157,7 +157,8 @@
           </svg>
         </button>
       </div>
-      <div id="handsfree-status" role="status">First use of Hands-free downloads about 45 MB.</div>
+      <div id="handsfree-status" role="status">Hands-free sends what you say after the narrator finishes. Tap again to turn it off.</div>
+      <meter id="handsfree-level" aria-label="Microphone input level" min="0" max="1" value="0" hidden></meter>
       <div id="voice-status" class="turn-status" role="status"></div>
       <div class="toolbar">
         <button id="btn-save" class="btn-sm">Save Adventure</button>

@@ -1,10 +1,11 @@
-// Audio is recognized locally. Only a final, addressed move reaches the game's normal Send path.
+// Audio is recognized locally. A finished reply reaches the normal Send path while hands-free is listening.
 class HandsFreePlay {
   constructor(game) {
     this.game = game;
     this.button = document.getElementById('btn-handsfree');
     this.status = document.getElementById('handsfree-status');
     this.input = document.getElementById('input-message');
+    this.level = document.getElementById('handsfree-level');
     this.session = null;
     this.engineScript = null;
     this.worklets = new WeakMap();
@@ -57,12 +58,24 @@ class HandsFreePlay {
     const session = { adventure: this.game.state, model: null, stream: null, recognizer: null };
     this.session = session;
     this.button.setAttribute('aria-checked', 'true');
-    this.setStatus('Preparing English voice recognition on this device. First download is about 45 MB.');
+    this.setStatus('Allow microphone access to start Hands-free.');
     document.getElementById('btn-mic').disabled = true;
     try {
       this.game.unlockAudio(); // Keep the user activation on iOS.
       const context = this.game.audioContext;
       if (!context.audioWorklet) throw new Error('unsupported');
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true },
+      });
+      if (this.session !== session) {
+        stream.getTracks().forEach(track => track.stop());
+        return;
+      }
+      session.stream = stream;
+      stream.getAudioTracks()[0].addEventListener('ended', () => {
+        if (this.session === session) this.stop('Microphone disconnected. Tap Hands-free to reconnect.');
+      });
+      this.setStatus('Preparing speech recognition. The first download is about 45 MB.');
       await this.loadEngine();
       if (this.session !== session) return;
       const model = new Vosk.Model(new URL('/speech/en-small-0.15.tar.gz', location.href).href, -2);
@@ -87,18 +100,6 @@ class HandsFreePlay {
       }
       await this.worklets.get(context);
       if (this.session !== session) return;
-      this.setStatus('Allow the microphone to talk. Speech stays on this device. Addressed moves go to the narrator as text.');
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: { channelCount: 1, echoCancellation: true, noiseSuppression: true },
-      });
-      if (this.session !== session) {
-        stream.getTracks().forEach(track => track.stop());
-        return;
-      }
-      session.stream = stream;
-      stream.getAudioTracks()[0].addEventListener('ended', () => {
-        if (this.session === session) this.stop('Microphone disconnected. Tap Hands-free to reconnect.');
-      });
       if (!this.game.ttsEnabled) {
         session.enabledNarrator = true;
         this.game.setNarratorEnabled(true);
@@ -109,6 +110,9 @@ class HandsFreePlay {
       });
       session.node.port.onmessage = ({ data }) => {
         if (this.session === session && this.mayListen(session) && session.recognizer) {
+          let peak = 0;
+          for (let i = 0; i < data.length; i++) peak = Math.max(peak, Math.abs(data[i]));
+          this.level.value = Math.min(1, peak * 4);
           session.recognizer.acceptWaveformFloat(data, context.sampleRate);
         }
       };
@@ -121,9 +125,13 @@ class HandsFreePlay {
       this.update(session);
     } catch (error) {
       if (this.session !== session) return;
-      const denied = error.name === 'NotAllowedError';
-      this.stop(denied ? 'Microphone access is off. You can type a move or allow microphone access.'
-        : 'Hands-free could not start. Tap to retry, use the mic button, or type a move.');
+      const errors = {
+        NotAllowedError: 'Allow microphone access for Draco in your browser, then turn Hands-free on.',
+        NotFoundError: 'Connect a microphone, then turn Hands-free on.',
+        NotReadableError: 'The browser could not open the microphone. Check your input device and try again.',
+        download: 'Speech recognition could not load. Check your connection and tap Hands-free to retry.',
+      };
+      this.stop(errors[error.name] || errors[error.message] || 'Hands-free could not start. Tap Hands-free to retry.');
     }
   }
 
@@ -138,6 +146,8 @@ class HandsFreePlay {
     if (!session?.recognizer) return;
     const recognizer = session.recognizer;
     session.recognizer = null;
+    this.level.hidden = true;
+    this.level.value = 0;
     session.stream.getAudioTracks().forEach(track => { track.enabled = false; });
     session.node.port.postMessage(false);
     recognizer.remove();
@@ -150,20 +160,18 @@ class HandsFreePlay {
       if (this.game.isSending) this.setStatus('The narrator is thinking.');
       else if (document.querySelector('.retry-turn')) this.setStatus('Hands-free will listen again after you retry.');
       else this.setStatus('Hands-free waits while you use the controls.');
-      session.quietUntil = performance.now() + 350;
       return;
     }
-    if (session.speaking !== this.game.ttsSpeaking || !session.recognizer) {
-      session.speaking = this.game.ttsSpeaking;
-      const players = session.adventure.players;
-      const cue = players.length === 1 ? 'Say “Dragon, look around.”'
-        : players.map((player, index) => player.name + ' = Dragon ' + (index + 1)).join(' · ') +
-          '. Say “Dragon two, look around.”';
-      const addressed = performance.now() < session.addressedUntil;
-      this.setStatus(session.speaking ? 'Say “Hey Draco” to cut in.' :
-        addressed ? 'Go ahead. What do you do?' : cue + ' Say “Dragon, pause” to stop.');
+    // Discard unfinished speaker audio before opening the floor for a plain reply.
+    if (session.recognizer && session.speaking !== this.game.ttsSpeaking && !session.interrupted) {
+      this.suspendListening();
+      if (session.speaking) session.quietUntil = performance.now() + 150;
     }
+    session.speaking = this.game.ttsSpeaking;
     if (session.recognizer || performance.now() < (session.quietUntil || 0)) return;
+    this.setStatus(session.speaking ? 'Say “Hey Draco” to interrupt.' :
+      'Listening. Say your move, then pause.');
+    this.level.hidden = false;
     const recognizer = new session.model.KaldiRecognizer(this.game.audioContext.sampleRate);
     session.recognizer = recognizer;
     recognizer.on('error', () => {
@@ -194,39 +202,45 @@ class HandsFreePlay {
   onWords(session, words) {
     const phrase = words.trim();
     const wake = /^hey (?:draco|drako|dragon)(?:\s+|$)/i.exec(phrase);
-    const address = /^(?:dragon|draco|drako)\s+/i.exec(phrase);
+    const address = /^(?:dragon|draco|drako)(?:\s+|$)/i.exec(phrase);
     if ((session.speaking || this.game.ttsSpeaking) && !session.interrupted && !wake) return;
     if (wake && this.game.ttsSpeaking) this.cutIn(session);
     const addressed = wake || address;
-    if (!addressed && !(performance.now() < session.addressedUntil)) return;
+    const afterWake = performance.now() < (session.addressedUntil || 0);
     let move = phrase.slice(addressed ? addressed[0].length : 0).trim();
-    if (!move || /^(?:wait|hold on)$/i.test(move)) {
-      if (wake) this.cutIn(session);
+    if (!phrase) return;
+    if (!move || (addressed && /^(?:wait|hold on)$/i.test(move))) {
+      if (wake && !session.interrupted) this.cutIn(session);
       else this.game.stopSpeaking();
       return;
     }
-    session.addressedUntil = 0;
     session.interrupted = false;
-    if (/^(?:pause|stop listening|pause listening|microphone off)$/i.test(move)) {
+    session.addressedUntil = 0;
+    if (/^(?:stop listening|pause listening|microphone off)$/i.test(move) || (addressed && /^pause$/i.test(move))) {
       this.stop('Microphone off. Tap Hands-free to play again.');
       return;
     }
     const players = session.adventure.players;
+    let speaker = players[0].name;
     if (players.length > 1) {
-      const number = /^(?:(?:keeper|dragon) )?(one|won|two|too|to|three|four|for|[1-4])\s+(.+)$/i.exec(move);
-      // Local transcription spells spoken numbers and their homophones interchangeably.
-      const slots = { one: 0, won: 0, 1: 0, two: 1, too: 1, to: 1, 2: 1, three: 2, 3: 2, four: 3, for: 3, 4: 3 };
-      const index = number ? slots[number[1]] : -1;
-      if (!players[index]) {
-        this.setStatus('Name your Keeper number first. Try “Dragon two, look around.”');
-        return;
+      // A direct reply can come from anyone at a shared microphone.
+      speaker = 'The group';
+      const numbered = /^(?:(?:keeper|dragon) )?(one|won|two|too|to|three|four|for|[1-4])\s+(.+)$/i.exec(move);
+      if ((addressed || afterWake) && numbered) {
+        const slots = { one: 0, won: 0, 1: 0, two: 1, too: 1, to: 1, 2: 1, three: 2, 3: 2, four: 3, for: 3, 4: 3 };
+        const player = players[slots[numbered[1].toLowerCase()]];
+        if (!player) {
+          this.setStatus('That player number is outside this game. Say your move again.');
+          return;
+        }
+        speaker = player.name;
+        move = numbered[2];
+        document.getElementById('select-player').value = speaker;
       }
-      document.getElementById('select-player').value = players[index].name;
-      move = number[2];
     }
     this.suspendListening();
     this.input.value = move;
-    this.game.send();
+    this.game.send(speaker);
   }
 
   stop(message = 'Microphone off.') {
