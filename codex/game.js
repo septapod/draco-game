@@ -1255,13 +1255,21 @@ const app = {
     const playing = track?.mode === 'playing';
     const paused = track?.mode === 'paused';
     const play = document.getElementById('btn-narration-play');
+    const back = document.getElementById('btn-narration-back');
+    const stop = document.getElementById('btn-narration-stop');
+    const focused = document.activeElement;
     document.getElementById('narrator-controls').hidden = !this.narrationText;
-    play.textContent = playing ? 'Pause' : paused ? 'Resume' : 'Play';
-    play.setAttribute('aria-label', play.textContent + ' narration');
-    document.getElementById('btn-narration-back').disabled =
-      !track || !(track.audio?.duration > 0 || track.duration > 0) ||
+    const label = playing ? 'Pause' : paused ? 'Resume' : 'Play';
+    if (play.textContent !== label) {
+      play.textContent = label;
+      play.setAttribute('aria-label', label + ' narration');
+    }
+    back.disabled = !track || !(track.audio?.duration > 0 || track.duration > 0) ||
       (!playing && this.narrationPosition(track) <= 0);
-    document.getElementById('btn-narration-stop').disabled = !playing && !paused;
+    stop.disabled = !playing && !paused;
+    if (this.narrationText && ((focused === stop && stop.disabled) || (focused === back && back.disabled))) {
+      play.focus({ preventScroll: true });
+    }
   },
 
   narrationPosition(track) {

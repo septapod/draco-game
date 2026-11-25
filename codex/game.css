@@ -1185,15 +1185,21 @@ body {
   min-height: 44px;
   min-width: 60px;
   padding: 0.35rem 0.55rem;
-  border: 1px solid #595972;
+  border: 1px solid #76768b;
   background: var(--bg-surface);
   color: var(--text);
   font: 1rem var(--font-body);
   cursor: pointer;
 }
 #narrator-controls button:first-child { min-width: 5.5rem; }
-#narrator-controls button:not(:disabled):hover { color: var(--gold); border-color: var(--gold-dim); }
+#narrator-controls button:not(:disabled):hover { color: var(--gold); border-color: var(--gold); }
 #narrator-controls button:disabled { cursor: default; }
+@media (max-width: 365px) {
+  #narrator-controls:not([hidden]) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
 #btn-mic { touch-action: none; user-select: none; -webkit-user-select: none; }
 #handsfree-status, .turn-status { color: #bcbbcb; font: 1rem/1.4 var(--font-body); }
 #handsfree-status { margin-top: 0.25rem; }
