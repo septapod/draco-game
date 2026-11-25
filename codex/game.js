@@ -2082,7 +2082,7 @@ const app = {
       finishCapture();
     };
     this.cancelManualCapture = () => {
-      clearSpacePress();
+      cancelSpacePress();
       cancelCapture();
     };
     const finishCapture = async () => {
@@ -2174,6 +2174,10 @@ const app = {
       clearTimeout(spacePress?.timer);
       spacePress = null;
     };
+    const cancelSpacePress = () => {
+      spacePress?.restore();
+      clearSpacePress();
+    };
     const shortcutAvailable = () => this.state && !document.hidden && adventureScreen.classList.contains('active') &&
       !this.manualMicBusy() && !this.isSending && !micBtn.disabled && !this.handsFree?.session &&
       !document.querySelector('#bottom-sheet.open, #discoveries-overlay.open, dialog[open], [aria-modal="true"]:not([hidden])');
@@ -2198,13 +2202,19 @@ const app = {
         const direction = moveBox.selectionDirection;
         const typed = original.slice(0, start) + ' ' + original.slice(end);
         clearSpacePress();
-        spacePress = { timer: setTimeout(() => {
-          if (!shortcutAvailable() || document.activeElement !== moveBox || moveBox.value !== typed ||
-              moveBox.selectionStart !== start + 1 || moveBox.selectionEnd !== start + 1) return;
+        const restore = () => {
+          if (moveBox.value !== typed || moveBox.selectionStart !== start + 1 ||
+              moveBox.selectionEnd !== start + 1) return false;
           moveBox.setRangeText(original.slice(start, end), start, start + 1);
           moveBox.setSelectionRange(start, end, direction);
-          beginCapture('space-shortcut');
-        }, 300) };
+          return true;
+        };
+        const timer = setTimeout(() => {
+          if (shortcutAvailable() && document.activeElement === moveBox && restore()) {
+            beginCapture('space-shortcut');
+          }
+        }, 300);
+        spacePress = { timer, restore };
         return;
       }
       if (event.composedPath().some(node => node instanceof Element && node.matches(interactive))) return;
@@ -2220,7 +2230,7 @@ const app = {
       }
     }, true);
     moveBox.addEventListener('blur', () => {
-      clearSpacePress();
+      cancelSpacePress();
       if (capture?.pointer === 'space-shortcut') cancelCapture();
     });
     window.addEventListener('blur', this.cancelManualCapture);
