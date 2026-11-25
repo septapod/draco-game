@@ -1737,7 +1737,9 @@ const app = {
     state.transcript = state.transcript || [];
 
     // Migrate old model IDs to current versions
-    if (state.model === 'claude-sonnet-4-5-20250929') state.model = 'claude-sonnet-4-6';
+    if (!state.model || state.model === 'claude-sonnet-4-6' || state.model === 'claude-sonnet-4-5-20250929') {
+      state.model = 'claude-sonnet-5-5';
+    }
     if (state.model === 'claude-opus-4-6-20250514' || state.model === 'claude-opus-4-6') state.model = 'claude-opus-4-8';
 
     const openingInstruction = /^The (?:adventure begins\.|Keepers have just hand-fed)/;
@@ -2484,7 +2486,7 @@ const app = {
       this.showEggPicker(`${player.name}: ${FIRST_FEEDINGS[feedingId].response}`);
     } else {
       // All players ready — create adventure
-      const model = 'claude-sonnet-4-6';
+      const model = 'claude-sonnet-5-5';
       const state = createAdventure(this.onboardingState.players, model, this.onboardingState.openingId);
       // The opening turn saves behind this snapshot in the per-adventure queue.
       void saveAdventure(state);

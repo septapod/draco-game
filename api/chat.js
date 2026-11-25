@@ -3,9 +3,10 @@ const Anthropic = require("@anthropic-ai/sdk");
 const { requireAuth } = require("./auth");
 const { meterGuest } = require("./_passes");
 
+const SONNET_MODEL = 'claude-sonnet-5-5';
 const ALLOWED_MODELS = new Set([
   "claude-haiku-4-5-20251001",
-  "claude-sonnet-4-6",
+  SONNET_MODEL,
   "claude-opus-4-8",
 ]);
 
@@ -26,8 +27,9 @@ module.exports = async function handler(req, res) {
   if (!(await meterGuest(req, res, 'turns'))) return;
 
   const useOpenAI = process.env.DRACO_OPENAI_ZDR === 'verified';
-  const legacyModel = ALLOWED_MODELS.has(model) ? model
-    : summary ? 'claude-haiku-4-5-20251001' : 'claude-sonnet-4-6';
+  let storyModel = model;
+  if (model === 'claude-sonnet-4-6' || model === 'claude-sonnet-4-5-20250929') storyModel = SONNET_MODEL;
+  if (!ALLOWED_MODELS.has(storyModel)) storyModel = summary ? 'claude-haiku-4-5-20251001' : SONNET_MODEL;
   const send = event => res.write(`data: ${JSON.stringify(event)}\n\n`);
 
   // Stream response via SSE
@@ -54,10 +56,14 @@ module.exports = async function handler(req, res) {
     // Keep the current story service available while the OpenAI project is configured.
     const client = new Anthropic();
     const stream = await client.messages.stream({
-      model: legacyModel,
+      model: storyModel,
       system: systemBlocks,
       messages,
-      max_tokens: summary ? 2048 : 500,
+      max_tokens: summary || storyModel === SONNET_MODEL ? 2048 : 500,
+      ...(storyModel === SONNET_MODEL && {
+        thinking: { type: 'between_tools' },
+        output_config: { effort: 'low' },
+      }),
     }, { signal: controller.signal });
 
     for await (const event of stream) {
@@ -67,7 +73,7 @@ module.exports = async function handler(req, res) {
     }
 
     const finalMessage = await stream.finalMessage();
-    send({ done: true, stopReason: finalMessage.stop_reason, model: legacyModel });
+    send({ done: true, stopReason: finalMessage.stop_reason, model: storyModel });
     res.end();
   } catch (error) {
     if (res.destroyed || res.writableEnded) return;
