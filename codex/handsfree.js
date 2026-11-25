@@ -1,4 +1,7 @@
 // Audio is recognized locally. A finished reply reaches the normal Send path while hands-free is listening.
+// The local English model can split Draco into "drake oh". Speaker audio may precede the cue.
+const dracoWakePhrase = /\bhey (?:draco|drako|dragon|drake (?:oh|o))\b/i;
+
 class HandsFreePlay {
   constructor(game) {
     this.game = game;
@@ -137,8 +140,12 @@ class HandsFreePlay {
 
   mayListen(session) {
     return !document.hidden && this.game.state === session.adventure &&
-      !this.game.isSending && !this.input.value.trim() && !document.querySelector('.retry-turn') &&
+      (this.game.ttsSpeaking || this.maySendMove()) &&
       !document.getElementById('bottom-sheet').classList.contains('open');
+  }
+
+  maySendMove() {
+    return !this.game.isSending && !this.input.value.trim() && !document.querySelector('.retry-turn');
   }
 
   suspendListening() {
@@ -146,6 +153,7 @@ class HandsFreePlay {
     if (!session?.recognizer) return;
     const recognizer = session.recognizer;
     session.recognizer = null;
+    session.awaitingWakeFinal = false;
     this.level.hidden = true;
     this.level.value = 0;
     session.stream.getAudioTracks().forEach(track => { track.enabled = false; });
@@ -167,6 +175,7 @@ class HandsFreePlay {
       this.suspendListening();
       if (session.speaking) session.quietUntil = performance.now() + 150;
     }
+    if (!session.speaking && this.game.ttsSpeaking) session.interrupted = false;
     session.speaking = this.game.ttsSpeaking;
     if (session.recognizer || performance.now() < (session.quietUntil || 0)) return;
     this.setStatus(session.speaking ? 'Say “Hey Draco” to interrupt.' :
@@ -179,7 +188,8 @@ class HandsFreePlay {
     });
     recognizer.on('partialresult', ({ result }) => {
       if (this.session === session && session.recognizer === recognizer && this.mayListen(session) &&
-          this.game.ttsSpeaking && /^hey (?:draco|drako|dragon)\b/i.test(result.partial)) {
+          this.game.ttsSpeaking && dracoWakePhrase.test(result.partial)) {
+        session.awaitingWakeFinal = true;
         this.cutIn(session);
       }
     });
@@ -201,19 +211,28 @@ class HandsFreePlay {
 
   onWords(session, words) {
     const phrase = words.trim();
-    const wake = /^hey (?:draco|drako|dragon)(?:\s+|$)/i.exec(phrase);
+    if (!phrase) return;
+    const playback = session.speaking || this.game.ttsSpeaking;
+    const listeningForWake = playback || session.awaitingWakeFinal;
+    const match = dracoWakePhrase.exec(phrase);
+    const wake = match && (listeningForWake || match.index === 0) ? match : null;
+    if (session.awaitingWakeFinal) {
+      session.awaitingWakeFinal = false;
+      // A partial stopped playback. An unconfirmed final may still contain speaker audio.
+      if (!wake) return;
+    }
     const address = /^(?:dragon|draco|drako)(?:\s+|$)/i.exec(phrase);
-    if ((session.speaking || this.game.ttsSpeaking) && !session.interrupted && !wake) return;
+    if (playback && !session.interrupted && !wake) return;
     if (wake && this.game.ttsSpeaking) this.cutIn(session);
     const addressed = wake || address;
     const afterWake = performance.now() < (session.addressedUntil || 0);
-    let move = phrase.slice(addressed ? addressed[0].length : 0).trim();
-    if (!phrase) return;
+    let move = phrase.slice(addressed ? addressed.index + addressed[0].length : 0).trim();
     if (!move || (addressed && /^(?:wait|hold on)$/i.test(move))) {
       if (wake && !session.interrupted) this.cutIn(session);
       else this.game.stopSpeaking();
       return;
     }
+    if (!this.maySendMove()) return;
     session.interrupted = false;
     session.addressedUntil = 0;
     if (/^(?:stop listening|pause listening|microphone off)$/i.test(move) || (addressed && /^pause$/i.test(move))) {
