@@ -1175,6 +1175,25 @@ body {
   color: var(--gold); border-color: var(--gold-dim);
 }
 .move-tools .select-player { max-width: 100%; }
+#narrator-controls:not([hidden]) {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+#narrator-controls button {
+  min-height: 44px;
+  min-width: 60px;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid #595972;
+  background: var(--bg-surface);
+  color: var(--text);
+  font: 1rem var(--font-body);
+  cursor: pointer;
+}
+#narrator-controls button:first-child { min-width: 5.5rem; }
+#narrator-controls button:not(:disabled):hover { color: var(--gold); border-color: var(--gold-dim); }
+#narrator-controls button:disabled { cursor: default; }
 #btn-mic { touch-action: none; user-select: none; -webkit-user-select: none; }
 #handsfree-status, .turn-status { color: #bcbbcb; font: 1rem/1.4 var(--font-body); }
 #handsfree-status { margin-top: 0.25rem; }

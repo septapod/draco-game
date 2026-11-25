@@ -1123,6 +1123,7 @@ const app = {
     const narrative = document.getElementById('narrative');
     msgEl.textContent = cleaned;
     this.addReplayButton(msgEl, cleaned);
+    this.selectNarration(cleaned);
     narrative.scrollTop = narrative.scrollHeight;
 
     // Auto-speak if TTS is enabled
@@ -1149,8 +1150,11 @@ const app = {
 
   // ── Narrator audio ──
   ttsEnabled: localStorage.getItem('draco_tts_enabled') === 'true',
-  ttsAudio: null,
-  ttsSpeaking: false,
+  narrationText: '',
+  narrationTrack: null,
+  get ttsSpeaking() {
+    return this.narrationTrack?.mode === 'playing';
+  },
   audioContext: null,
 
   // Call on any user gesture (send, mic, TTS toggle) to unlock audio playback
@@ -1161,7 +1165,7 @@ const app = {
       this.audioContext = new Context();
     }
     if (this.audioContext.state === 'suspended') {
-      this.audioContext.resume();
+      this.audioContext.resume().catch(() => {});
     }
     // Play a silent buffer to genuinely activate AudioContext on Safari/iOS.
     // Without this, Safari may re-suspend the context before speak() runs.
@@ -1172,30 +1176,48 @@ const app = {
     src.start(0);
   },
 
-  ttsSourceNode: null,
-  ttsStreamSources: null,
-  ttsGeneration: 0, // generation counter to prevent overlapping speech
-  ttsAbortController: null, // aborts in-flight sentence fetches on interruption
+  selectNarration(text) {
+    const next = text.trim();
+    if (this.narrationText !== next) {
+      this.discardNarration();
+      this.narrationText = next;
+    }
+    this.renderNarrationControls();
+  },
 
   async speak(text) {
     if (!text?.trim()) return;
-    let narration = text.trim();
+    this.selectNarration(text);
+    this.setVoiceStatus('');
+    if (this.narrationTrack) {
+      this.playNarrationAt(0);
+      return;
+    }
+
+    let narration = this.narrationText;
     for (const [index, player] of (this.state?.players || []).entries()) {
       if (!player.name?.trim()) continue;
       const name = player.name.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       const wholeName = new RegExp(`(?<![\\p{L}\\p{N}])${name}(?![\\p{L}\\p{N}])`, 'giu');
       narration = narration.replace(wholeName, 'Keeper ' + (index + 1));
     }
-    this.stopSpeaking();
-    const generation = this.ttsGeneration;
-    const controller = new AbortController();
-    this.ttsAbortController = controller;
-    this.ttsSpeaking = true;
-    this.setVoiceStatus('');
+    const track = {
+      controller: new AbortController(),
+      mode: 'playing',
+      complete: false,
+      buffers: [],
+      duration: 0,
+      position: 0,
+      startTime: null,
+      sources: new Set(),
+      lastSource: null,
+    };
+    this.narrationTrack = track;
+    this.renderNarrationControls();
     try {
       if (!this.audioContext) this.unlockAudio();
       if (this.audioContext?.state === 'suspended') await this.audioContext.resume();
-      if (generation !== this.ttsGeneration) return;
+      if (track !== this.narrationTrack) return;
       const response = await fetch('/api/speak', {
         method: 'POST',
         headers: {
@@ -1203,29 +1225,79 @@ const app = {
           Accept: this.audioContext?.state === 'running' ? 'audio/pcm' : 'audio/mpeg',
         },
         body: JSON.stringify({ text: narration.slice(0, 3500) }),
-        signal: controller.signal,
+        signal: track.controller.signal,
       });
       if (!response.ok) throw new Error('Voice unavailable');
       if (response.headers.get('Content-Type') === 'audio/pcm' && response.body) {
-        await this.playNarrationStream(response.body, generation);
-        return;
+        await this.loadNarrationStream(response.body, track);
+      } else {
+        const clip = await response.blob();
+        if (track !== this.narrationTrack) return;
+        let buffer;
+        if (this.audioContext) {
+          try { buffer = await this.audioContext.decodeAudioData(await clip.arrayBuffer()); }
+          catch { /* Let the browser decode the clip in an audio element. */ }
+        }
+        if (track !== this.narrationTrack) return;
+        if (buffer) this.appendNarrationBuffer(track, buffer);
+        else this.loadNarrationAudio(track, clip);
       }
-      const clip = await response.blob();
-      if (generation !== this.ttsGeneration) return;
-      let decoded = clip;
-      if (this.audioContext) {
-        try { decoded = await this.audioContext.decodeAudioData(await clip.arrayBuffer()); }
-        catch { /* Let the browser's audio player decode the clip. */ }
-      }
-      await this.playDecoded(decoded, generation);
+      if (track !== this.narrationTrack) return;
+      track.complete = true;
+      if (!track.audio && !track.lastSource && track.mode === 'playing') this.finishNarration(track);
     } catch {
-      if (generation === this.ttsGeneration) {
-        this.setVoiceStatus('Narrator audio is unavailable. You can read the story and keep playing.');
-      }
-    } finally {
-      if (generation === this.ttsGeneration) this.ttsSpeaking = false;
-      if (this.ttsAbortController === controller) this.ttsAbortController = null;
+      this.failNarration(track);
     }
+  },
+
+  renderNarrationControls() {
+    const track = this.narrationTrack;
+    const playing = track?.mode === 'playing';
+    const paused = track?.mode === 'paused';
+    const play = document.getElementById('btn-narration-play');
+    document.getElementById('narrator-controls').hidden = !this.narrationText;
+    play.textContent = playing ? 'Pause' : paused ? 'Resume' : 'Play';
+    play.setAttribute('aria-label', play.textContent + ' narration');
+    document.getElementById('btn-narration-back').disabled =
+      !track || !(track.audio?.duration > 0 || track.duration > 0) ||
+      (!playing && this.narrationPosition(track) <= 0);
+    document.getElementById('btn-narration-stop').disabled = !playing && !paused;
+  },
+
+  narrationPosition(track) {
+    if (track.audio) return track.audio.currentTime;
+    if (track.startTime === null) return track.position;
+    return Math.min(track.duration, Math.max(track.position, this.audioContext.currentTime - track.startTime));
+  },
+
+  toggleNarrationPlayback() {
+    const track = this.narrationTrack;
+    if (track?.mode === 'playing') {
+      track.position = this.narrationPosition(track);
+      track.mode = 'paused';
+      this.haltNarration(track);
+      this.renderNarrationControls();
+    } else if (track?.mode === 'paused') {
+      this.unlockAudio();
+      this.playNarrationAt(track.position);
+    } else {
+      this.unlockAudio();
+      this.speak(this.narrationText);
+    }
+  },
+
+  rewindNarration() {
+    const track = this.narrationTrack;
+    if (!track) return;
+    const position = Math.max(0, this.narrationPosition(track) - 5);
+    if (track.mode === 'paused') {
+      track.position = position;
+      if (track.audio) track.audio.currentTime = position;
+    } else {
+      this.unlockAudio();
+      this.playNarrationAt(position);
+    }
+    this.renderNarrationControls();
   },
 
   showStoryModel(model) {
@@ -1259,110 +1331,155 @@ const app = {
     source.connect(this.narratorGain);
   },
 
-  async playNarrationStream(body, generation) {
+  async loadNarrationStream(body, track) {
     const reader = body.getReader();
     const context = this.audioContext;
-    const sampleRate = 24000;
-    const sources = new Set();
-    this.ttsStreamSources = sources;
-    let buffer = new Uint8Array(0);
-    let scheduledUntil = context.currentTime + 0.08;
-    let lastPlayback;
+    const cancel = () => reader.cancel().catch(() => {});
+    track.controller.signal.addEventListener('abort', cancel, { once: true });
+    let pending = new Uint8Array(0);
     try {
-      while (generation === this.ttsGeneration) {
+      while (track === this.narrationTrack) {
         const { value, done } = await reader.read();
-        if (generation !== this.ttsGeneration) return;
+        if (track !== this.narrationTrack) return;
         if (value?.length) {
-          const joined = new Uint8Array(buffer.length + value.length);
-          joined.set(buffer);
-          joined.set(value, buffer.length);
-          buffer = joined;
+          const joined = new Uint8Array(pending.length + value.length);
+          joined.set(pending);
+          joined.set(value, pending.length);
+          pending = joined;
         }
-        if (!done && buffer.length < 4096) continue;
-        const samples = Math.floor(buffer.length / 2);
+        if (!done && pending.length < 4096) continue;
+        const samples = Math.floor(pending.length / 2);
         if (samples) {
-          const audio = context.createBuffer(1, samples, sampleRate);
-          const output = audio.getChannelData(0);
-          const input = new DataView(buffer.buffer, buffer.byteOffset, samples * 2);
+          const buffer = context.createBuffer(1, samples, 24000);
+          const output = buffer.getChannelData(0);
+          const input = new DataView(pending.buffer, pending.byteOffset, samples * 2);
           for (let i = 0; i < samples; i++) output[i] = input.getInt16(i * 2, true) / 32768;
-          buffer = buffer.slice(samples * 2);
-          const source = context.createBufferSource();
-          source.buffer = audio;
-          this.connectNarration(source);
-          sources.add(source);
-          lastPlayback = new Promise(resolve => {
-            source.onended = () => {
-              sources.delete(source);
-              source.disconnect();
-              resolve();
-            };
-          });
-          if (scheduledUntil < context.currentTime) scheduledUntil = context.currentTime + 0.08;
-          source.start(scheduledUntil);
-          scheduledUntil += audio.duration;
+          pending = pending.slice(samples * 2);
+          this.appendNarrationBuffer(track, buffer);
         }
         if (done) break;
       }
-      if (!lastPlayback || buffer.length) throw new Error('Narration audio was incomplete');
-      await lastPlayback;
+      if (!track.duration || pending.length) throw new Error('Narration audio was incomplete');
     } finally {
+      track.controller.signal.removeEventListener('abort', cancel);
       reader.releaseLock();
-      for (const source of sources) source.stop();
-      if (this.ttsStreamSources === sources) this.ttsStreamSources = null;
     }
   },
 
-  playDecoded(clip, gen) {
-    if (gen !== this.ttsGeneration) return;
-    if (clip instanceof Blob) {
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(clip);
-        const audio = new Audio(url);
-        this.ttsAudio = audio;
-        const finish = (error) => {
-          URL.revokeObjectURL(url);
-          if (this.ttsAudio === audio) this.ttsAudio = null;
-          if (error) reject(error);
-          else resolve();
-        };
-        audio.onended = audio.onpause = () => finish();
-        audio.onerror = () => finish(new Error('Audio playback failed'));
-        audio.play().catch(finish);
-      });
+  appendNarrationBuffer(track, buffer) {
+    const offset = track.duration;
+    track.buffers.push({ buffer, offset });
+    track.duration += buffer.duration;
+    if (track.mode === 'playing') {
+      const now = this.audioContext.currentTime;
+      if (track.startTime === null || track.startTime + offset <= now) {
+        // Start a new clock segment if playback caught up with the stream.
+        track.position = offset;
+        track.startTime = now + 0.06 - offset;
+      }
+      this.scheduleNarrationBuffer(track, buffer, offset, 0);
     }
-    return new Promise((resolve) => {
-      const source = this.audioContext.createBufferSource();
-      source.buffer = clip;
-      this.connectNarration(source);
-      source.onended = () => {
-        if (this.ttsSourceNode === source) this.ttsSourceNode = null;
-        resolve();
-      };
-      this.ttsSourceNode = source;
-      source.start(0);
-    });
+    this.renderNarrationControls();
+  },
+
+  scheduleNarrationBuffer(track, buffer, offset, skip) {
+    const source = this.audioContext.createBufferSource();
+    source.buffer = buffer;
+    this.connectNarration(source);
+    track.sources.add(source);
+    track.lastSource = source;
+    source.onended = () => {
+      track.sources.delete(source);
+      source.disconnect();
+      if (track.lastSource !== source) return;
+      track.lastSource = null;
+      if (track.complete) this.finishNarration(track);
+    };
+    source.start(track.startTime + offset + skip, skip);
+  },
+
+  loadNarrationAudio(track, clip) {
+    track.url = URL.createObjectURL(clip);
+    const audio = new Audio(track.url);
+    track.audio = audio;
+    audio.onloadedmetadata = () => this.renderNarrationControls();
+    audio.onended = () => this.finishNarration(track);
+    audio.onerror = () => this.failNarration(track);
+    if (track.mode === 'playing') this.playNarrationAt(0);
+  },
+
+  playNarrationAt(position) {
+    const track = this.narrationTrack;
+    this.haltNarration(track);
+    track.mode = 'playing';
+    track.position = position;
+    if (track.audio) {
+      if (track.audio.currentTime !== position) track.audio.currentTime = position;
+      track.audio.play().catch(error => {
+        if (error.name !== 'AbortError' && track.mode === 'playing') this.failNarration(track);
+      });
+    } else if (track.duration > position) {
+      track.startTime = this.audioContext.currentTime + 0.06 - position;
+      for (const { buffer, offset } of track.buffers) {
+        const skip = Math.max(0, position - offset);
+        if (skip < buffer.duration) this.scheduleNarrationBuffer(track, buffer, offset, skip);
+      }
+    } else if (track.complete) {
+      this.finishNarration(track);
+    }
+    this.renderNarrationControls();
+  },
+
+  haltNarration(track) {
+    track.startTime = null;
+    track.lastSource = null;
+    for (const source of track.sources) {
+      source.onended = null;
+      source.stop();
+      source.disconnect();
+    }
+    track.sources.clear();
+    track.audio?.pause();
+  },
+
+  finishNarration(track) {
+    if (track !== this.narrationTrack || track.mode !== 'playing') return;
+    track.position = track.audio?.duration ?? track.duration;
+    track.startTime = null;
+    track.mode = 'ready';
+    this.renderNarrationControls();
+  },
+
+  failNarration(track) {
+    if (track !== this.narrationTrack) return;
+    this.discardNarration();
+    this.setVoiceStatus('Narrator audio is unavailable. You can read the story and keep playing.');
+    this.renderNarrationControls();
+  },
+
+  discardNarration() {
+    const track = this.narrationTrack;
+    if (!track) return;
+    this.narrationTrack = null;
+    this.haltNarration(track);
+    if (!track.complete) track.controller.abort();
+    if (track.audio) {
+      track.audio.onended = track.audio.onerror = track.audio.onloadedmetadata = null;
+      URL.revokeObjectURL(track.url);
+    }
   },
 
   stopSpeaking() {
-    this.ttsGeneration++; // invalidate any in-flight speak() calls
-    if (this.ttsAbortController) {
-      try { this.ttsAbortController.abort(); } catch (e) {}
-      this.ttsAbortController = null;
+    const track = this.narrationTrack;
+    if (track?.complete) {
+      this.haltNarration(track);
+      track.mode = 'ready';
+      track.position = 0;
+      if (track.audio) track.audio.currentTime = 0;
+    } else {
+      this.discardNarration();
     }
-    if (this.ttsSourceNode) {
-      try { this.ttsSourceNode.stop(); } catch (e) {}
-      this.ttsSourceNode = null;
-    }
-    if (this.ttsStreamSources) {
-      for (const source of this.ttsStreamSources) source.stop();
-      this.ttsStreamSources.clear();
-      this.ttsStreamSources = null;
-    }
-    if (this.ttsAudio) {
-      this.ttsAudio.pause();
-      this.ttsAudio = null;
-    }
-    this.ttsSpeaking = false;
+    this.renderNarrationControls();
   },
 
   // Stream text character by character
@@ -1623,6 +1740,7 @@ const app = {
     document.getElementById('input-message').value = '';
     document.getElementById('turn-status').textContent = '';
     this.setVoiceStatus('');
+    this.selectNarration('');
     this.showStoryModel('');
     this.state = state;
     // Push adventure ID into URL
@@ -1646,6 +1764,7 @@ const app = {
         const cleaned = cleanNarrativeText(text);
         el.textContent = cleaned;
         this.addReplayButton(el, cleaned);
+        this.selectNarration(cleaned);
       } else {
         // Parse player name from "[Name]: message" format
         const playerMatch = text.match(/^\[([^\]]+)\]:\s*(.*)/s);
@@ -2033,6 +2152,14 @@ const app = {
     micBtn.addEventListener('blur', () => { if (typeof capture?.pointer === 'string') cancelCapture(); });
     window.addEventListener('pagehide', () => cancelCapture());
     document.addEventListener('visibilitychange', () => { if (document.hidden) cancelCapture(); });
+
+    document.getElementById('btn-narration-play').addEventListener('click', () => this.toggleNarrationPlayback());
+    document.getElementById('btn-narration-back').addEventListener('click', () => this.rewindNarration());
+    document.getElementById('btn-narration-replay').addEventListener('click', () => {
+      this.unlockAudio();
+      this.speak(this.narrationText);
+    });
+    document.getElementById('btn-narration-stop').addEventListener('click', () => this.stopSpeaking());
 
     // TTS toggle — restore persisted state
     const voiceIcon = document.getElementById('btn-voice-icon');
