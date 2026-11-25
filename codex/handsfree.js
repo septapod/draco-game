@@ -129,7 +129,7 @@ class HandsFreePlay {
 
   mayListen(session) {
     return !document.hidden && this.game.state === session.adventure &&
-      !this.game.isSending && !this.input.value.trim() &&
+      !this.game.isSending && !this.input.value.trim() && !document.querySelector('.retry-turn') &&
       !document.getElementById('bottom-sheet').classList.contains('open');
   }
 
@@ -148,6 +148,7 @@ class HandsFreePlay {
     if (!this.mayListen(session)) {
       this.suspendListening();
       if (this.game.isSending) this.setStatus('The narrator is thinking.');
+      else if (document.querySelector('.retry-turn')) this.setStatus('Hands-free will listen again after you retry.');
       else this.setStatus('Hands-free waits while you use the controls.');
       session.quietUntil = performance.now() + 350;
       return;

@@ -1149,7 +1149,7 @@ const app = {
   },
 
   // ── Narrator audio ──
-  ttsEnabled: localStorage.getItem('draco_tts_enabled') === 'true',
+  ttsEnabled: localStorage.getItem('draco_tts_enabled') !== 'false',
   narrationText: '',
   narrationTrack: null,
   get ttsSpeaking() {
@@ -1580,7 +1580,6 @@ const app = {
       if (!await saveAdventure(state)) this.addSystemMessage('Choose Save to keep this turn before leaving.');
     } catch (error) {
       if (this.state === state && !success) {
-        this.handsFree?.stop('Hands-free paused. Check the move and retry.');
         playerEl?.remove();
         msgEl.textContent = (error instanceof TypeError ? 'The connection dropped.' : error.message) + ' ';
         if (playerMove) {
@@ -1843,28 +1842,6 @@ const app = {
 
   async init() {
     this.handsFree = new HandsFreePlay(this);
-    // Auth check: verify session before loading anything
-    try {
-      const authCheck = await fetch('/api/adventures');
-      if (authCheck.status === 401) {
-        window.location.href = '/login.html?next=' + encodeURIComponent(window.location.pathname);
-        return;
-      }
-    } catch (e) {
-      // Network error, proceed and let individual calls handle it
-    }
-
-    // Check URL for adventure ID (e.g. /game/abc12345)
-    const pathMatch = window.location.pathname.match(/\/game\/([a-z0-9]+)/);
-    if (pathMatch) {
-      // Try to load this adventure from cloud
-      const state = await loadAdventure(pathMatch[1]);
-      if (state) {
-        this.startAdventure(state);
-        // Still attach all event listeners below
-      }
-    }
-
     // Welcome screen
     document.getElementById('btn-new-adventure').addEventListener('click', () => {
       const openingId = chooseStableOpening();
@@ -2348,6 +2325,30 @@ const app = {
       window.visualViewport.addEventListener('resize', onViewportResize);
       window.visualViewport.addEventListener('scroll', onViewportResize);
     }
+
+    document.getElementById('btn-new-adventure').disabled = false;
+    document.getElementById('btn-load-adventure').disabled = false;
+
+    // Auth check: verify session before loading anything
+    try {
+      const authCheck = await fetch('/api/adventures', { method: 'HEAD' });
+      if (authCheck.status === 401) {
+        window.location.href = '/login.html?next=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
+    } catch (e) {
+      // Network error, proceed and let individual calls handle it
+    }
+
+    // Check URL for adventure ID (e.g. /game/abc12345)
+    const pathMatch = window.location.pathname.match(/\/game\/([a-z0-9]+)/);
+    if (pathMatch) {
+      // Try to load this adventure from cloud
+      const state = await loadAdventure(pathMatch[1]);
+      if (state && document.getElementById('screen-welcome').classList.contains('active')) {
+        this.startAdventure(state);
+      }
+    }
   },
 
   showEggPicker(feedingFeedback) {
@@ -2398,7 +2399,8 @@ const app = {
       // All players ready — create adventure
       const model = 'claude-sonnet-4-6';
       const state = createAdventure(this.onboardingState.players, model, this.onboardingState.openingId);
-      await saveAdventure(state);
+      // The opening turn saves behind this snapshot in the per-adventure queue.
+      void saveAdventure(state);
       this.isSending = false;
       this.startAdventure(state);
     }

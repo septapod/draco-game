@@ -40,6 +40,11 @@ module.exports = async function handler(req, res) {
 
   if (!requireAuth(req, res)) return;
 
+  if (method === 'HEAD') {
+    res.setHeader('Cache-Control', 'private, no-store');
+    return res.status(200).end();
+  }
+
   // Every query below is scoped to the session owner ('family' or 'guest:<id>').
   const owner = req.userId;
 
