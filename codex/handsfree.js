@@ -1,6 +1,6 @@
 // Audio is recognized locally. A finished reply reaches the normal Send path while hands-free is listening.
-// The local English model can split Draco into "drake oh". Speaker audio may precede the cue.
-const dracoWakePhrase = /\bhey (?:draco|drako|dragon|drake (?:oh|o))\b/i;
+// Speaker audio may precede the interruption cue.
+const storyWakePhrase = /\bhey story\b/i;
 
 class HandsFreePlay {
   constructor(game) {
@@ -178,7 +178,7 @@ class HandsFreePlay {
     if (!session.speaking && this.game.ttsSpeaking) session.interrupted = false;
     session.speaking = this.game.ttsSpeaking;
     if (session.recognizer || performance.now() < (session.quietUntil || 0)) return;
-    this.setStatus(session.speaking ? 'Say “Hey Draco” to interrupt.' :
+    this.setStatus(session.speaking ? 'Say “Hey Story” to interrupt.' :
       'Listening. Say your move, then pause.');
     this.level.hidden = false;
     const recognizer = new session.model.KaldiRecognizer(this.game.audioContext.sampleRate);
@@ -188,7 +188,7 @@ class HandsFreePlay {
     });
     recognizer.on('partialresult', ({ result }) => {
       if (this.session === session && session.recognizer === recognizer && this.mayListen(session) &&
-          this.game.ttsSpeaking && dracoWakePhrase.test(result.partial)) {
+          this.game.ttsSpeaking && storyWakePhrase.test(result.partial)) {
         session.awaitingWakeFinal = true;
         this.cutIn(session);
       }
@@ -214,14 +214,14 @@ class HandsFreePlay {
     if (!phrase) return;
     const playback = session.speaking || this.game.ttsSpeaking;
     const listeningForWake = playback || session.awaitingWakeFinal;
-    const match = dracoWakePhrase.exec(phrase);
+    const match = storyWakePhrase.exec(phrase);
     const wake = match && (listeningForWake || match.index === 0) ? match : null;
     if (session.awaitingWakeFinal) {
       session.awaitingWakeFinal = false;
       // A partial stopped playback. An unconfirmed final may still contain speaker audio.
       if (!wake) return;
     }
-    const address = /^(?:dragon|draco|drako)(?:\s+|$)/i.exec(phrase);
+    const address = /^dragon(?:\s+|$)/i.exec(phrase);
     if (playback && !session.interrupted && !wake) return;
     if (wake && this.game.ttsSpeaking) this.cutIn(session);
     const addressed = wake || address;
